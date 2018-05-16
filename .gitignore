@@ -54,3 +54,5 @@ dkms.conf
 # Vim files
 *.swp*
 *.swo*
+
+build/

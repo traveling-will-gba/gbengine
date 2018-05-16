@@ -1,33 +1,18 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
+#include "base_types.h"
+
 void reset_dispcnt();
 void set_video_mode(int video_mode);
 void set_background_number(int background);
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
 
-// --- primary typedefs ---
-
-typedef unsigned char  u8,  byte;
-typedef unsigned short u16, hword;
-typedef unsigned int   u32, word;
-
-typedef signed char  s8;
-typedef signed short s16; 
-
-// and volatiles for registers 'n stuff
-typedef volatile u8  vu8;
-typedef volatile u16 vu16;
-typedef volatile u32 vu32;
-
-typedef volatile s8  vs8;
-typedef volatile s16 vs16;
-
 // --- secondary typedefs ---
 
 typedef u16 COLOR;
 typedef u16 SCR_ENTRY;
-typedef struct { u32 data[8];  } TILE;
+typedef struct { u32 data[8]; } TILE;
 
 typedef SCR_ENTRY	SCREENBLOCK[1024];
 typedef TILE		CHARBLOCK[512];
@@ -47,7 +32,6 @@ typedef TILE		CHARBLOCK[512];
 // --- sizes ---
 #define SCREEN_WIDTH	240
 #define SCREEN_HEIGHT	160
-
 
 // --- registers ------------------------------------------------------
 
