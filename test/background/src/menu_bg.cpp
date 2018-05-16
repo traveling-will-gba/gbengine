@@ -1,3 +1,4 @@
+#include "menu_bg.h"
 
 //{{BLOCK(menu_bg)
 

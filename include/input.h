@@ -17,7 +17,7 @@
 
 #define N_BUTTON 10
 
-int pressed_state[N_BUTTON];
+extern int pressed_state[N_BUTTON];
 
 void check_buttons_states();
 bool pressed(int button);

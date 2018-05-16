@@ -1,3 +1,6 @@
+#ifndef BASE_TYPES_H
+#define BASE_TYPES_H
+
 // --- primary typedefs ---
 
 typedef unsigned char  u8,  byte;
@@ -14,3 +17,5 @@ typedef volatile u32 vu32;
 
 typedef volatile s8  vs8;
 typedef volatile s16 vs16;
+
+#endif
