@@ -5,7 +5,7 @@
 
 void reset_dispcnt();
 void set_video_mode(int video_mode);
-void set_background_number(int background);
+void enable_background(int background);
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
 
 // --- secondary typedefs ---
@@ -24,10 +24,10 @@ typedef TILE		CHARBLOCK[512];
 #define PAL_SIZE	0x00400
 #define VRAM_SIZE	0x18000
 
-#define pal_bg_mem		((COLOR*)MEM_PAL)
+//#define pal_bg_mem		((COLOR*)MEM_PAL)
 
 #define tile_mem		( (CHARBLOCK*)MEM_VRAM)
-#define se_mem			((SCREENBLOCK*)MEM_VRAM)
+//#define se_mem			((SCREENBLOCK*)MEM_VRAM)
 
 // --- sizes ---
 #define SCREEN_WIDTH	240
