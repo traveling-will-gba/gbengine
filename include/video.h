@@ -8,6 +8,9 @@ void set_video_mode(int video_mode);
 void enable_background(int background);
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
 
+void init_sprite_mem();
+void set_sprite(const void* pal, int pal_len, const void *tiles, int tiles_len);
+
 // --- secondary typedefs ---
 
 typedef u16 COLOR;
@@ -59,6 +62,9 @@ typedef TILE		CHARBLOCK[512];
 #define DCNT_BG1			0x0200	//!< Enable bg 1
 #define DCNT_BG2			0x0400	//!< Enable bg 2
 #define DCNT_BG3			0x0800	//!< Enable bg 3
+
+#define DCNT_OBJ_1D			0x0040	//!< OBJ-VRAM as array
+#define DCNT_OBJ			0x1000	//!< Enable objects
 
 // --- REG_BGxCNT ---
 
