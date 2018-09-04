@@ -47,7 +47,86 @@ inline uint32_t available_len(void *raw, void *offset) {
 bool cb[4];
 struct charblock cb_mem[4];
 
+// sprites
+
+struct obj_attr_mem {
+	void *raw;
+	void *offset;
+};
+
+struct sprite {
+	void *raw;
+	void *offset;
+};
+
+struct attr {
+    uint8_t y;
+    uint8_t om : 2;
+    uint8_t gm : 2;  
+    uint8_t mos : 1;
+    uint8_t cm : 1;
+    uint8_t sh : 2;
+
+    uint16_t x : 9;
+    uint8_t aid : 5;
+    uint8_t sz : 2;
+
+    uint16_t tid : 10; 
+    uint8_t pr : 2;
+    uint8_t pb : 4;
+
+    uint16_t filler;
+};
+
+bool sprite_av[512];
+struct pallete sprite_pal_mem;
+struct obj_attr_mem sprite_attr[128];
+struct sprite sprite_mem[512];
+
+int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
+
+void init_sprite_mem()
+{
+    memset(sprite_av, 0, sizeof sprite_av);
+
+    for(int i=0; i<max_sprite_tiles; i++) {
+        sprite_mem[i].raw = sprite_mem[i].offset = (void *) 0x06010000 + i * 64;
+    }
+
+	for(int i=0;i<128;i++) {
+		sprite_attr[i].raw = sprite_attr[i].offset = (void *) 0x07000000 + i * 8; // each obj attr entry is 8 bytes long
+	}
+}
+
+void set_sprite(const void* pal, int pal_len, const void *tiles, int tiles_len)
+{
+	init_sprite_mem();
+
+    sprite_pal_mem.raw = sprite_pal_mem.offset = (void *) 0x050000200;
+	memcpy(sprite_pal_mem.offset, pal, pal_len);	
+    sprite_pal_mem.offset += pal_len;
+
+	memcpy(sprite_mem[0].offset, tiles, tiles_len);
+	sprite_mem[0].offset += tiles_len;
+
+	int tid = 0;
+
+	struct attr *metr = &sprite_attr[0];
+	metr->sh = 0; // square
+	metr->sz = 3; // 11 -> size 64x64	
+	metr->tid = tid;
+	metr->pb = 0;
+	metr->x = 1;
+	metr->y = 40;
+
+	REG_DISPCNT= DCNT_OBJ | DCNT_OBJ_1D;
+}
+
+// end sprites
+
+// number of charblocks
 const uint8_t cb_num = 4;
+// number of screenblocks
 const uint8_t se_num = 32;
 
 bool set_charblock(const void *tiles, uint32_t tiles_len, uint32_t *cb_used) {
