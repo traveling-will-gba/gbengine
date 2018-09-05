@@ -1,5 +1,7 @@
 #include "video.h"
 
+#include "aux.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -54,10 +56,12 @@ struct obj_attr_mem {
 	void *offset;
 };
 
+/*
 struct sprite {
 	void *raw;
 	void *offset;
 };
+*/
 
 struct attr {
     uint8_t y;
@@ -80,46 +84,83 @@ struct attr {
 
 bool sprite_av[512];
 struct pallete sprite_pal_mem;
-struct obj_attr_mem sprite_attr[128];
-struct sprite sprite_mem[512];
+//struct obj_attr_mem sprite_attr[128];
+
+struct tile {
+    uint8_t pixel[64];
+};
+
+struct tile *sprite_mem = (void *)0x06010000;
+struct attr *sprite_attr_mem = (void *)0x07000000;
 
 int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
 
 void init_sprite_mem()
 {
     memset(sprite_av, 0, sizeof sprite_av);
-
-    for(int i=0; i<max_sprite_tiles; i++) {
-        sprite_mem[i].raw = sprite_mem[i].offset = (void *) 0x06010000 + i * 64;
-    }
-
-	for(int i=0;i<128;i++) {
-		sprite_attr[i].raw = sprite_attr[i].offset = (void *) 0x07000000 + i * 8; // each obj attr entry is 8 bytes long
-	}
 }
 
-void set_sprite(const void* pal, int pal_len, const void *tiles, int tiles_len)
+uint8_t *sprite_pal = (void *)0x05000200;
+bool sprite_pal_av[512];
+uint32_t max_sprite_pal_entry = 512;
+
+bool set_sprite_pal(const void *pal, int pal_len)
 {
-	init_sprite_mem();
+    for (int i = 0; i < max_sprite_pal_entry; i++) {
+        if (sprite_pal_av[i]) continue;
 
-    sprite_pal_mem.raw = sprite_pal_mem.offset = (void *) 0x050000200;
-	memcpy(sprite_pal_mem.offset, pal, pal_len);	
-    sprite_pal_mem.offset += pal_len;
+        uint32_t available_pal_len = max_sprite_pal_entry - i;
 
-	memcpy(sprite_mem[0].offset, tiles, tiles_len);
-	sprite_mem[0].offset += tiles_len;
+        if (pal_len > available_pal_len) {
+            /* No more space */
+            return false;
+        }
 
-	int tid = 0;
+        memcpy(sprite_pal + i, pal, pal_len);
+        memset(sprite_pal_av + i, true, pal_len);
 
-	struct attr *metr = &sprite_attr[0];
-	metr->sh = 0; // square
-	metr->sz = 3; // 11 -> size 64x64	
-	metr->tid = tid;
-	metr->pb = 0;
-	metr->x = 1;
-	metr->y = 40;
+        return true;
+    }
 
-	REG_DISPCNT= DCNT_OBJ | DCNT_OBJ_1D;
+    return false;
+}
+
+bool set_sprite(const void *tiles, int tiles_len, int *sprite_used)
+{
+	//init_sprite_mem();
+
+    for (int i = 0; i < max_sprite_tiles; i++) {
+        if (sprite_av[i]) continue;
+
+        uint32_t available_tile_bytes = (max_sprite_tiles - i) * 64;
+
+        if (tiles_len > available_tile_bytes) {
+            /* No more space */
+            return false;
+        }
+            
+        memcpy(sprite_mem + i, tiles, tiles_len);
+        memset(sprite_av + i, true, (tiles_len / 64) + (tiles_len % 64 != 0));
+        *sprite_used = i;
+
+        return true;
+    }
+
+    return false;
+}
+
+void set_sprite_attr(uint32_t sprite_idx) {
+    int tid = sprite_idx * 64;
+
+	struct attr *sprite_attr = sprite_attr_mem + sprite_idx;
+    memset(sprite_attr, 0, sizeof(struct attr));
+    sprite_attr->om = 0;
+	sprite_attr->sh = 0; // square
+	sprite_attr->sz = 3; // 11 -> size 64x64	
+	sprite_attr->tid = tid;
+	sprite_attr->pb = 0;
+	sprite_attr->x = 30;
+	sprite_attr->y = 40;
 }
 
 // end sprites
@@ -199,7 +240,15 @@ struct pallete pal_bg_mem;
 
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len) {
     pal_bg_mem.raw = pal_bg_mem.offset = (void *) 0x05000000;
-    
+
+/*    char abcd[512], abcd2[512];
+
+    sprintf(abcd, "%p\n", &sprite_attr_mem[0]);
+    sprintf(abcd2, "%p\n", &sprite_attr_mem[1]);
+
+    vbaprint(abcd);
+    vbaprint(abcd2);
+  */  
     uint32_t available_pal_len = available_len(pal_bg_mem.raw, pal_bg_mem.offset);
     if (pal_len > available_pal_len) {
         /* TODO: Log No more space for pallete */
