@@ -91,7 +91,9 @@ struct tile {
 };
 
 struct tile *sprite_mem = (void *)0x06010000;
-struct attr *sprite_attr_mem = (void *)0x07000000;
+//struct attr *sprite_attr_mem = (void *)0x07000000;
+void *oam_mem = (void *)0x07000000;
+struct attr sprite_attr_mem[128];
 
 int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
 
@@ -149,18 +151,47 @@ bool set_sprite(const void *tiles, int tiles_len, int *sprite_used)
     return false;
 }
 
+void oam_copy(struct attr *dst, const struct attr *src, int count) {
+    while(count--)
+        *dst++ = *src++;
+}
+
 void set_sprite_attr(uint32_t sprite_idx) {
     int tid = sprite_idx * 64;
 
-	struct attr *sprite_attr = sprite_attr_mem + sprite_idx;
-    memset(sprite_attr, 0, sizeof(struct attr));
-    sprite_attr->om = 0;
-	sprite_attr->sh = 0; // square
-	sprite_attr->sz = 3; // 11 -> size 64x64	
-	sprite_attr->tid = tid;
-	sprite_attr->pb = 0;
-	sprite_attr->x = 30;
-	sprite_attr->y = 40;
+//	struct attr *sprite_attr = sprite_attr_mem;
+//    memset(sprite_attr, 0, sizeof(struct attr));
+    sprite_attr_mem[0].om = 0;
+	sprite_attr_mem[0].sh = 0; // square
+	sprite_attr_mem[0].sz = 3; // 11 -> size 64x64	
+	sprite_attr_mem[0].tid = tid;
+	sprite_attr_mem[0].pb = 0;
+	sprite_attr_mem[0].x = 30;
+	sprite_attr_mem[0].y = 40;
+
+    sprite_attr_mem[1].om = 0;
+	sprite_attr_mem[1].sh = 0; // square
+	sprite_attr_mem[1].sz = 3; // 11 -> size 64x64	
+	sprite_attr_mem[1].tid = 1 * 64;
+	sprite_attr_mem[1].pb = 0;
+	sprite_attr_mem[1].x = 100;
+	sprite_attr_mem[1].y = 40;
+
+
+    //memcpy(oam_mem, sprite_attr_mem, sizeof(struct attr));
+
+    for (int i = 0; i < 8; i++) {
+        *(((uint16_t *)oam_mem) + i) = *(((uint16_t *)sprite_attr_mem) + i);
+    }
+
+    //oam_copy(oam_mem, sprite_attr_mem, 128);
+
+    vbaprint("oam:\n");
+    for (int i = 0; i < 8; i++){
+        char abcd2[500];
+        sprintf(abcd2, "%d\n", *(((char *)oam_mem) + i));
+        vbaprint(abcd2);
+    }
 }
 
 // end sprites
