@@ -1,7 +1,11 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
+#include <stdbool.h>
+#include <stdio.h>
 #include "base_types.h"
+
+uint8_t *sprite_pal;
 
 void reset_dispcnt();
 void set_video_mode(int video_mode);
@@ -9,7 +13,9 @@ void enable_background(int background);
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
 
 void init_sprite_mem();
-void set_sprite(const void* pal, int pal_len, const void *tiles, int tiles_len);
+bool set_sprite_pal(const void *pal, int pal_len);
+bool set_sprite(const void *tiles, int tiles_len, int *sprite_used);
+void set_sprite_attr(uint32_t sprite_idx);
 
 // --- secondary typedefs ---
 
