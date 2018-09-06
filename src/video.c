@@ -62,32 +62,11 @@ struct obj_attr_mem {
 	void *offset;
 };
 
-/*
-struct sprite {
-	void *raw;
-	void *offset;
-};
-*/
-
 bool sprite_av[512];
 struct pallete sprite_pal_mem;
-//struct obj_attr_mem sprite_attr[128];
 
-struct tile {
-    uint8_t pixel[64];
-};
-
-struct tile *sprite_mem = (void *)0x06010000;
-//struct attr *sprite_attr_mem = (void *)0x07000000;
 void *oam_mem = (void *)0x07000000;
 struct attr sprite_attr_mem[128];
-
-int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
-
-void init_sprite_mem()
-{
-    memset(sprite_av, 0, sizeof sprite_av);
-}
 
 uint8_t *sprite_pal = (void *)0x05000200;
 bool sprite_pal_av[512];
@@ -99,22 +78,14 @@ void mem16cpy(void * dest, const void * src, size_t n)
        vbaprint("Size must be even"); 
     }
 
-    for(int i=0;i<8;i++) {
-        print2("antes", *(((char *)src) + i));
-    }
-
     for (int i = 0; i < n / 2; i++) {
         *(((uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
-    }
-
-    for(int i=0;i<8;i++) {
-        print2("depois", *(((char *)dest) + i));
     }
 }
 
 void set_sprite_attrs(int sprite_idx, struct attr *custom_attrs)
 {
-    mem16cpy(((struct attr *)oam_mem) + sprite_idx, custom_attrs, 8);
+    mem16cpy(((struct attr *)oam_mem) + sprite_idx, custom_attrs, sizeof(struct attr));
 }
 
 bool set_sprite_pal(const void *pal, int pal_len)
@@ -138,10 +109,16 @@ bool set_sprite_pal(const void *pal, int pal_len)
     return false;
 }
 
+struct tile {
+    uint8_t pixel[64];
+};
+
+
+struct tile *sprite_mem = (void *)0x06010000;
+int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
+
 bool set_sprite(const void *tiles, int tiles_len, int *tile_used)
 {
-	//init_sprite_mem();
-
     for (int i = 0; i < max_sprite_tiles; i++) {
         if (sprite_av[i]) continue;
 
@@ -151,8 +128,8 @@ bool set_sprite(const void *tiles, int tiles_len, int *tile_used)
             /* No more space */
             return false;
         }
-            
-        memcpy(sprite_mem + i, tiles, tiles_len);
+
+        mem16cpy(sprite_mem + i, tiles, tiles_len);
         memset(sprite_av + i, true, (tiles_len / 64) + (tiles_len % 64 != 0));
         *tile_used = i;
 
@@ -161,46 +138,6 @@ bool set_sprite(const void *tiles, int tiles_len, int *tile_used)
 
     return false;
 }
-
-void oam_copy(struct attr *dst, const struct attr *src, int count) {
-    while(count--)
-        *dst++ = *src++;
-}
-
-void set_sprite_attr(uint32_t sprite_idx) {
-    int tid = sprite_idx * 64;
-
-//	struct attr *sprite_attr = sprite_attr_mem;
-//    memset(sprite_attr, 0, sizeof(struct attr));
-    sprite_attr_mem[0].om = 0;
-	sprite_attr_mem[0].sh = 0; // square
-	sprite_attr_mem[0].sz = 3; // 11 -> size 64x64	
-	sprite_attr_mem[0].tid = tid;
-	sprite_attr_mem[0].pb = 0;
-	sprite_attr_mem[0].x = 30;
-	sprite_attr_mem[0].y = 40;
-/*
-    sprite_attr_mem[1].om = 0;
-	sprite_attr_mem[1].sh = 0; // square
-	sprite_attr_mem[1].sz = 3; // 11 -> size 64x64	
-	sprite_attr_mem[1].tid = 1 * 64;
-	sprite_attr_mem[1].pb = 0;
-	sprite_attr_mem[1].x = 100;
-	sprite_attr_mem[1].y = 40;
-*/
-    mem16cpy(oam_mem, sprite_attr_mem, 128 * 8);
-
-    //oam_copy(oam_mem, sprite_attr_mem, 128);
-
-    vbaprint("oam:\n");
-    for (int i = 0; i < 8; i++){
-        char abcd2[500];
-        sprintf(abcd2, "%d\n", *(((char *)oam_mem) + i));
-        vbaprint(abcd2);
-    }
-}
-
-// end sprites
 
 // number of charblocks
 const uint8_t cb_num = 4;

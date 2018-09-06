@@ -2,11 +2,14 @@
 #include "menu_bg.h"
 #include "metr.h"
 
+#include <unistd.h>
 #include <string.h>
 
-void print(char *label, int n) {
+#define OFFSET_DOUBLED_8BPP 2
+
+void print(char *label, uint64_t n) {
     char buffer[500];
-    sprintf(buffer, "%s: %d\n", label, n);
+    sprintf(buffer, "%s: %llu\n", label, n);
     vbaprint(buffer);
 }
 
@@ -25,46 +28,33 @@ int main(){
 
     set_sprite(metrTiles, metrTilesLen, &tile_used);
 
-    print("sp1:", tile_used);
- //   set_sprite_attr(tile_used);
-    
     struct attr metr;
+    metr.cm = 1;
     metr.om = 0;
 	metr.sh = 0; // square
 	metr.sz = 3; // 11 -> size 64x64	
-	metr.tid = tile_used;
+	metr.tid = tile_used * OFFSET_DOUBLED_8BPP;
 	metr.pb = 0;
 	metr.x = 10;
 	metr.y = 40;
-    metr.cm = 1;
 
     int tile_used2;
     set_sprite(metrTiles, metrTilesLen, &tile_used2);
 
-    print("sp2:", tile_used2);
- //   set_sprite_attr(tile_used);
-    
     struct attr metr2;
+    metr2.cm = 1;
     metr2.om = 0;
 	metr2.sh = 0; // square
 	metr2.sz = 3; // 11 -> size 64x64	
-	metr2.tid = tile_used2;
+	metr2.tid = tile_used2 * OFFSET_DOUBLED_8BPP;
 	metr2.pb = 0;
-	metr2.x = 60;
+	metr2.x = 100;
 	metr2.y = 40;
-    metr2.cm = 1;
 
     while(1) {
         set_sprite_attrs(tile_used / 64, &metr);
         set_sprite_attrs(tile_used2 / 64, &metr2);
     }
-/*
-    vbaprint("oam:\n");
-    for (int i = 0; i < 8; i++){
-        char abcd2[500];
-        sprintf(abcd2, "%d\n", *(((char *)0x07000000) + i));
-        vbaprint(abcd2);
-    }
-*/
+
 	return 0;
 }
