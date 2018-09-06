@@ -1,44 +1,28 @@
+
+//{{BLOCK(metr)
+
 //======================================================================
 //
-//	metr, 64x64@4, 
-//	+ palette 32 entries, not compressed
+//	metr, 64x64@8, 
+//	+ palette 256 entries, not compressed
 //	+ 64 tiles not compressed
-//	Total size: 64 + 2048 = 2112
+//	Total size: 512 + 4096 = 4608
 //
-//	Time-stamp: 2005-12-24, 17:36:57
-//	Exported by Cearn's Usenti v1.7.1
-//	(comments, kudos, flames to "daytshen@hotmail.com")
-//
-//======================================================================
-
-#ifndef __METR__
-#define __METR__
-
-#define metrPalLen 64
-extern const unsigned int metrPal[16];
-
-#define metrTilesLen 2048
-extern const unsigned int metrTiles[512];
-
-#endif // __METR__
-
-//======================================================================
-//
-//	metr_box, 64x64@4, 
-//	+ 64 tiles not compressed
-//	Total size: 2048 = 2048
-//
-//	Time-stamp: 2005-12-24, 17:37:08
-//	Exported by Cearn's Usenti v1.7.1
-//	(comments, kudos, flames to "daytshen@hotmail.com")
+//	Time-stamp: 2018-09-05, 23:04:29
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
+//	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-#ifndef __METR_BOX__
-#define __METR_BOX__
+#ifndef GRIT_METR_H
+#define GRIT_METR_H
 
-#define metr_boxTilesLen 2048
-extern const unsigned int metr_boxTiles[512];
+#define metrTilesLen 4096
+extern const unsigned int metrTiles[1024];
 
-#endif // __METR_BOX__
+#define metrPalLen 512
+extern const unsigned short metrPal[256];
 
+#endif // GRIT_METR_H
+
+//}}BLOCK(metr)

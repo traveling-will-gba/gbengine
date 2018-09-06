@@ -6,6 +6,12 @@
 #include <string.h>
 #include <stdbool.h>
 
+void print2(char *label, int n) {
+    char buffer[500];
+    sprintf(buffer, "%s: %d\n", label, n);
+    vbaprint(buffer);
+}
+
 void reset_dispcnt() {
 	REG_DISPCNT = 0;
 }
@@ -63,25 +69,6 @@ struct sprite {
 };
 */
 
-struct attr {
-    uint8_t y;
-    uint8_t om : 2;
-    uint8_t gm : 2;  
-    uint8_t mos : 1;
-    uint8_t cm : 1;
-    uint8_t sh : 2;
-
-    uint16_t x : 9;
-    uint8_t aid : 5;
-    uint8_t sz : 2;
-
-    uint16_t tid : 10; 
-    uint8_t pr : 2;
-    uint8_t pb : 4;
-
-    uint16_t filler;
-};
-
 bool sprite_av[512];
 struct pallete sprite_pal_mem;
 //struct obj_attr_mem sprite_attr[128];
@@ -106,6 +93,30 @@ uint8_t *sprite_pal = (void *)0x05000200;
 bool sprite_pal_av[512];
 uint32_t max_sprite_pal_entry = 512;
 
+void mem16cpy(void * dest, const void * src, size_t n)
+{
+    if (n & 1) {
+       vbaprint("Size must be even"); 
+    }
+
+    for(int i=0;i<8;i++) {
+        print2("antes", *(((char *)src) + i));
+    }
+
+    for (int i = 0; i < n / 2; i++) {
+        *(((uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
+    }
+
+    for(int i=0;i<8;i++) {
+        print2("depois", *(((char *)dest) + i));
+    }
+}
+
+void set_sprite_attrs(int sprite_idx, struct attr *custom_attrs)
+{
+    mem16cpy(((struct attr *)oam_mem) + sprite_idx, custom_attrs, 8);
+}
+
 bool set_sprite_pal(const void *pal, int pal_len)
 {
     for (int i = 0; i < max_sprite_pal_entry; i++) {
@@ -127,7 +138,7 @@ bool set_sprite_pal(const void *pal, int pal_len)
     return false;
 }
 
-bool set_sprite(const void *tiles, int tiles_len, int *sprite_used)
+bool set_sprite(const void *tiles, int tiles_len, int *tile_used)
 {
 	//init_sprite_mem();
 
@@ -143,7 +154,7 @@ bool set_sprite(const void *tiles, int tiles_len, int *sprite_used)
             
         memcpy(sprite_mem + i, tiles, tiles_len);
         memset(sprite_av + i, true, (tiles_len / 64) + (tiles_len % 64 != 0));
-        *sprite_used = i;
+        *tile_used = i;
 
         return true;
     }
@@ -168,7 +179,7 @@ void set_sprite_attr(uint32_t sprite_idx) {
 	sprite_attr_mem[0].pb = 0;
 	sprite_attr_mem[0].x = 30;
 	sprite_attr_mem[0].y = 40;
-
+/*
     sprite_attr_mem[1].om = 0;
 	sprite_attr_mem[1].sh = 0; // square
 	sprite_attr_mem[1].sz = 3; // 11 -> size 64x64	
@@ -176,13 +187,8 @@ void set_sprite_attr(uint32_t sprite_idx) {
 	sprite_attr_mem[1].pb = 0;
 	sprite_attr_mem[1].x = 100;
 	sprite_attr_mem[1].y = 40;
-
-
-    //memcpy(oam_mem, sprite_attr_mem, sizeof(struct attr));
-
-    for (int i = 0; i < 8; i++) {
-        *(((uint16_t *)oam_mem) + i) = *(((uint16_t *)sprite_attr_mem) + i);
-    }
+*/
+    mem16cpy(oam_mem, sprite_attr_mem, 128 * 8);
 
     //oam_copy(oam_mem, sprite_attr_mem, 128);
 
