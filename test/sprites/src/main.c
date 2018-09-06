@@ -1,6 +1,8 @@
 #include "video.h"
+#include "sprite.h"
 #include "menu_bg.h"
 #include "metr.h"
+#include "vbaprint.h"
 
 #include <unistd.h>
 #include <string.h>
@@ -55,6 +57,7 @@ int main(){
         set_sprite_attrs(tile_used / 64, &metr);
         set_sprite_attrs(tile_used2 / 64, &metr2);
     }
+
 
 	return 0;
 }
