@@ -1,5 +1,5 @@
-#ifndef AUX_H 
-#define AUX_H
+#ifndef VBAPRINT_H 
+#define VBAPRINT_H
 
 extern void vbaprint(const char *message); 
 
