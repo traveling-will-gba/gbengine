@@ -8,7 +8,7 @@ unsigned short *vid_mem = (unsigned short *)0x6000000;
 int main() {
 	reset_dispcnt();
 	set_video_mode(3);
-	set_background_number(2);
+	enable_background(2);
 
     while(1) {   
         check_buttons_states();

@@ -12,5 +12,5 @@ void check_buttons_states() {
 }
 
 bool pressed(int button) {
-	return pressed_state[button];
+	return pressed_state[32 - __builtin_clz(button) - 1];
 }
