@@ -1,4 +1,5 @@
 #include "video.h"
+#include "input.h"
 #include "sprite.h"
 #include "menu_bg.h"
 #include "metr.h"
@@ -6,6 +7,7 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 
 #define OFFSET_DOUBLED_8BPP 2
 
@@ -14,6 +16,15 @@ void print(char *label, uint64_t n) {
     sprintf(buffer, "%s: %llu\n", label, n);
     vbaprint(buffer);
 }
+
+struct reg_tmxcnt {
+    uint8_t fr : 2;
+    uint8_t cm : 1;
+    uint8_t filler : 3;
+    uint8_t i : 1;
+    uint8_t enable : 1;
+    uint8_t filler2;
+};
 
 int main(){
 	reset_dispcnt();
@@ -53,11 +64,38 @@ int main(){
 	metr2.x = 100;
 	metr2.y = 40;
 
+    uint16_t *data = (uint16_t *)(0x04000000+0x0100);
+    struct reg_tmxcnt *cnt = (void *)(0x04000000+0x0102);
+
+    *data = 0;
+
+    cnt->fr = 1;
+    cnt->enable = 1;
+
+    uint16_t last = *data;
+
+    uint64_t dt = 0;
+
+    int i=0;
     while(1) {
+        uint16_t cur = *data;
+
+        dt = cur - last;
+        dt /= 1000;
+
+        check_buttons_states();
+
         set_sprite_attrs(tile_used / 64, &metr);
         set_sprite_attrs(tile_used2 / 64, &metr2);
-    }
 
+        if (pressed(BUTTON_LEFT)){
+            metr.x = (metr.x - 1 * dt + 240) % 240;
+        }else if (pressed(BUTTON_RIGHT)) {
+            metr.x = (metr.x + 1 * dt) % 240;
+        }
+
+        last = cur;
+    }
 
 	return 0;
 }
