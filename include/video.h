@@ -9,6 +9,7 @@ void reset_dispcnt();
 void set_video_mode(int video_mode);
 void enable_background(int background);
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
+uint32_t available_len(void *raw, void *offset);
 
 // --- secondary typedefs ---
 

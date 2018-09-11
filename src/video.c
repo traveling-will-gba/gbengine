@@ -49,7 +49,7 @@ struct screenblock {
     void *offset;
 };
 
-inline uint32_t available_len(void *raw, void *offset) {
+uint32_t available_len(void *raw, void *offset) {
     return offset - raw;
 }
 
