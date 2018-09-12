@@ -23,16 +23,16 @@ struct reg_tmxcnt {
 };
 
 int main(){
-	reset_dispcnt();
-	set_video_mode(0);
+    reset_dispcnt();
+    set_video_mode(0);
     enable_background(2);
 
-	set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
+    set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
 
     memset(sprite_pal, 0, 512);
     set_sprite_pal(will_idlePal, will_idlePalLen);
 
-	REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
+    REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
 
     init_sprite_attr_mem();
 
@@ -42,7 +42,7 @@ int main(){
     for (int i = 0; i < sprite_num; i++) {
         int tile_used;
         set_sprite(will_idleTiles, will_idleTilesLen, &tile_used);
-        print("tile_used", tile_used);
+        print("tile_used: %d\n", tile_used);
 
         will_attr[i].cm = 1;
         will_attr[i].om = 0;
@@ -80,5 +80,5 @@ int main(){
     }
 
 
-	return 0;
+    return 0;
 }
