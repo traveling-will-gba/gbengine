@@ -3,7 +3,7 @@
 #include "sprite.h"
 #include "menu_bg.h"
 #include "metr.h"
-#include "will.h"
+#include "will_idle.h"
 #include "vbaprint.h"
 
 #include <unistd.h>
@@ -35,42 +35,55 @@ int main(){
 	set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
 
     memset(sprite_pal, 0, 512);
-    set_sprite_pal(willPal, willPalLen);
-    int tile_used;
+    set_sprite_pal(will_idlePal, will_idlePalLen);
 
 	REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
 
-    set_sprite(willTiles, willTilesLen, &tile_used);
-
     init_sprite_attr_mem();
 
-    struct attr metr;
-    metr.cm = 1;
-    metr.om = 0;
-	metr.sh = 0; // square
-	metr.sz = 3; // 11 -> size 64x64	
-	metr.tid = tile_used * OFFSET_DOUBLED_8BPP;
-	metr.pb = 0;
-	metr.x = 40;
-	metr.y = 60;
+    uint32_t sprite_num = 8;
+    struct attr will_attr[8];
 
-    int tile_used2;
-    set_sprite(willTiles, willTilesLen, &tile_used2);
+    for (int i = 0; i < sprite_num; i++) {
+        int tile_used;
+        set_sprite(will_idleTiles, will_idleTilesLen, &tile_used);
+        print("tile_used", tile_used);
 
-    struct attr metr2;
-    metr2.cm = 1;
-    metr2.om = 0;
-	metr2.sh = 0; // square
-	metr2.sz = 3; // 11 -> size 64x64	
-	metr2.tid = tile_used2 * OFFSET_DOUBLED_8BPP;
-	metr2.pb = 0;
-	metr2.x = 100;
-	metr2.y = 40;
+        will_attr[i].cm = 1;
+        will_attr[i].om = 0;
+        will_attr[i].sh = 0; // square
+        will_attr[i].sz = 1;
+        will_attr[i].tid = (tile_used + 12) * OFFSET_DOUBLED_8BPP;
+        will_attr[i].pb = 0;
+        will_attr[i].x = i * 30;
+        will_attr[i].y = 144;
+    }
+
+    uint16_t *data = (uint16_t *)(0x04000000+0x0100);
+    struct reg_tmxcnt *cnt = (void *)(0x04000000+0x0102);
+
+    *data = 0;
+
+    cnt->fr = 1;
+    cnt->enable = 1;
+
+    uint16_t last = *data;
+    uint64_t dt = 0;
 
     while(1) {
-        set_sprite_attrs(tile_used / 64, &metr);
-        set_sprite_attrs(tile_used2 / 64, &metr2);
+        uint16_t cur = *data;
+
+        dt = cur - last;
+        dt /= 1000;
+
+        for (int i = 0; i < sprite_num; i++) {
+            will_attr[i].tid = (will_attr[i].tid + 4 * dt) % 24;
+            set_sprite_attrs(i, &will_attr[i]);
+        }
+
+        last = cur;
     }
+
 
 	return 0;
 }
