@@ -2,6 +2,7 @@
 
 #include <vbaprint.h>
 #include <string.h>
+#include <stdlib.h>
 
 // duplicate
 struct pallete {
@@ -26,7 +27,7 @@ uint8_t *sprite_pal = (void *)0x05000200;
 bool sprite_pal_av[512];
 uint32_t max_sprite_pal_entry = 512;
 
-void mem16cpy(void * dest, const void * src, size_t n)
+void mem16cpy(void *dest, const void *src, size_t n)
 {
     if (n & 1) {
        vbaprint("Size must be even"); 
@@ -34,6 +35,16 @@ void mem16cpy(void * dest, const void * src, size_t n)
 
     for (int i = 0; i < n / 2; i++) {
         *(((uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
+    }
+}
+
+void init_sprite_attr_mem()
+{
+    //FIXME
+    struct attr *sprite_attr = malloc(sizeof(struct attr));
+    sprite_attr->om = 2;
+    for (int i = 0; i < 128; i++) {
+        mem16cpy(((struct attr *)obj_attr_mem) + i, sprite_attr, sizeof(struct attr));
     }
 }
 

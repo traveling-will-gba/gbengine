@@ -3,6 +3,7 @@
 #include "sprite.h"
 #include "menu_bg.h"
 #include "metr.h"
+#include "will.h"
 #include "vbaprint.h"
 
 #include <unistd.h>
@@ -34,12 +35,14 @@ int main(){
 	set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
 
     memset(sprite_pal, 0, 512);
-    set_sprite_pal(metrPal, metrPalLen);
+    set_sprite_pal(willPal, willPalLen);
     int tile_used;
 
 	REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
 
-    set_sprite(metrTiles, metrTilesLen, &tile_used);
+    set_sprite(willTiles, willTilesLen, &tile_used);
+
+    init_sprite_attr_mem();
 
     struct attr metr;
     metr.cm = 1;
@@ -48,11 +51,11 @@ int main(){
 	metr.sz = 3; // 11 -> size 64x64	
 	metr.tid = tile_used * OFFSET_DOUBLED_8BPP;
 	metr.pb = 0;
-	metr.x = 10;
-	metr.y = 40;
+	metr.x = 40;
+	metr.y = 60;
 
     int tile_used2;
-    set_sprite(metrTiles, metrTilesLen, &tile_used2);
+    set_sprite(willTiles, willTilesLen, &tile_used2);
 
     struct attr metr2;
     metr2.cm = 1;
@@ -64,37 +67,9 @@ int main(){
 	metr2.x = 100;
 	metr2.y = 40;
 
-    uint16_t *data = (uint16_t *)(0x04000000+0x0100);
-    struct reg_tmxcnt *cnt = (void *)(0x04000000+0x0102);
-
-    *data = 0;
-
-    cnt->fr = 1;
-    cnt->enable = 1;
-
-    uint16_t last = *data;
-
-    uint64_t dt = 0;
-
-    int i=0;
     while(1) {
-        uint16_t cur = *data;
-
-        dt = cur - last;
-        dt /= 1000;
-
-        check_buttons_states();
-
         set_sprite_attrs(tile_used / 64, &metr);
         set_sprite_attrs(tile_used2 / 64, &metr2);
-
-        if (pressed(BUTTON_LEFT)){
-            metr.x = (metr.x - 1 * dt + 240) % 240;
-        }else if (pressed(BUTTON_RIGHT)) {
-            metr.x = (metr.x + 1 * dt) % 240;
-        }
-
-        last = cur;
     }
 
 	return 0;
