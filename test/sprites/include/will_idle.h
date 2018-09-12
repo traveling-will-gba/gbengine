@@ -5,10 +5,10 @@
 //
 //	will_idle, 96x16@8, 
 //	+ palette 256 entries, not compressed
-//	+ 24 tiles not compressed
+//	+ 24 tiles Metatiled by 2x2 not compressed
 //	Total size: 512 + 1536 = 2048
 //
-//	Time-stamp: 2018-09-11, 21:49:53
+//	Time-stamp: 2018-09-11, 22:49:39
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
