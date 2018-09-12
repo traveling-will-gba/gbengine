@@ -1,22 +1,17 @@
-#include "video.h"
 #include "input.h"
+#include "video.h"
 #include "sprite.h"
+#include "utils.h"
+
 #include "menu_bg.h"
-#include "metr.h"
 #include "will_idle.h"
-#include "vbaprint.h"
+#include "metr.h"
 
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
 
 #define OFFSET_DOUBLED_8BPP 2
-
-void print(char *label, uint64_t n) {
-    char buffer[500];
-    sprintf(buffer, "%s: %llu\n", label, n);
-    vbaprint(buffer);
-}
 
 struct reg_tmxcnt {
     uint8_t fr : 2;

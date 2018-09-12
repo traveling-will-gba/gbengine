@@ -1,16 +1,8 @@
 #include "video.h"
 
-#include "vbaprint.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-
-void print2(char *label, int n) {
-    char buffer[500];
-    sprintf(buffer, "%s: %d\n", label, n);
-    vbaprint(buffer);
-}
 
 void reset_dispcnt() {
 	REG_DISPCNT = 0;
