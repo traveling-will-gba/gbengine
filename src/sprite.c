@@ -1,6 +1,6 @@
 #include "sprite.h"
+#include "utils.h"
 
-#include <vbaprint.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -9,12 +9,6 @@ struct pallete {
     void *raw;
     void *offset;
 };
-
-void print3(char *label, int n) {
-    char buffer[500];
-    sprintf(buffer, "%s: %d\n", label, n);
-    vbaprint(buffer);
-}
 
 bool sprite_av[512];
 struct pallete sprite_pal_mem;
@@ -26,17 +20,6 @@ volatile void *obj_attr_mem = (void *)0x07000000;
 uint8_t *sprite_pal = (void *)0x05000200;
 bool sprite_pal_av[512];
 uint32_t max_sprite_pal_entry = 512;
-
-void mem16cpy(void *dest, const void *src, size_t n)
-{
-    if (n & 1) {
-       vbaprint("Size must be even"); 
-    }
-
-    for (int i = 0; i < n / 2; i++) {
-        *(((uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
-    }
-}
 
 void init_sprite_attr_mem()
 {
