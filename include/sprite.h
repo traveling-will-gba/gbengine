@@ -26,6 +26,8 @@ struct attr {
     uint16_t filler;
 };
 
+void mem16cpy(void *dest, const void *src, size_t n);
+void init_sprite_attr_mem();
 void set_sprite_attrs(int sprite_idx, struct attr *custom_attrs);
 bool set_sprite_pal(const void *pal, int pal_len);
 bool set_sprite(const void *tiles, int tiles_len, int *tile_used);
