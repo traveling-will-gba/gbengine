@@ -1,4 +1,5 @@
 #include "video.h"
+#include "utils.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -124,17 +125,9 @@ struct pallete pal_bg_mem;
 void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len) {
     pal_bg_mem.raw = pal_bg_mem.offset = (void *) 0x05000000;
 
-/*    char abcd[512], abcd2[512];
-
-    sprintf(abcd, "%p\n", &sprite_attr_mem[0]);
-    sprintf(abcd2, "%p\n", &sprite_attr_mem[1]);
-
-    vbaprint(abcd);
-    vbaprint(abcd2);
-  */  
     uint32_t available_pal_len = available_len(pal_bg_mem.raw, pal_bg_mem.offset);
     if (pal_len > available_pal_len) {
-        /* TODO: Log No more space for pallete */
+        print("No more space for pallete\n");
     }
     memcpy(pal_bg_mem.offset, pal, pal_len);
     pal_bg_mem.offset += pal_len;

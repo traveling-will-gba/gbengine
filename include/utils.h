@@ -2,8 +2,9 @@
 #define UTILS_H
 
 #include <stdio.h>
+#include <stdarg.h>
 
-void print(char *label, uint64_t n);
+int print(const char *fmt, ...);
 void mem16cpy(void *dest, const void *src, size_t n);
 
 #endif
