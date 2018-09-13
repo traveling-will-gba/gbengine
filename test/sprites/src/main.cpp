@@ -11,8 +11,6 @@
 #include <string.h>
 #include <time.h>
 
-#define OFFSET_DOUBLED_8BPP 2
-
 struct reg_tmxcnt {
     uint8_t fr : 2;
     uint8_t cm : 1;
@@ -29,18 +27,28 @@ int main(){
 
     set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
 
-    memset(sprite_pal, 0, 512);
-    set_sprite_pal(will_idlePal, will_idlePalLen);
-
     REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
 
+    memset(sprite_pal, 0, 512);
+//    set_sprite_pal(will_idlePal, will_idlePalLen);
+
     init_sprite_attr_mem();
+
+    Texture texture(will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen);
+
+    texture.metadata.cm = 1;
+    texture.metadata.om = 0;
+    texture.metadata.sh = 0; // square
+    texture.metadata.sz = 1;
+    texture.metadata.pb = texture.pallete_id;
+    texture.metadata.x = 30;
+    texture.metadata.y = 144;
 
     uint32_t sprite_num = 8;
     struct attr will_attr[8];
 
     for (int i = 0; i < sprite_num; i++) {
-        int tile_used;
+        uint32_t tile_used;
         set_sprite(will_idleTiles, will_idleTilesLen, &tile_used);
         print("tile_used: %d\n", tile_used);
 
@@ -71,14 +79,17 @@ int main(){
         dt = cur - last;
         dt /= 1000;
 
-        for (int i = 0; i < sprite_num; i++) {
+    /*    for (int i = 0; i < sprite_num; i++) {
             will_attr[i].tid = (will_attr[i].tid + 4 * dt) % 24;
             set_sprite_attrs(i, &will_attr[i]);
-        }
+        }*/
+
+//        print("%d %d\n", texture.metadata.tid, will_attr[0].tid);
+
+        set_sprite_attrs(texture.id, &(texture.metadata));
 
         last = cur;
     }
-
 
     return 0;
 }

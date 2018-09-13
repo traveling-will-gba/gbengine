@@ -127,6 +127,7 @@ void set_background(const void *pal, int pal_len, const void *tiles, int tiles_l
 
     uint32_t available_pal_len = available_len(pal_bg_mem.raw, pal_bg_mem.offset);
     if (pal_len > available_pal_len) {
+        print("%d\n", available_pal_len);
         print("No more space for pallete\n");
     }
     memcpy(pal_bg_mem.offset, pal, pal_len);
