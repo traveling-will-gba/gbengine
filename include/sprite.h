@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-uint8_t *sprite_pal;
-volatile void *obj_attr_mem;
+extern uint8_t *sprite_pal;
+extern volatile void *obj_attr_mem;
 
 struct attr {
     uint8_t y;

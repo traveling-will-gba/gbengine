@@ -4,7 +4,7 @@
 void mem16cpy(void *dest, const void *src, size_t n)
 {
     if (n & 1) {
-        vbaprint("Size must be even");
+        print("Size must be even");
     }
 
     for (int i = 0; i < n / 2; i++) {

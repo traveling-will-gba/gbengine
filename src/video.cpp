@@ -43,7 +43,7 @@ struct screenblock {
 };
 
 uint32_t available_len(void *raw, void *offset) {
-    return offset - raw;
+    return (uint8_t *)offset - (uint8_t *)raw;
 }
 
 bool cb[4];
@@ -100,7 +100,7 @@ bool set_screenblock(const void *map, uint32_t map_len, uint32_t *sb_used) {
                 }
             }
 
-            i += (cb_mem[i].offset - cb_mem[i].raw) / (16 * 1024);
+            i += ((uint8_t *)cb_mem[i].offset - (uint8_t *)cb_mem[i].raw) / (16 * 1024);
             continue;
         }
         break;

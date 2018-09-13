@@ -55,7 +55,7 @@ int main(){
     }
 
     uint16_t *data = (uint16_t *)(0x04000000+0x0100);
-    struct reg_tmxcnt *cnt = (void *)(0x04000000+0x0102);
+    struct reg_tmxcnt *cnt = (struct reg_tmxcnt *)(0x04000000+0x0102);
 
     *data = 0;
 

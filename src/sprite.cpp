@@ -17,14 +17,14 @@ struct attr sprite_attr_mem[128];
 
 volatile void *obj_attr_mem = (void *)0x07000000;
 
-uint8_t *sprite_pal = (void *)0x05000200;
+uint8_t *sprite_pal = (uint8_t *)0x05000200;
 bool sprite_pal_av[512];
 uint32_t max_sprite_pal_entry = 512;
 
 void init_sprite_attr_mem()
 {
     //FIXME
-    struct attr *sprite_attr = malloc(sizeof(struct attr));
+    struct attr *sprite_attr = (struct attr *) malloc(sizeof(struct attr));
     sprite_attr->om = 2;
     for (int i = 0; i < 128; i++) {
         mem16cpy(((struct attr *)obj_attr_mem) + i, sprite_attr, sizeof(struct attr));
@@ -61,7 +61,7 @@ struct tile {
     uint8_t pixel[64];
 };
 
-struct tile *sprite_mem = (void *)0x06010000;
+struct tile *sprite_mem = (struct tile *)0x06010000;
 int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
 
 bool set_sprite(const void *tiles, int tiles_len, int *tile_used)
