@@ -43,6 +43,11 @@ bool set_sprite_pal(const void *pal, int pal_len);
 bool set_sprite(const void *tiles, int tiles_len, uint32_t *tile_used);
 void set_sprite_attr(uint32_t sprite_idx);
 
+enum bits_per_pixel {
+    _4BPP = 0,
+    _8BPP
+};
+
 class Texture {
     private:
         const unsigned short *pallete;
@@ -51,13 +56,18 @@ class Texture {
         const unsigned int *tiles;
         uint32_t tiles_len;
 
+        uint32_t num_sprites;
+        uint32_t num_tiles;
+        uint32_t tiles_per_sprite;
+        enum bits_per_pixel bpp;
+
         bool set_sprite_pal() {
             // TODO: Use MemoryManager 
             const uint32_t max_sprite_pal_entry = 512;
 
             // TODO: Use MemoryManager 
-            bool sprite_pal_av[512];
-            memset(sprite_pal_av, 0, 512);
+            bool sprite_pal_av[max_sprite_pal_entry];
+            memset(sprite_pal_av, 0, max_sprite_pal_entry);
 
             for (int i = 0; i < max_sprite_pal_entry; i++) {
                 if (sprite_pal_av[i]) continue;
@@ -102,16 +112,28 @@ class Texture {
             return false;
         }
 
+        void update_metadata() {
+            mem16cpy(((struct attr *)obj_attr_mem) + id, &metadata, sizeof(struct attr));
+        }
+
     public:
         uint32_t id;
         uint32_t tile_base;
         struct attr metadata;
         uint32_t pallete_id;
 
-        Texture(const unsigned short *pallete, uint32_t pallete_len, const unsigned int *tiles, uint32_t tiles_len) {
+        Texture(uint32_t num_sprites, const unsigned short *pallete, uint32_t pallete_len,
+                const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP) {
             this->pallete = pallete;
             this->pallete_len = pallete_len;
             this->pallete_id = 0;
+            this->bpp = bpp;
+            this->num_sprites = num_sprites;
+            this->num_tiles = tiles_len / ((bpp == _4BPP) ? 32 : 64);
+            this->tiles_per_sprite = num_tiles / num_sprites;
+
+//            print("CONSTRUTOR %d\n", tiles_len);
+//            print("num_tiles %d\n", num_tiles);
 
             this->tiles = tiles;
             this->tiles_len = tiles_len;
@@ -123,6 +145,16 @@ class Texture {
             set_sprite();
 
             metadata.tid = tile_base * OFFSET_DOUBLED_8BPP;
+        }
+
+        void update(uint64_t dt)
+        {
+            // FIXME: Calculate real value of dt
+        //    dt=850000000;
+       //     0 + 4 
+            metadata.tid = (metadata.tid + tiles_per_sprite) % num_tiles;
+            print("%d\n", metadata.tid / tiles_per_sprite);
+            update_metadata();
         }
 };
 

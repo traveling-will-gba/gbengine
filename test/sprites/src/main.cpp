@@ -20,6 +20,11 @@ struct reg_tmxcnt {
     uint8_t filler2;
 };
 
+void vsync() {
+    while(REG_VCOUNT >= 160);
+    while(REG_VCOUNT < 160);
+}
+
 int main(){
     reset_dispcnt();
     set_video_mode(0);
@@ -34,7 +39,7 @@ int main(){
 
     init_sprite_attr_mem();
 
-    Texture texture(will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen);
+    Texture texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen);
 
     texture.metadata.cm = 1;
     texture.metadata.om = 0;
@@ -76,6 +81,10 @@ int main(){
     while(1) {
         uint16_t cur = *data;
 
+        for (int i=0; i < 8;i++){
+            vsync();
+        }
+
         dt = cur - last;
         dt /= 1000;
 
@@ -86,7 +95,8 @@ int main(){
 
 //        print("%d %d\n", texture.metadata.tid, will_attr[0].tid);
 
-        set_sprite_attrs(texture.id, &(texture.metadata));
+//        set_sprite_attrs(texture.id, &(texture.metadata));
+        texture.update(dt);
 
         last = cur;
     }
