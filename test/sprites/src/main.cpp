@@ -55,7 +55,6 @@ int main(){
     for (int i = 0; i < sprite_num; i++) {
         uint32_t tile_used;
         set_sprite(will_idleTiles, will_idleTilesLen, &tile_used);
-        print("tile_used: %d\n", tile_used);
 
         will_attr[i].cm = 1;
         will_attr[i].om = 0;
@@ -67,38 +66,12 @@ int main(){
         will_attr[i].y = 144;
     }
 
-    uint16_t *data = (uint16_t *)(0x04000000+0x0100);
-    struct reg_tmxcnt *cnt = (struct reg_tmxcnt *)(0x04000000+0x0102);
-
-    *data = 0;
-
-    cnt->fr = 1;
-    cnt->enable = 1;
-
-    uint16_t last = *data;
-    uint64_t dt = 0;
-
     while(1) {
-        uint16_t cur = *data;
-
         for (int i=0; i < 8;i++){
             vsync();
         }
 
-        dt = cur - last;
-        dt /= 1000;
-
-    /*    for (int i = 0; i < sprite_num; i++) {
-            will_attr[i].tid = (will_attr[i].tid + 4 * dt) % 24;
-            set_sprite_attrs(i, &will_attr[i]);
-        }*/
-
-//        print("%d %d\n", texture.metadata.tid, will_attr[0].tid);
-
-//        set_sprite_attrs(texture.id, &(texture.metadata));
-        texture.update(dt);
-
-        last = cur;
+        texture.update();
     }
 
     return 0;

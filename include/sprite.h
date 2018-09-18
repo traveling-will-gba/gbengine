@@ -131,10 +131,6 @@ class Texture {
             this->num_sprites = num_sprites;
             this->num_tiles = tiles_len / ((bpp == _4BPP) ? 32 : 64);
             this->tiles_per_sprite = num_tiles / num_sprites;
-
-//            print("CONSTRUTOR %d\n", tiles_len);
-//            print("num_tiles %d\n", num_tiles);
-
             this->tiles = tiles;
             this->tiles_len = tiles_len;
 
@@ -147,13 +143,10 @@ class Texture {
             metadata.tid = tile_base * OFFSET_DOUBLED_8BPP;
         }
 
-        void update(uint64_t dt)
+        void update()
         {
-            // FIXME: Calculate real value of dt
-        //    dt=850000000;
-       //     0 + 4 
-            metadata.tid = (metadata.tid + tiles_per_sprite) % num_tiles;
-            print("%d\n", metadata.tid / tiles_per_sprite);
+            uint32_t offset = (bpp == _4BPP) ? 1 : 2;
+            metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset);
             update_metadata();
         }
 };
