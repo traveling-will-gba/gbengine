@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "utils.h"
+#include "memory_manager.h"
 
 #define OFFSET_DOUBLED_8BPP 2
 
@@ -34,7 +35,7 @@ struct attr {
 
 extern uint8_t *sprite_pal;
 extern volatile void *obj_attr_mem;
-extern struct tile *sprite_mem;
+extern volatile struct tile *sprite_mem;
 
 
 void init_sprite_attr_mem();
@@ -62,37 +63,21 @@ class Texture {
         enum bits_per_pixel bpp;
 
         bool set_sprite_pal() {
-            // TODO: Use MemoryManager 
-            const uint32_t max_sprite_pal_entry = 512;
+            MemoryManager *memory_manager = MemoryManager::get_memory_manager();
 
-            // TODO: Use MemoryManager 
-            bool sprite_pal_av[max_sprite_pal_entry];
-            memset(sprite_pal_av, 0, max_sprite_pal_entry);
+            uint8_t *teste = memory_manager->alloc_texture_pal(pallete_len);
+            memcpy(teste, pallete, pallete_len);
 
-            for (int i = 0; i < max_sprite_pal_entry; i++) {
-                if (sprite_pal_av[i]) continue;
-
-                uint32_t available_pal_len = max_sprite_pal_entry - i;
-
-                if (pallete_len > available_pal_len) {
-                    /* No more space */
-                    return false;
-                }
-
-                memcpy(sprite_pal + i, pallete, pallete_len);
-                memset(sprite_pal_av + i, true, pallete_len);
-
-                return true;
-            }
-
-            return false;
+            return true;
         } 
 
         bool set_sprite() {
             bool sprite_av[512];
+            memset(sprite_av, false, sizeof(sprite_av));
             int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
             for (int i = 0; i < max_sprite_tiles; i++) {
                 if (sprite_av[i]) continue;
+                print("setei\n");
 
                 uint32_t available_tile_bytes = (max_sprite_tiles - i) * 64;
 
@@ -113,7 +98,7 @@ class Texture {
         }
 
         void update_metadata() {
-            mem16cpy(((struct attr *)obj_attr_mem) + id, &metadata, sizeof(struct attr));
+            mem16cpy(((volatile struct attr *)obj_attr_mem) + id, &metadata, sizeof(struct attr));
         }
 
     public:
@@ -121,6 +106,8 @@ class Texture {
         uint32_t tile_base;
         struct attr metadata;
         uint32_t pallete_id;
+
+        Texture() {}
 
         Texture(uint32_t num_sprites, const unsigned short *pallete, uint32_t pallete_len,
                 const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP) {

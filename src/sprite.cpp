@@ -57,7 +57,7 @@ bool set_sprite_pal(const void *pal, int pal_len)
     return false;
 }
 
-struct tile *sprite_mem = (struct tile *)0x06010000;
+volatile struct tile *sprite_mem = (volatile struct tile *)0x06010000;
 int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
 
 bool set_sprite(const void *tiles, int tiles_len, uint32_t *tile_used)

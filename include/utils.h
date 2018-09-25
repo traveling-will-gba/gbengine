@@ -5,6 +5,6 @@
 #include <stdarg.h>
 
 int print(const char *fmt, ...);
-void mem16cpy(void *dest, const void *src, size_t n);
+void mem16cpy(volatile void *dest, const void *src, size_t n);
 
 #endif

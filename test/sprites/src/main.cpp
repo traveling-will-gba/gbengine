@@ -32,7 +32,10 @@ int main(){
 
     set_background(menu_bgPal, menu_bgPalLen, menu_bgTiles, menu_bgTilesLen, menu_bgMap, menu_bgMapLen);
 
+  //  volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE+0x0000;
+
     REG_DISPCNT |= DCNT_OBJ | DCNT_OBJ_1D;
+//    *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
 
     memset(sprite_pal, 0, 512);
 //    set_sprite_pal(will_idlePal, will_idlePalLen);
@@ -48,23 +51,8 @@ int main(){
     texture.metadata.pb = texture.pallete_id;
     texture.metadata.x = 30;
     texture.metadata.y = 144;
-
-    uint32_t sprite_num = 8;
-    struct attr will_attr[8];
-
-    for (int i = 0; i < sprite_num; i++) {
-        uint32_t tile_used;
-        set_sprite(will_idleTiles, will_idleTilesLen, &tile_used);
-
-        will_attr[i].cm = 1;
-        will_attr[i].om = 0;
-        will_attr[i].sh = 0; // square
-        will_attr[i].sz = 1;
-        will_attr[i].tid = (tile_used + 12) * OFFSET_DOUBLED_8BPP;
-        will_attr[i].pb = 0;
-        will_attr[i].x = i * 30;
-        will_attr[i].y = 144;
-    }
+    
+//    print("%d", ((uint16_t *)sprite_mem)[0]);
 
     while(1) {
         for (int i=0; i < 8;i++){
