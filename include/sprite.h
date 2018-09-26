@@ -14,25 +14,6 @@ struct tile {
     uint8_t pixel[64];
 };
 
-struct attr {
-    uint8_t y;
-    uint8_t om : 2;
-    uint8_t gm : 2;  
-    uint8_t mos : 1;
-    uint8_t cm : 1;
-    uint8_t sh : 2;
-
-    uint16_t x : 9;
-    uint8_t aid : 5;
-    uint8_t sz : 2;
-
-    uint16_t tid : 10; 
-    uint8_t pr : 2;
-    uint8_t pb : 4;
-
-    uint16_t filler;
-};
-
 extern uint8_t *sprite_pal;
 extern volatile void *obj_attr_mem;
 extern volatile struct tile *sprite_mem;
@@ -51,6 +32,8 @@ enum bits_per_pixel {
 
 class Texture {
     private:
+        MemoryManager *memory_manager;
+
         const unsigned short *pallete;
         uint32_t pallete_len;
 
@@ -62,14 +45,14 @@ class Texture {
         uint32_t tiles_per_sprite;
         enum bits_per_pixel bpp;
 
-        bool set_sprite_pal() {
-            MemoryManager *memory_manager = MemoryManager::get_memory_manager();
+        struct attr *oam_entry;
 
+        bool set_sprite_pal() {
             uint8_t *teste = memory_manager->alloc_texture_pal(pallete_len);
             memcpy(teste, pallete, pallete_len);
 
             return true;
-        } 
+        }
 
         bool set_sprite() {
             bool sprite_av[512];
@@ -98,7 +81,7 @@ class Texture {
         }
 
         void update_metadata() {
-            mem16cpy(((volatile struct attr *)obj_attr_mem) + id, &metadata, sizeof(struct attr));
+            mem16cpy(oam_entry, &metadata, sizeof(struct attr));
         }
 
     public:
@@ -124,8 +107,11 @@ class Texture {
             // TODO: Use MemoryManager 
             this->id = 0;
 
+            memory_manager = MemoryManager::get_memory_manager();
+
             set_sprite_pal();
             set_sprite();
+            oam_entry = memory_manager->alloc_oam_entry();
 
             metadata.tid = tile_base * OFFSET_DOUBLED_8BPP;
         }
