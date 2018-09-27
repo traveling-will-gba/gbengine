@@ -10,10 +10,6 @@
 
 #define OFFSET_DOUBLED_8BPP 2
 
-struct tile {
-    uint8_t pixel[64];
-};
-
 extern uint8_t *sprite_pal;
 extern volatile void *obj_attr_mem;
 extern volatile struct tile *sprite_mem;
@@ -45,16 +41,24 @@ class Texture {
         uint32_t tiles_per_sprite;
         enum bits_per_pixel bpp;
 
-        struct attr *oam_entry;
+        volatile struct attr *oam_entry;
 
         bool set_sprite_pal() {
-            uint8_t *teste = memory_manager->alloc_texture_pal(pallete_len);
-            memcpy(teste, pallete, pallete_len);
+            volatile uint8_t *teste = memory_manager->alloc_texture_pal(pallete_len);
+            mem16cpy(teste, pallete, pallete_len);
 
             return true;
         }
 
         bool set_sprite() {
+            volatile struct tile *teste = memory_manager->alloc_texture(tiles_len);
+
+            mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
+            tile_base = (teste - memory_manager->base_texture_mem()) / sizeof(struct tile);
+            print("%d\n", tile_base);
+            //print("%lld\n", teste[0]);
+            return true;
+
             bool sprite_av[512];
             memset(sprite_av, false, sizeof(sprite_av));
             int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)

@@ -24,10 +24,10 @@ uint32_t max_sprite_pal_entry = 512;
 void init_sprite_attr_mem()
 {
     //FIXME
-    struct attr *sprite_attr = (struct attr *) malloc(sizeof(struct attr));
+    volatile struct attr *sprite_attr = (volatile struct attr *) malloc(sizeof(struct attr));
     sprite_attr->om = 2;
     for (int i = 0; i < 128; i++) {
-        mem16cpy(((struct attr *)obj_attr_mem) + i, sprite_attr, sizeof(struct attr));
+        mem16cpy(((volatile struct attr *)obj_attr_mem) + i, (struct attr *)sprite_attr, sizeof(struct attr));
     }
 }
 
