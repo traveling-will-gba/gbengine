@@ -11,6 +11,8 @@
 #include <string.h>
 #include <time.h>
 
+#include <vector>
+
 struct reg_tmxcnt {
     uint8_t fr : 2;
     uint8_t cm : 1;
@@ -42,22 +44,31 @@ int main(){
 
     init_sprite_attr_mem();
 
-    Texture *texture = new Texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen);
+    vector <Texture *> texture;
 
-    texture->metadata.cm = 1;
-    texture->metadata.om = 0;
-    texture->metadata.sh = 0; // square
-    texture->metadata.sz = 1;
-    texture->metadata.pb = texture->pallete_id;
-    texture->metadata.x = 30;
-    texture->metadata.y = 144;
+    for (int i = 0; i < 5; i++) {
+        Texture *t = new Texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen);
+
+        t->metadata.cm = 1;
+        t->metadata.om = 0;
+        t->metadata.sh = 0; // square
+        t->metadata.sz = 1;
+        t->metadata.pb = t->pallete_id;
+        t->metadata.x = 30 * i;
+        t->metadata.y = 144;
+
+        texture.push_back(t);
+    }
 
     while(1) {
-        for (int i=0; i < 8;i++){
+        for (int i=0; i < 8; i++){
             vsync();
         }
 
-        texture->update();
+        for (size_t i = 0; i < texture.size(); i++) {
+            texture[i]->update();
+            print("%d %lu\n", i, texture[i]->metadata.tid);
+        }
     }
 
     return 0;

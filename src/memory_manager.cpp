@@ -1,5 +1,7 @@
 #include "memory_manager.h"
 
+#include "utils.h"
+
 MemoryManager *MemoryManager::get_memory_manager() {
     static MemoryManager *instance = new MemoryManager();
 
@@ -63,21 +65,25 @@ volatile struct attr *MemoryManager::alloc_oam_entry() {
 volatile struct tile *MemoryManager::alloc_texture(size_t size) {
     const uint32_t total_texture_bytes = (16 * 1024 * 2);
 
-    for (size_t i = 0; i < total_texture_bytes; i += sizeof(struct tile)) {
+    for (size_t i = 0; i < total_texture_bytes;) {
         uint32_t tile_offset = i / sizeof(struct tile);
         volatile struct tile *address = (struct tile *)texture_mem + tile_offset;
 
         if (memory_map.find(address) == memory_map.end()) {
             uint32_t available_tile_bytes = (total_texture_bytes - i);
-
+            
             if (size > available_tile_bytes) {
                 return NULL;
             }
 
             memory_map[address] = size;
 
-            return texture_mem + tile_offset;
+            print("teste2 %p %p\n", texture_mem + tile_offset, address);
+
+            return address;
         }
+
+        i += memory_map[address];
     }
 
     return NULL;

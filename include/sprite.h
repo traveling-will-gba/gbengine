@@ -54,34 +54,8 @@ class Texture {
             volatile struct tile *teste = memory_manager->alloc_texture(tiles_len);
 
             mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
-            tile_base = (teste - memory_manager->base_texture_mem()) / sizeof(struct tile);
-            print("%d\n", tile_base);
-            //print("%lld\n", teste[0]);
+            tile_base = teste - memory_manager->base_texture_mem();
             return true;
-
-            bool sprite_av[512];
-            memset(sprite_av, false, sizeof(sprite_av));
-            int max_sprite_tiles = (16 * 1024 * 2) / 64; // 32 kb / 64 bytes (size of tile in 8bpp)
-            for (int i = 0; i < max_sprite_tiles; i++) {
-                if (sprite_av[i]) continue;
-                print("setei\n");
-
-                uint32_t available_tile_bytes = (max_sprite_tiles - i) * 64;
-
-                if (tiles_len > available_tile_bytes) {
-                    /* No more space */
-                    return false;
-                }
-
-                mem16cpy(sprite_mem + i, tiles, tiles_len);
-
-                memset(sprite_av + i, true, (tiles_len / 64) + (tiles_len % 64 != 0));
-                tile_base = i;
-
-                return true;
-            }
-
-            return false;
         }
 
         void update_metadata() {
@@ -108,16 +82,13 @@ class Texture {
             this->tiles = tiles;
             this->tiles_len = tiles_len;
 
-            // TODO: Use MemoryManager 
-            this->id = 0;
-
             memory_manager = MemoryManager::get_memory_manager();
 
             set_sprite_pal();
             set_sprite();
             oam_entry = memory_manager->alloc_oam_entry();
 
-            metadata.tid = tile_base * OFFSET_DOUBLED_8BPP;
+            metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
         }
 
         void update()
