@@ -1,4 +1,4 @@
-#include "sprite.h"
+#include "texture.h"
 #include "utils.h"
 
 #include <string.h>

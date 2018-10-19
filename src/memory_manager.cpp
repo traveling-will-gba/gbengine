@@ -29,20 +29,22 @@ volatile uint8_t *MemoryManager::alloc_background_pal(size_t size) {
 }
 
 volatile uint8_t *MemoryManager::alloc_texture_pal(size_t size) {
-    for (size_t i = 0; i < texture_pal_used.size(); i++) {
-        if (memory_map.find(texture_pal + i) != memory_map.end()) continue;
+    for (size_t i = 0; i < texture_pal_used.size();) {
+        if (memory_map.find(texture_pal + i) == memory_map.end()) {
+            uint32_t available_pal_len = texture_pal_used.size() - i;
 
-        uint32_t available_pal_len = texture_pal_used.size() - i;
+            if (size <= available_pal_len) {
+                for (size_t j = 0; j < size; j++) {
+                    texture_pal_used[i + j] = true;
+                }
 
-        if (size <= available_pal_len) {
-            for (size_t j = 0; j < size; j++) {
-                texture_pal_used[i + j] = true;
+                memory_map[texture_pal + i] = size;
+
+                return texture_pal + i;
             }
-
-            memory_map[texture_pal + i] = size;
-
-            return texture_pal + i;
         }
+
+        i += memory_map[texture_pal + i];
     }
 
     return NULL;
@@ -55,6 +57,7 @@ volatile struct attr *MemoryManager::alloc_oam_entry() {
     for (size_t i = 0; i < oam_entry_num; i++) {
         if (memory_map.find(oam_mem + i) == memory_map.end()) {
             memory_map[oam_mem + i] = oam_entry_size;
+            print("oam: %p\n", oam_mem + i);
             return oam_mem + i;
         }
     }
@@ -77,8 +80,6 @@ volatile struct tile *MemoryManager::alloc_texture(size_t size) {
             }
 
             memory_map[address] = size;
-
-            print("teste2 %p %p\n", texture_mem + tile_offset, address);
 
             return address;
         }

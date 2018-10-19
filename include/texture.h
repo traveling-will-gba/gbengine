@@ -1,5 +1,5 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef TEXTURE_H
+#define TEXTURE_H
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -44,8 +44,12 @@ class Texture {
         volatile struct attr *oam_entry;
 
         bool set_sprite_pal() {
-            volatile uint8_t *teste = memory_manager->alloc_texture_pal(pallete_len);
+            volatile uint8_t *teste = memory_manager->alloc_texture_pal(32);
             mem16cpy(teste, pallete, pallete_len);
+
+            this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
+
+            print("pal: %d\n", this->pallete_id);
 
             return true;
         }
@@ -55,6 +59,9 @@ class Texture {
 
             mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
             tile_base = teste - memory_manager->base_texture_mem();
+
+            print("tile: %d\n", tile_base);
+
             return true;
         }
 
@@ -64,7 +71,7 @@ class Texture {
 
     public:
         uint32_t id;
-        uint32_t tile_base;
+        uint16_t tile_base;
         struct attr metadata;
         uint32_t pallete_id;
 
@@ -84,18 +91,20 @@ class Texture {
 
             memory_manager = MemoryManager::get_memory_manager();
 
-            set_sprite_pal();
+//            set_sprite_pal();
             set_sprite();
             oam_entry = memory_manager->alloc_oam_entry();
 
             metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
+  //          metadata.pb = pallete_id;
         }
 
         void update()
         {
             uint32_t offset = (bpp == _4BPP) ? 1 : 2;
-            metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset);
             update_metadata();
+            metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset + tile_base);
+            metadata.tid = max(metadata.tid, tile_base);
         }
 };
 
