@@ -60,9 +60,13 @@ void Sound::init() {
 	REG_SND1FREQ= 0;
 }
 
-void Sound::load_from_file(string sound_path) {
-	notes = { 2, 5, 14, 2, 5, 14, 16, 17, 16, 17, 16, 12, 9, 9, 2, 5, 7, 9, 9, 2, 5, 7, 4 } ;
-	tempos = { 1, 1, 4, 1, 1, 4, 4, 1, 1, 1, 1, 1, 4, 2, 2, 1, 1, 6, 2, 2, 1, 1, 1 };
+void Sound::load_from_file(int notes_len, const int* notes, int tempos_len, const int* tempos)
+{
+    this->notes = notes;
+    this->notes_len = notes_len;
+    this->tempos = tempos;
+    this->tempos_len = tempos_len;
+
 }
 
 void Sound::play_note(int raw_note, int tempo) {
@@ -77,9 +81,7 @@ void Sound::play_note(int raw_note, int tempo) {
 }
 
 void Sound::play() {
-	int length = notes.size();
-
-	for(int i=0; i<length; i++) {
+	for(int i=0; i < notes_len; i++) {
 		play_note(notes[i], tempos[i]);
 		print("note %d tempo %d\n", notes[i], tempos[i]);
 	}

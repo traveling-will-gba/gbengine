@@ -8,7 +8,8 @@ using namespace std;
 
 class Sound {
     private:
-        vector<int> notes, tempos;
+        int notes_len, tempos_len;
+        const int *notes, *tempos;
 
         void play_note(int raw_note, int tempo);
 
@@ -16,7 +17,7 @@ class Sound {
         Sound();
 
         void init();
-        void load_from_file(string sound_path);
+        void load_from_file(int notes_len, const int* notes, int tempos_len, const int* tempos);
         void play();
 };
 
