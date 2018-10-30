@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "base_types.h"
 
+void vsync();
 void reset_dispcnt();
 void set_video_mode(int video_mode);
 void enable_background(int background);

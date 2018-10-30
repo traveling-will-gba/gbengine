@@ -7,6 +7,11 @@
 
 volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE+0x0000;
 
+void vsync() {
+    while(REG_VCOUNT >= 160);
+    while(REG_VCOUNT < 160);
+}
+
 void reset_dispcnt() {
 	*reg_dispcnt = 0;
 }
@@ -88,6 +93,11 @@ struct screenblock se_mem[4][8];
 bool se[4][8];
 
 bool set_screenblock(const void *map, uint32_t map_len, uint32_t *sb_used) {
+    for(int i=0; i<4; i++){
+        if(cb[i])
+            print("cb %d used\n", i);
+    }
+
     for (int i = 0; i < cb_num;) {
         if (cb[i]) {
             if (cb_mem[i].offset < cb_mem[i + 1].raw) {
@@ -108,13 +118,15 @@ bool set_screenblock(const void *map, uint32_t map_len, uint32_t *sb_used) {
         break;
     }
 
-    for (int i = se_num - 1; i >= 0; i--) {
+    /* FIXME: This -8 should not be here. It's here just to force the se to be right */
+    for (int i = se_num - 8; i >= 0; i--) {
         uint32_t cur_cb = i / 8;
         if (!se[cur_cb][i % 8]) {
             memcpy(se_mem[cur_cb][i % 8].offset, map, map_len);
             se_mem[cur_cb][i % 8].offset += map_len;
             se[cur_cb][i % 8] = true;
             *sb_used = i;
+            print("sb used %d, cb %d\n", i, i/8);
             return true;
         }
     }
