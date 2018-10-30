@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "sound.h"
 
-#include "fase1.h"
+#include "fase5.h"
 
 int main(){
     reset_dispcnt();
@@ -13,7 +13,7 @@ int main(){
 
     Sound *s = new Sound();
 
-    s->load_from_file(fase1_notes_len, fase1_notes, fase1_tempos_len, fase1_tempos);
+    s->load_from_file(fase5_notes_len, fase5_notes, fase5_tempos_len, fase5_tempos);
     s->play();
 
     return 0;

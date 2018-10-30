@@ -82,7 +82,7 @@ void Sound::play_note(int raw_note, int tempo) {
 
 void Sound::play() {
 	for(int i=0; i < notes_len; i++) {
-		play_note(notes[i], tempos[i]);
 		print("note %d tempo %d\n", notes[i], tempos[i]);
+		play_note(notes[i], tempos[i]);
 	}
 }
