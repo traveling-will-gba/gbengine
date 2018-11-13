@@ -55,25 +55,6 @@ class Texture {
 
         Texture() {}
 
-        Texture(Texture *texture) {
-            this->pallete = texture->pallete;
-            this->pallete_len = texture->pallete_len;
-            this->pallete_id = texture->pallete_id;
-            this->bpp = texture->bpp;
-            this->num_sprites = texture->num_sprites;
-            this->num_tiles = texture->num_tiles;
-            this->tiles_per_sprite = texture->tiles_per_sprite;
-            this->tiles = texture->tiles;
-            this->tiles_len = texture->tiles_len;
-
-            memory_manager = MemoryManager::get_memory_manager();
-
-            oam_entry = memory_manager->alloc_oam_entry();
-
-            metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
-            metadata.pb = pallete_id;
-        }
-
         Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
                 const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP) {
             this->pallete = pallete;
@@ -96,7 +77,28 @@ class Texture {
             metadata.pb = pallete_id;
         }
 
+        Texture(const Texture *texture) {
+            this->pallete = texture->pallete;
+            this->pallete_len = texture->pallete_len;
+            this->pallete_id = texture->pallete_id;
+            this->bpp = texture->bpp;
+            this->num_sprites = texture->num_sprites;
+            this->num_tiles = texture->num_tiles;
+            this->tiles_per_sprite = texture->tiles_per_sprite;
+            this->tiles = texture->tiles;
+            this->tiles_len = texture->tiles_len;
+            this->tile_base = texture->tile_base;
+
+            memory_manager = MemoryManager::get_memory_manager();
+
+            oam_entry = memory_manager->alloc_oam_entry();
+
+            metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
+            metadata.pb = pallete_id;
+        }
+
         void update(); 
+        void set_priority(int priority);
 };
 
 #endif

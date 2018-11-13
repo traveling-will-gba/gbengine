@@ -11,7 +11,7 @@ class Rectangle {
         double h() const;
         double area() const;
 
-        Rectangle intersection(const Rectangle& r) const;
+        bool intersection(const Rectangle& r) const;
 
     private:
         double m_x; // coordinate x of the rectangle's CENTER

@@ -24,11 +24,12 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
     auto bbA = a->bounding_box();
     auto bbB = b->bounding_box();
 
-    auto r = bbA.intersection(bbB);
+    /*auto r = bbA.intersection(bbB);
 
     print("Area: %f\n", r.area());
 
-    return r.area() > 0;
+    return r.area() > 0;*/
+    return bbA.intersection(bbB);
 }
 
 void Physics::do_collisions() {
@@ -36,8 +37,8 @@ void Physics::do_collisions() {
         if (obj == target) continue;
 
         if (check_collision(target, obj)) {
-            target->on_collision();
-            obj->on_collision();
+            target->on_collision(obj);
+            obj->on_collision(target);
         }
     }
 }

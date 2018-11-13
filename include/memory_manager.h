@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -38,7 +39,7 @@ class MemoryManager {
 
         volatile struct attr *oam_mem;
 
-        map <volatile void *, uint32_t> memory_map;
+        unordered_map <volatile void *, uint32_t> memory_map;
 
         bitset<512> background_pal_used;
         bitset<512> texture_pal_used;

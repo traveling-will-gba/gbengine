@@ -162,3 +162,62 @@ void set_background(const void *pal, int pal_len, const void *tiles, int tiles_l
 
 	REG_BG2CNT = BG_CBB(cb_used) | BG_SBB(sb_used) | BG_8BPP | BG_REG_64x32;
 }
+
+void set_background0(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len) {
+    pal_bg_mem.raw = pal_bg_mem.offset = (void *) 0x05000000;
+
+    uint32_t available_pal_len = available_len(pal_bg_mem.raw, pal_bg_mem.offset);
+    if (pal_len > available_pal_len) {
+        print("%d\n", available_pal_len);
+        print("No more space for pallete\n");
+    }
+    memcpy(pal_bg_mem.offset, pal, pal_len);
+    pal_bg_mem.offset += pal_len;
+
+    uint32_t cb_used = 0, sb_used = 0;
+
+    for (int i = 0; i < 4; i++) {
+        cb_mem[i].raw = cb_mem[i].offset = (void *)0x06000000 + i * 16 * 1024;
+    }
+
+     for (int i = 0; i < 32; i++) {
+        se_mem[i / 8][i % 8].raw = se_mem[i / 8][i % 8].offset = (void *)0x06000000 + i * 2 * 1024; 
+    }
+
+    set_charblock(tiles, tiles_len, &cb_used);
+    set_screenblock(map, map_len, &sb_used);
+
+	REG_BG0CNT = BG_CBB(cb_used) | BG_SBB(sb_used) | BG_8BPP | BG_REG_64x32;
+}
+
+void bla(const void *pal1, const void *tiles1, int tiles1_len, const void *map1, int map1_len,
+         const void *pal2, const void *tiles2, int tiles2_len, const void *map2, int map2_len) {
+    pal_bg_mem.raw = pal_bg_mem.offset = (void *) 0x05000000;
+    for (int i = 0; i < 4; i++) {
+        cb_mem[i].raw = cb_mem[i].offset = (void *)0x06000000 + i * 16 * 1024;
+    }
+
+     for (int i = 0; i < 32; i++) {
+        se_mem[i / 8][i % 8].raw = se_mem[i / 8][i % 8].offset = (void *)0x06000000 + i * 2 * 1024; 
+    }
+
+    memcpy((char *)pal_bg_mem.offset, pal1, 32);
+    memcpy(((char *)pal_bg_mem.offset) + 32, pal2, 32);
+
+    uint32_t bg1_cb_used = 0;
+    uint32_t bg2_cb_used = 2;
+
+    memcpy(cb_mem[bg1_cb_used].offset, tiles1, tiles1_len);
+    memcpy(cb_mem[bg2_cb_used].offset, tiles2, tiles2_len);
+
+    uint32_t bg1_se_used = 11;
+    uint32_t bg2_se_used = 29;
+
+    memcpy(se_mem[1][3].offset, map1, map1_len);
+    memcpy(se_mem[3][5].offset, map2, map2_len);
+
+	REG_BG0CNT = BG_CBB(bg1_cb_used) | BG_SBB(bg1_se_used) | BG_4BPP | BG_REG_64x32;
+	REG_BG1CNT = BG_CBB(bg2_cb_used) | BG_SBB(bg2_se_used) | BG_4BPP | BG_REG_64x32;
+
+    REG_BG1CNT |= (1<<5);
+}

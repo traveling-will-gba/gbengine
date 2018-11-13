@@ -57,7 +57,7 @@ volatile struct attr *MemoryManager::alloc_oam_entry() {
     for (size_t i = 0; i < oam_entry_num; i++) {
         if (memory_map.find(oam_mem + i) == memory_map.end()) {
             memory_map[oam_mem + i] = oam_entry_size;
-            print("oam: %p\n", oam_mem + i);
+            //print("oam: %p\n", oam_mem + i);
             return oam_mem + i;
         }
     }

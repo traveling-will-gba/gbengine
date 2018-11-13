@@ -23,7 +23,7 @@ bool Texture::set_sprite_pal() {
 
     this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
 
-    print("pal: %d\n", this->pallete_id);
+    //print("pal: %d\n", this->pallete_id);
 
     return true;
 }
@@ -34,7 +34,7 @@ bool Texture::set_sprite() {
     mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
     tile_base = teste - memory_manager->base_texture_mem();
 
-    print("tile: %d\n", tile_base);
+    //print("tile: %d\n", tile_base);
 
     return true;
 }
@@ -48,4 +48,8 @@ void Texture::update() {
     update_metadata();
     metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset + tile_base);
     metadata.tid = max(metadata.tid, tile_base);
+}
+
+void Texture::set_priority(int priority) {
+    metadata.pr = priority;
 }

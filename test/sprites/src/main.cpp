@@ -52,8 +52,6 @@ int main(){
 
     memset(sprite_pal, 0, 512);
 
-    init_sprite_attr_mem();
-
     TWWill *will = new TWWill(0, 144);
 
     TWWill *will2 = new TWWill(17, 144);
@@ -137,6 +135,10 @@ int main(){
         platform_middle->update();
     }
 */
+    reset_dispcnt();
+
+    init_sprite_attr_mem();
+
     Game game;
     game.run();
 

@@ -11,19 +11,24 @@
 #include "texture.h"
 
 class TWWill : public GameObject, public Collidable {
+    public:
+        enum State { RUNNING, JUMPING, SLIDING, FALLING, GAME_OVER, PUNCHING, STOPPED, REVERSE_RUNNING };
+
+        TWWill(int x, int y);
+        void update_self();
+        void draw_self();
+        void on_collision(const Collidable *who);
+        const Rectangle& bounding_box() const;
+
     private:
-        uint32_t m_x, m_y;
+        int m_x, m_y;
+        int m_x_speed, m_y_speed;
         vector <Texture *> m_texture;
         Rectangle m_bounding_box;
 
-    public:
-        enum { RUNNING, JUMPING, SLIDING, FALLING, GAME_OVER, PUNCHING, STOPPED, REVERSE_RUNNING };
+        State m_state;
 
-        TWWill(uint32_t x, uint32_t y);
-        void update_self();
-        void draw_self();
-        void on_collision();
-        const Rectangle& bounding_box() const;
+        bool m_colliding;
 };
 
 #endif

@@ -7,7 +7,7 @@
 
 class Level : public GameObject {
     protected: 
-        uint32_t m_x, m_y;
+        int m_x, m_y;
         bool m_done;
 };
 
