@@ -18,7 +18,7 @@ void init_sprite_attr_mem()
 }
 
 bool Texture::set_sprite_pal() {
-    volatile uint8_t *teste = memory_manager->alloc_texture_pal(32);
+    volatile uint8_t *teste = memory_manager->alloc_texture_palette(32);
     mem16cpy(teste, pallete, 32);
 
     this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
