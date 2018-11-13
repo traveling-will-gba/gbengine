@@ -218,6 +218,4 @@ void bla(const void *pal1, const void *tiles1, int tiles1_len, const void *map1,
 
 	REG_BG0CNT = BG_CBB(bg1_cb_used) | BG_SBB(bg1_se_used) | BG_4BPP | BG_REG_64x32;
 	REG_BG1CNT = BG_CBB(bg2_cb_used) | BG_SBB(bg2_se_used) | BG_4BPP | BG_REG_64x32;
-
-    REG_BG1CNT |= (1<<5);
 }
