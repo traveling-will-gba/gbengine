@@ -13,6 +13,9 @@
 #define REG_BG0HOFS *(vu16*)(REG_BASE+0x0010)
 #define REG_BG0VOFS *(vu16*)(REG_BASE+0x0012)
 
+#define REG_BG1HOFS *(vu16*)(REG_BASE+0x0014)
+#define REG_BG1VOFS *(vu16*)(REG_BASE+0x0016)
+
 TWLevel::TWLevel() {
     reset_dispcnt();
     set_video_mode(0);
@@ -33,6 +36,8 @@ TWLevel::TWLevel() {
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
 
     m_x = m_y = 0;
+    mx1 = 3;
+    my1 = 0;
     m_done = false;
 
     init_sprite_attr_mem();
@@ -88,6 +93,9 @@ void TWLevel::update_self() {
 
     REG_BG0HOFS = m_x;
     m_x += 2;
+
+    REG_BG1HOFS = mx1;
+    mx1 += 1;
 }
 
 void TWLevel::draw_self() {
