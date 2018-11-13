@@ -32,6 +32,7 @@ class TWLevel : public Level {
         int platform_idx;
 
         int mx1, my1;
+        int mx2, my2;
 };
 
 #endif

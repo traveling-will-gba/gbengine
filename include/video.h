@@ -6,7 +6,8 @@
 #include "base_types.h"
 
 
-void bla(const void *pal1, const void *tiles1, int tiles1_len, const void *map1, int map1_len,
+void bla(const void *pal0, const void *tiles0, int tiles0_len, const void *map0, int map0_len,
+         const void *pal1, const void *tiles1, int tiles1_len, const void *map1, int map1_len,
          const void *pal2, const void *tiles2, int tiles2_len, const void *map2, int map2_len);
 void vsync();
 void reset_dispcnt();
@@ -75,6 +76,7 @@ typedef TILE		CHARBLOCK[512];
 
 #define BG_4BPP					 0	//!< 4bpp (16 color) bg (no effect on affine bg)
 #define BG_8BPP				0x0080	//!< 8bpp (256 color) bg (no effect on affine bg)
+#define BG_REG_32x32             0
 #define BG_REG_64x32		0x4000	//!< reg bg, 64x32 (512x256 px)
 
 #define BG_CBB_MASK		0x000C

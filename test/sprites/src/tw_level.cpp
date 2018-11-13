@@ -3,6 +3,9 @@
 #include "background_0.h"
 #include "background_1.h"
 #include "background_2.h"
+#include "b0.h"
+#include "b1.h"
+#include "b2.h"
 #include "tw_will.h"
 #include "physics.h"
 #include "tw_platform.h"
@@ -21,11 +24,11 @@ TWLevel::TWLevel() {
     set_video_mode(0);
     enable_background(0);
     enable_background(1);
-//    enable_background(2);
+    enable_background(2);
 
-
-    bla(background_1Pal, background_1Tiles, background_1TilesLen, background_1Map, background_1MapLen,
-        background_2Pal, background_2Tiles, background_2TilesLen, background_2Map, background_2MapLen);
+    bla(b2Pal, b2Tiles, b2TilesLen, b2Map, b2MapLen,
+        b1Pal, b1Tiles, b1TilesLen, b1Map, b1MapLen,
+        b0Pal, b0Tiles, b0TilesLen, b0Map, b0MapLen);
 
 //    set_background0(background_1Pal, background_1PalLen, background_1Tiles, background_1TilesLen, background_1Map, background_1MapLen);
   //  set_background(background_2Pal, background_2PalLen, background_2Tiles, background_2TilesLen, background_2Map, background_2MapLen);
@@ -38,11 +41,12 @@ TWLevel::TWLevel() {
     m_x = m_y = 0;
     mx1 = 3;
     my1 = 0;
+    mx2 = my2 = 0;
     m_done = false;
 
     init_sprite_attr_mem();
     
-    TWWill *will = new TWWill(10, 131);
+    TWWill *will = new TWWill(10, 128);
 
     platform_idx = 0;
     n_platforms = 90;
@@ -92,10 +96,13 @@ void TWLevel::update_self() {
     }*/
 
     REG_BG0HOFS = m_x;
-    m_x += 2;
+    m_x += 3;
 
     REG_BG1HOFS = mx1;
-    mx1 += 1;
+    mx1 += 2;
+
+    REG_BG2HOFS = mx2;
+    mx2 += 1;
 }
 
 void TWLevel::draw_self() {

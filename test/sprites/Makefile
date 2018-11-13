@@ -163,6 +163,9 @@ $(BUILD):
 
 all	: $(BUILD)
 
+run:
+	vbam sprites.gba
+
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
