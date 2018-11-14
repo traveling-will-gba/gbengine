@@ -1,8 +1,5 @@
 #include "tw_level.h"
 #include "video.h"
-#include "background_0.h"
-#include "background_1.h"
-#include "background_2.h"
 #include "b0.h"
 #include "b1.h"
 #include "b2.h"

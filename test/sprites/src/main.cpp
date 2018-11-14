@@ -3,7 +3,6 @@
 #include "texture.h"
 #include "utils.h"
 
-#include "background_1.h"
 #include "menu_bg.h"
 #include "will_idle.h"
 #include "collectable.h"
