@@ -41,8 +41,8 @@ TWLevel::TWLevel() {
     mx2 = my2 = 0;
     m_done = false;
 
-    init_sprite_attr_mem();
-    
+    Texture::init_sprite_attr_mem();
+
     TWWill *will = new TWWill(10, 128);
 
     platform_idx = 0;
@@ -73,7 +73,7 @@ void TWLevel::update_self() {
 //    print("before: %d\n", platform_idx);
 //    while (platform_idx * 8 - m_x + 8 < 0) platform_idx++;
 //    print("after: %d\n", platform_idx);
-    
+
     bool flag = false;
     for (int i = platform_idx, c = 0; i < platform_idx + 30; i++, c++) {
         //if (not flag) print("idx: %d, m_x: %d\n", i, m_x);

@@ -61,13 +61,14 @@ class MemoryManager {
 
       public:
         static MemoryManager *get_memory_manager();
+        static MemoryManager *instance;
 
         // palette allocation
         volatile uint8_t *alloc_background_palette(size_t size);
         volatile uint8_t *alloc_texture_palette(size_t size);
 
-        void free_background_pal(volatile uint8_t *background_pal_ptr);
-        void free_texture_pal(volatile uint8_t *texture_pal_ptr);
+        void free_background_palette(volatile uint8_t *background_pal_ptr);
+        void free_texture_palette(volatile uint8_t *texture_pal_ptr);
 
 
         volatile struct attr *alloc_oam_entry();

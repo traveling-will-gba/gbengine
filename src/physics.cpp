@@ -1,10 +1,13 @@
 #include "physics.h"
 #include "utils.h"
 
+Physics* Physics::instance;
 list <Collidable *> Physics::objects;
 
 Physics *Physics::get_physics() {
-    static Physics *instance = new Physics();
+    if (!instance) {
+        instance = new Physics();
+    }
 
     return instance;
 }

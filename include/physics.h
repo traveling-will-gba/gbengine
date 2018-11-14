@@ -10,6 +10,7 @@ using std::list;
 class Physics {
     public:
         static Physics *get_physics();
+        static Physics *instance;
 
         void register_object(Collidable *);
         void unregister_object(Collidable *);

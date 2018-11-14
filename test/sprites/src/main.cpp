@@ -136,7 +136,7 @@ int main(){
 */
     reset_dispcnt();
 
-    init_sprite_attr_mem();
+    Texture::init_sprite_attr_mem();
 
     Game game;
     game.run();
