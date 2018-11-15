@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+// pass this to memory manager
 uint8_t* Texture::sprite_pal;
 volatile void* Texture::obj_attr_mem;
 

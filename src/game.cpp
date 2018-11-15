@@ -15,11 +15,13 @@
 
 #include "video.h"
 #include "input.h"
+#include "utils.h"
 
 void Game::run() {
+    print("testese tse t ests et ");
     //FIXME: THE ENGINE SHOULD NOT CALL THE GAME
     vector <TWPlatform *> platforms;
-    
+
     srand(10);
 
     /*for (int i = 0; i < 30; i++) {
@@ -34,7 +36,7 @@ void Game::run() {
 
         platforms.push_back(platform);
     }*/
-    
+
     TWLevel level;
 
     /*

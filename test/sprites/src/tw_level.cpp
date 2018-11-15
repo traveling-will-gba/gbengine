@@ -6,6 +6,8 @@
 #include "tw_will.h"
 #include "physics.h"
 #include "tw_platform.h"
+#include "background.h"
+#include "utils.h"
 
 #define REG_BG2HOFS *(vu16*)(REG_BASE+0x0018)
 #define REG_BG2VOFS *(vu16*)(REG_BASE+0x001A)
@@ -17,15 +19,20 @@
 #define REG_BG1VOFS *(vu16*)(REG_BASE+0x0016)
 
 TWLevel::TWLevel() {
+    print("teste");
     reset_dispcnt();
     set_video_mode(0);
     enable_background(0);
-    enable_background(1);
-    enable_background(2);
+    // enable_background(1);
+    // enable_background(2);
 
-    bla(b2Pal, b2Tiles, b2TilesLen, b2Map, b2MapLen,
-        b1Pal, b1Tiles, b1TilesLen, b1Map, b1MapLen,
-        b0Pal, b0Tiles, b0TilesLen, b0Map, b0MapLen);
+    Background *b2 = new Background(b2Pal, b2PalLen, b2Tiles, b2TilesLen, b2Map, b2MapLen, 0);
+
+    print("background cb_used = %d\n", b2->tiles_cb_used);
+
+    // bla(b2Pal, b2Tiles, b2TilesLen, b2Map, b2MapLen,
+    //     b1Pal, b1Tiles, b1TilesLen, b1Map, b1MapLen,
+    //     b0Pal, b0Tiles, b0TilesLen, b0Map, b0MapLen);
 
 //    set_background0(background_1Pal, background_1PalLen, background_1Tiles, background_1TilesLen, background_1Map, background_1MapLen);
   //  set_background(background_2Pal, background_2PalLen, background_2Tiles, background_2TilesLen, background_2Map, background_2MapLen);

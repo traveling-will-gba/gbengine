@@ -97,6 +97,95 @@ volatile struct tile* MemoryManager::alloc_texture(size_t size) {
     return NULL;
 }
 
+volatile void *MemoryManager::alloc_background_tiles(size_t tile_size, int *cb_used) {
+    const int charblock_size = 16 * 1024; // one charblock has 16Kb
+    const int screenblock_size = 2 * 1024; // one charblock has 16Kb
+    const int charblock_num = 4; // there are 4 charblocks for backgrounds in VRAM
+    const int screenblock_num = 32;
+    const int screenblocks_per_charblock = 16 / 2;
+
+    for(int i=0; i < charblock_num; i++) {
+        if (charblock_used[i]) {
+            continue;
+        }
+
+        int free_charblocks = charblock_num - i; // number of free charblocks including current one
+
+        // there is not enough space to alloc these tiles
+        if (tile_size > free_charblocks * charblock_size) {
+            return NULL;
+        }
+
+        int charblocks_used = (tile_size / charblock_size) + (tile_size % charblock_size ? 1 : 0);
+        int cur_charblock = i;
+
+        while(charblocks_used--) {
+            charblock_used[cur_charblock++] = true;
+        }
+
+        int screenblock_entries_used = (tile_size / screenblock_size) + (tile_size  % charblock_size ? 1 : 0);
+        int cur_screenblock = i * screenblocks_per_charblock;
+
+        while (screenblock_entries_used--) {
+            screenblock_used[cur_screenblock++] = true;
+        }
+
+        // FIXME fix this
+        *cb_used = 29;
+
+        return charblock_mem[i].offset;
+    }
+
+    return NULL;
+}
+
+volatile void *MemoryManager::alloc_background_map(size_t map_size) {
+    const int screenblock_size = 2 * 1024; // one screenblock has 2Kb
+    const int screenblock_num = 32; // there are 32 screenblocks in background VRAM
+    const int charblock_num = 4;
+    const int screenblocks_per_charblock = 16 / 2;
+
+    const int screenblocks_used = (map_size / screenblock_size) + (map_size % screenblock_size ? 1 : 0);
+
+    for (int i=0; i<screenblock_num; i++) {
+        // print("i = %d\n", i);
+        if (screenblock_used[i] == false) {
+            int cur_screenblock = i;
+            bool enough_space = true;
+            int used = screenblocks_used;
+
+            while(used--) {
+                // print("used = %d\n", used);
+                if (screenblock_used[cur_screenblock++] == false) {
+                    enough_space = false;
+                    break;
+                }
+            }
+
+            if (enough_space) {
+                int used = screenblocks_used;
+                int cur_screenblock = i;
+
+                while (used--)
+                {
+                    int cur_charblock = (used / screenblocks_per_charblock + 1);
+                    charblock_used[cur_charblock] = true;
+                    screenblock_used[cur_screenblock++] = true;
+                }
+
+                int start_charblock = (i / 8 + 1);
+                int relative_screenblock = i - (start_charblock - 1) * screenblocks_per_charblock;
+
+                print("char used: %d screen used: %d\n", start_charblock, relative_screenblock);
+
+                return screenblock_mem[start_charblock][relative_screenblock].offset;
+            }
+        }
+    }
+
+    return NULL;
+}
+
 void MemoryManager::free_texture(volatile struct tile *texture_ptr)
 {
     memory_map.erase((struct tile *)texture_ptr);

@@ -50,12 +50,6 @@ typedef TILE		CHARBLOCK[512];
 #define REG_DISPSTAT		*(vu16*)(REG_BASE+0x0004)	// display interupt status
 #define REG_VCOUNT			*(vu16*)(REG_BASE+0x0006)	// vertical count
 
-// --- background ---
-#define REG_BG0CNT			*(vu16*)(REG_BASE+0x0008)	// bg 0-3 control
-#define REG_BG1CNT			*(vu16*)(REG_BASE+0x000A)
-#define REG_BG2CNT			*(vu16*)(REG_BASE+0x000C)
-#define REG_BG3CNT			*(vu16*)(REG_BASE+0x000E)
-
 // --- REG_DISPCNT ---
 
 #define DCNT_MODE0				 0	//!< Mode 0; bg 0-4: reg
@@ -74,17 +68,5 @@ typedef TILE		CHARBLOCK[512];
 
 // --- REG_BGxCNT ---
 
-#define BG_4BPP					 0	//!< 4bpp (16 color) bg (no effect on affine bg)
-#define BG_8BPP				0x0080	//!< 8bpp (256 color) bg (no effect on affine bg)
-#define BG_REG_32x32             0
-#define BG_REG_64x32		0x4000	//!< reg bg, 64x32 (512x256 px)
-
-#define BG_CBB_MASK		0x000C
-#define BG_CBB_SHIFT		 2
-#define BG_CBB(n)		((n)<<BG_CBB_SHIFT)
-
-#define BG_SBB_MASK		0x1F00
-#define BG_SBB_SHIFT		 8
-#define BG_SBB(n)		((n)<<BG_SBB_SHIFT)
 
 #endif
