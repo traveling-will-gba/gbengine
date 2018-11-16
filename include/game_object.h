@@ -2,6 +2,7 @@
 #define GAME_OBJECT_H
 
 #include <vector>
+#include <stdint.h>
 
 using std::vector;
 
@@ -13,11 +14,11 @@ class GameObject {
 
         GameObject *parent() const { return m_parent; }
 
-        virtual void update_self() = 0;
+        virtual void update_self(uint64_t dt) = 0;
         virtual void draw_self() = 0;
 
     public:
-        void update();
+        void update(uint64_t dt);
         void draw();
         
         void set_parent(GameObject *obj) { m_parent = obj; }

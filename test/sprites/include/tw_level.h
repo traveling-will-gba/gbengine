@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include <queue>
 
 using std::vector;
 
@@ -13,21 +14,14 @@ class TWLevel : public Level {
     public:
         TWLevel();
 
-        void update_self();
+        void update_self(uint64_t dt);
         void draw_self();
     private:
         uint32_t n_platforms;
         TWPlatform *platforms[100];
-        int platform_height[110] = {147, 147, 147, 147, 147, 147, 147, 147, 147, 147,
-                                    118, 118, 118, 118, 118, 130, 130, 130, 130, 130,
-                                    118, 118, 118, 118, 118, 122, 122, 122, 122, 122,
-                                    122, 130, 130, 130, 130, 118, 118, 118, 118, 118,
-                                    118, 118, 118, 118, 118, 130, 130, 130, 130, 130,
-                                    118, 118, 118, 118, 118, 130, 130, 130, 130, 130,
-                                    118, 118, 118, 118, 118, 130, 130, 130, 130, 130,
-                                    147, 147, 147, 147, 147, 147, 147, 147, 147, 147,
-                                    0, 0, 0, 0, 0, 147, 147, 147, 147, 147,
-                                    147, 147, 147, 147, 147, 147, 147, 147, 147, 147};
+
+        queue <TWPlatform *> q;
+        int platform_height[10100];
 
         int platform_idx;
 

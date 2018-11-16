@@ -12,7 +12,7 @@ class TWPlatform : public GameObject, public Collidable {
         TWPlatform(int x, int y);
         TWPlatform(int x, int y, const Texture *texture);
 
-        void update_self();
+        void update_self(uint64_t dt);
         void draw_self();
         void on_collision(const Collidable *who);
         const Rectangle& bounding_box() const;

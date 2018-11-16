@@ -97,7 +97,7 @@ class Texture {
             metadata.pb = pallete_id;
         }
 
-        void update(); 
+        void update(uint64_t dt); 
         void set_priority(int priority);
 };
 

@@ -1,11 +1,11 @@
 #include "game_object.h"
 
-void GameObject::update() {
+void GameObject::update(uint64_t dt) {
     for (auto child : m_children) {
-        child->update();
+        child->update(dt);
     }
 
-    update_self();
+    update_self(dt);
 }
 
 void GameObject::draw() {

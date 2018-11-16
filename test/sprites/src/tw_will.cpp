@@ -34,9 +34,9 @@ TWWill::TWWill(int x, int y) {
     Physics::get_physics()->register_object(this);
 }
 
-void TWWill::update_self() {
+void TWWill::update_self(uint64_t dt) {
     m_x_speed = 0;
-    m_texture[RUNNING]->update(); 
+    m_texture[RUNNING]->update(dt); 
     /*
 
     if (m_state == RUNNING) {

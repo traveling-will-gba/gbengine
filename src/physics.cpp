@@ -10,7 +10,7 @@ Physics *Physics::get_physics() {
 }
 
 void Physics::register_object(Collidable *c) {
-    objects.push_back(c);
+    objects.emplace_back(c);
 }
 
 void Physics::unregister_object(Collidable *c) {

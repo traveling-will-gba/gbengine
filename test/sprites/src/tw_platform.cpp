@@ -21,11 +21,6 @@ TWPlatform::TWPlatform(int x, int y) {
 
     m_bounding_box = Rectangle(x + 4, y + 16, 8, 32);
 
-    //print("pb: %d\n", m_texture->metadata.pb);
-    //print("tid: %d\n", m_texture->metadata.tid);
-
-//    print("%d %d\n", m_x, m_y);
-
     Physics::get_physics()->register_object(this);
 }
 
@@ -45,11 +40,6 @@ TWPlatform::TWPlatform(int x, int y, const Texture *texture) {
 
     m_bounding_box = Rectangle(m_x + 4, m_y + 16, 8, 32);
 
-//    print("%d %d\n", m_x, m_y);
-
-    //print("pb: %d\n", m_texture->metadata.pb);
-    //print("tid: %d\n", m_texture->metadata.tid);
-
     Physics::get_physics()->register_object(this);
 }
 
@@ -57,9 +47,9 @@ void TWPlatform::update_bounding_box() {
     m_bounding_box = Rectangle(m_x + 4, m_y + 16, 8, 32);
 }
 
-void TWPlatform::update_self() {
+void TWPlatform::update_self(uint64_t dt) {
     m_texture->metadata.x = m_x;
-    m_texture->update(); 
+    m_texture->update(dt); 
 }
 
 void TWPlatform::draw_self() {

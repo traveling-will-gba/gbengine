@@ -43,11 +43,13 @@ void Texture::update_metadata() {
     mem16cpy(oam_entry, &metadata, sizeof(struct attr));
 }
 
-void Texture::update() {
-    uint32_t offset = (bpp == _4BPP) ? 1 : 2;
-    update_metadata();
-    metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset + tile_base);
-    metadata.tid = max(metadata.tid, tile_base);
+void Texture::update(uint64_t dt) {
+    if (dt % 4 == 0) {
+        uint32_t offset = (bpp == _4BPP) ? 1 : 2;
+        update_metadata();
+        metadata.tid = (metadata.tid + tiles_per_sprite * offset) % (num_tiles * offset + tile_base);
+        metadata.tid = max(metadata.tid, tile_base);
+    }
 }
 
 void Texture::set_priority(int priority) {
