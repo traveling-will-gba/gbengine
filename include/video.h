@@ -5,17 +5,10 @@
 #include <stdio.h>
 #include "base_types.h"
 
-
-void bla(const void *pal0, const void *tiles0, int tiles0_len, const void *map0, int map0_len,
-         const void *pal1, const void *tiles1, int tiles1_len, const void *map1, int map1_len,
-         const void *pal2, const void *tiles2, int tiles2_len, const void *map2, int map2_len);
 void vsync();
 void reset_dispcnt();
 void set_video_mode(int video_mode);
 void enable_background(int background);
-void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
-void set_background0(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
-uint32_t available_len(void *raw, void *offset);
 
 // --- secondary typedefs ---
 
@@ -32,11 +25,6 @@ typedef TILE		CHARBLOCK[512];
 
 #define PAL_SIZE	0x00400
 #define VRAM_SIZE	0x18000
-
-//#define pal_bg_mem		((COLOR*)MEM_PAL)
-
-#define tile_mem		( (CHARBLOCK*)MEM_VRAM)
-//#define se_mem			((SCREENBLOCK*)MEM_VRAM)
 
 // --- sizes ---
 #define SCREEN_WIDTH	240
@@ -65,8 +53,5 @@ typedef TILE		CHARBLOCK[512];
 
 #define DCNT_OBJ_1D			0x0040	//!< OBJ-VRAM as array
 #define DCNT_OBJ			0x1000	//!< Enable objects
-
-// --- REG_BGxCNT ---
-
 
 #endif

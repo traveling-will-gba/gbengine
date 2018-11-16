@@ -31,6 +31,20 @@
 #define REG_BG2CNT *(vu16 *)(REG_BASE + 0x000C)
 #define REG_BG3CNT *(vu16 *)(REG_BASE + 0x000E)
 
+// background scroll
+
+#define REG_BG0HOFS *(vu16 *)(REG_BASE + 0x0010)
+#define REG_BG0VOFS *(vu16 *)(REG_BASE + 0x0012)
+
+#define REG_BG1HOFS *(vu16 *)(REG_BASE + 0x0014)
+#define REG_BG1VOFS *(vu16 *)(REG_BASE + 0x0016)
+
+#define REG_BG2HOFS *(vu16 *)(REG_BASE + 0x0018)
+#define REG_BG2VOFS *(vu16 *)(REG_BASE + 0x001A)
+
+#define REG_BG3HOFS *(vu16 *)(REG_BASE + 0x001C)
+#define REG_BG3VOFS *(vu16 *)(REG_BASE + 0x001E)
+
 // enum bits_per_pixel
 // {
 //     _4BPP = 0,
@@ -51,34 +65,37 @@ class Background : public GameObject
       const unsigned short *map;
       uint32_t map_len;
 
+      volatile int background_id;
+
       // enum bits_per_pixel bpp;
 
-      bool set_palette();
       bool set_tiles();
       bool set_map();
       void set_background_register(int background);
 
-    protected:
+    public:
+        Background() {}
+
+        Background(const unsigned short *pallete, uint32_t pallete_len,
+            const unsigned int *tiles, uint32_t tiles_len,
+            const unsigned short *map, uint32_t map_len, int background);
+
+        Background(const unsigned short *pallete, uint32_t pallete_len,
+            const unsigned int *tiles, uint32_t tiles_len,
+            const unsigned short *map, uint32_t map_len,
+            int background, int start_x, int start_y,
+            int start_speed_x, int start_speed_y);
+
         void draw_self() {}
         void update_self();
 
-        // static void init_sprite_attr_mem();
+        static void init_background_mem();
 
-    public:
-      Background(const unsigned short *pallete, uint32_t pallete_len,
-                 const unsigned int *tiles, uint32_t tiles_len,
-                 const unsigned short *map, uint32_t map_len, int background);
+        bool set_palette(const unsigned short *pallete, uint32_t pallete_len);
+        void set_speed(int x, int y);
 
-      Background(const unsigned short *pallete, uint32_t pallete_len,
-                 const unsigned int *tiles, uint32_t tiles_len,
-                 const unsigned short *map, uint32_t map_len,
-                 int background, int start_x, int start_y,
-                 int start_speed_x, int start_speed_y);
-
-      static void init_background_mem();
-
-      int tiles_cb_used;
-      int map_se_used;
+        int tiles_cb_used;
+        int map_se_used;
 };
 
 #endif

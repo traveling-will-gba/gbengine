@@ -38,14 +38,14 @@ struct palette
 
 struct charblock
 {
-    void *raw;
-    void *offset;
+    volatile void *raw;
+    volatile void *offset;
 };
 
 struct screenblock
 {
-    void *raw;
-    void *offset;
+    volatile void *raw;
+    volatile void *offset;
 };
 
 class MemoryManager {
@@ -70,59 +70,32 @@ class MemoryManager {
 
         unordered_map <volatile void *, uint32_t> memory_map;
 
-        MemoryManager() {
-            // rename to texture_palette_mem
-            texture_palette = (volatile uint8_t *)0x05000200;
-            texture_palette_used.reset();
+        MemoryManager();
 
-            oam_mem = (volatile struct attr *)0x07000000;
-            texture_mem = (volatile struct tile *)0x06010000;
-
-            // rename to background_palette_mem
-            background_palette = (volatile uint8_t *)0x05000000;
-            background_palette_used.reset();
-
-            // palette_bg_mem.raw = palette_bg_mem.offset = (void *)0x05000000;
-
-            for (int i = 0; i < 4; i++)
-            {
-                charblock_mem[i].raw = charblock_mem[i].offset =
-                    (void *)0x06000000 + i * 16 * 1024;
-            }
-
-            for (int i = 0; i < 32; i++)
-            {
-                screenblock_mem[i / 8][i % 8].raw = screenblock_mem[i / 8][i % 8].offset =
-                    (void *)0x06000000 + i * 2 * 1024;
-            }
-
-            charblock_used.reset();
-            screenblock_used.reset();
-        }
-
-        volatile uint8_t *alloc_palette(bitset<512> &used, volatile uint8_t *palette, size_t size);
-        void free_palette(volatile uint8_t *ptr, bitset<512> &used, volatile uint8_t *palette);
+        volatile uint8_t *alloc_palette(bitset<512>& used, volatile uint8_t *palette, size_t size);
+        void free_palette(volatile uint8_t *ptr, bitset<512>& used, volatile uint8_t *palette);
 
       public:
         static MemoryManager *get_memory_manager();
         static MemoryManager *instance;
 
-        // palette allocation
+        // backgrounds
         volatile uint8_t *alloc_background_palette(size_t size);
-        volatile uint8_t *alloc_texture_palette(size_t size);
-
+        volatile void *alloc_background_tiles(size_t tile_size, int *cb_used);
+        volatile void *alloc_background_map(size_t map_size, int *se_used);
         void free_background_palette(volatile uint8_t *background_pal_ptr);
-        void free_texture_palette(volatile uint8_t *texture_pal_ptr);
+        // TODO free_background_tiles()
+        // TODO free_background_map()
 
-
-        volatile struct attr *alloc_oam_entry();
-        void free_oam_entry(volatile struct attr *oam_ptr);
-
+        // textures
+        volatile uint8_t *alloc_texture_palette(size_t size);
         volatile struct tile *alloc_texture(size_t size);
         void free_texture(volatile struct tile *texture_ptr);
+        void free_texture_palette(volatile uint8_t *texture_pal_ptr);
 
-        volatile void *alloc_background_tiles(size_t tile_size, int *cb_used);
-        volatile void *alloc_background_map(size_t map_size);
+        // texture attributes metadata
+        volatile struct attr *alloc_oam_entry();
+        void free_oam_entry(volatile struct attr *oam_ptr);
 
         volatile struct tile *base_texture_mem() {
             return texture_mem;

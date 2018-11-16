@@ -3,6 +3,7 @@
 
 #include "level.h"
 #include "tw_platform.h"
+#include "background.h"
 
 #include <stdio.h>
 #include <vector>
@@ -33,6 +34,8 @@ class TWLevel : public Level {
 
         int mx1, my1;
         int mx2, my2;
+
+        vector<Background*> m_backgrounds;
 };
 
 #endif

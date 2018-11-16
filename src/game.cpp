@@ -18,7 +18,6 @@
 #include "utils.h"
 
 void Game::run() {
-    print("testese tse t ests et ");
     //FIXME: THE ENGINE SHOULD NOT CALL THE GAME
     vector <TWPlatform *> platforms;
 

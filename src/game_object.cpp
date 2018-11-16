@@ -1,3 +1,5 @@
+#include "utils.h"
+
 #include "game_object.h"
 
 void GameObject::update() {

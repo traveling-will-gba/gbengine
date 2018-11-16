@@ -4,6 +4,35 @@
 
 MemoryManager* MemoryManager::instance;
 
+MemoryManager::MemoryManager()
+{
+    // rename to texture_palette_mem
+    texture_palette = (volatile uint8_t *)0x05000200;
+    texture_palette_used.reset();
+
+    oam_mem = (volatile struct attr *)0x07000000;
+    texture_mem = (volatile struct tile *)0x06010000;
+
+    // rename to background_palette_mem
+    background_palette = (volatile uint8_t *)0x05000000;
+    background_palette_used.reset();
+
+    for (int i = 0; i < 4; i++)
+    {
+        charblock_mem[i].raw = charblock_mem[i].offset =
+            (volatile void *)0x06000000 + i * 16 * 1024;
+    }
+
+    for (int i = 0; i < 32; i++)
+    {
+        screenblock_mem[i / 8][i % 8].raw = screenblock_mem[i / 8][i % 8].offset =
+            (volatile void *)0x06000000 + i * 2 * 1024;
+    }
+
+    charblock_used.reset();
+    screenblock_used.reset();
+}
+
 MemoryManager *MemoryManager::get_memory_manager() {
     if (!instance) {
         instance = new MemoryManager();
@@ -12,14 +41,14 @@ MemoryManager *MemoryManager::get_memory_manager() {
     return instance;
 }
 
-volatile uint8_t* MemoryManager::alloc_palette(bitset<512>& used, volatile uint8_t* palette, size_t size) {
-    int used_size = used.size();
+volatile uint8_t *MemoryManager::alloc_palette(bitset<512>& used, volatile uint8_t *palette, size_t size)
+{
+    // int used_size = used.size();
+    int used_size = 512;
 
     for (size_t i = 0; i < used_size; i++) {
-
         // if this position is taken, skip all used blocks for this address
-        if (memory_map.find(palette + i) != memory_map.end()) {
-            i += memory_map[palette + i];
+        if (used[i] == true) {
             continue;
         }
 
@@ -130,8 +159,7 @@ volatile void *MemoryManager::alloc_background_tiles(size_t tile_size, int *cb_u
             screenblock_used[cur_screenblock++] = true;
         }
 
-        // FIXME fix this
-        *cb_used = 29;
+        *cb_used = i;
 
         return charblock_mem[i].offset;
     }
@@ -139,7 +167,7 @@ volatile void *MemoryManager::alloc_background_tiles(size_t tile_size, int *cb_u
     return NULL;
 }
 
-volatile void *MemoryManager::alloc_background_map(size_t map_size) {
+volatile void *MemoryManager::alloc_background_map(size_t map_size, int *se_used) {
     const int screenblock_size = 2 * 1024; // one screenblock has 2Kb
     const int screenblock_num = 32; // there are 32 screenblocks in background VRAM
     const int charblock_num = 4;
@@ -147,16 +175,16 @@ volatile void *MemoryManager::alloc_background_map(size_t map_size) {
 
     const int screenblocks_used = (map_size / screenblock_size) + (map_size % screenblock_size ? 1 : 0);
 
-    for (int i=0; i<screenblock_num; i++) {
-        // print("i = %d\n", i);
+    for (int i=16; i<screenblock_num; i++) {
+        int associated_charblock = i / screenblocks_per_charblock;
+
         if (screenblock_used[i] == false) {
             int cur_screenblock = i;
             bool enough_space = true;
             int used = screenblocks_used;
 
             while(used--) {
-                // print("used = %d\n", used);
-                if (screenblock_used[cur_screenblock++] == false) {
+                if (screenblock_used[cur_screenblock++] == true) {
                     enough_space = false;
                     break;
                 }
@@ -168,15 +196,15 @@ volatile void *MemoryManager::alloc_background_map(size_t map_size) {
 
                 while (used--)
                 {
-                    int cur_charblock = (used / screenblocks_per_charblock + 1);
+                    int cur_charblock = (cur_screenblock / screenblocks_per_charblock);
                     charblock_used[cur_charblock] = true;
                     screenblock_used[cur_screenblock++] = true;
                 }
 
-                int start_charblock = (i / 8 + 1);
-                int relative_screenblock = i - (start_charblock - 1) * screenblocks_per_charblock;
+                int start_charblock = i / screenblocks_per_charblock;
+                int relative_screenblock = i - start_charblock * screenblocks_per_charblock;
 
-                print("char used: %d screen used: %d\n", start_charblock, relative_screenblock);
+                *se_used = i;
 
                 return screenblock_mem[start_charblock][relative_screenblock].offset;
             }
