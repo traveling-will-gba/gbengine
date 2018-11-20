@@ -17,14 +17,11 @@ const int platform_height = 32;
 const int platform_tiles = 5;
 
 TWPlatform::TWPlatform(int x, int y) {
-    m_x = x;
-    m_y = y;
-
-    m_textures.push_back(new Texture(1, plat0Pal, plat0PalLen, plat0Tiles, plat0TilesLen, 1, _4BPP));
-    m_textures.push_back(new Texture(1, plat1Pal, plat1PalLen, plat1Tiles, plat1TilesLen, 2, _4BPP));
-    m_textures.push_back(new Texture(1, plat2Pal, plat2PalLen, plat2Tiles, plat2TilesLen, 3, _4BPP));
-    m_textures.push_back(new Texture(1, plat3Pal, plat3PalLen, plat3Tiles, plat3TilesLen, 4, _4BPP));
-    m_textures.push_back(new Texture(1, plat4Pal, plat4PalLen, plat4Tiles, plat4TilesLen, 5, _4BPP));
+    m_textures.push_back(new Texture(1, plat0Pal, plat0PalLen, plat0Tiles, plat0TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, plat1Pal, plat1PalLen, plat1Tiles, plat1TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, plat2Pal, plat2PalLen, plat2Tiles, plat2TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, plat3Pal, plat3PalLen, plat3Tiles, plat3TilesLen, _4BPP));
+    m_textures.push_back(new Texture(1, plat4Pal, plat4PalLen, plat4Tiles, plat4TilesLen, _4BPP));
 
     for (int i=0; i<platform_tiles; i++) {
         m_textures[i]->metadata.pr = 0;
@@ -32,31 +29,31 @@ TWPlatform::TWPlatform(int x, int y) {
         m_textures[i]->metadata.om = 0;
         m_textures[i]->metadata.sh = 0;
         m_textures[i]->metadata.sz = 2;
-        m_textures[i]->metadata.x = m_x;
-        m_textures[i]->metadata.y = m_y + platform_height * i;
     }
+
+    set_x(x);
+    set_y(y);
 
     m_bounding_box = Rectangle(m_x + (platform_width / 2), m_y + ((platform_height * platform_tiles) / 2), platform_width, platform_height * platform_tiles);
 
     Physics::get_physics()->register_object(this);
 }
 
-TWPlatform::TWPlatform(int x, int y, const vector<Texture*> textures) {
-    m_x = x;
-    m_y = y;
-
+TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures) {
     print("size: %d\n", textures.size());
-    m_textures = vector<Texture*>(textures);
 
-    for (int i=0; i<platform_tiles; i++) {
+    for (int i = 0; i < platform_tiles; i++) {
+        m_textures.push_back(new Texture(textures[i]));
+
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;
         m_textures[i]->metadata.sh = 0;
         m_textures[i]->metadata.sz = 2;
-        m_textures[i]->metadata.x = m_x;
-        m_textures[i]->metadata.y = m_y + platform_height * i;
     }
+
+    set_x(x);
+    set_y(y);
 
     m_bounding_box = Rectangle(m_x + (platform_width / 2), m_y + ((platform_height * platform_tiles) / 2), platform_width, platform_height * platform_tiles);
 
@@ -100,7 +97,22 @@ vector<Texture*> TWPlatform::textures() {
 
 void TWPlatform::set_x(int x) {
     m_x = x;
+    for (size_t i = 0; i < m_textures.size(); i++) {
+        m_textures[i]->metadata.x = m_x;
+    }
 }
+
 void TWPlatform::set_y(int y) {
     m_y = y;
+
+    for (size_t i = 0; i < m_textures.size(); i++) {
+        m_textures[i]->metadata.y = m_y + platform_height * i;
+
+        if (m_y + platform_height * (i + 1) >= 256) {
+            // hide sprite
+            m_textures[i]->metadata.om = 2;
+        } else {
+            m_textures[i]->metadata.om = 0;
+        }
+    }
 }

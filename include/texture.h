@@ -56,10 +56,10 @@ class Texture {
         Texture() {}
 
         Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
-                const unsigned int *tiles, uint32_t tiles_len, int palette_id, enum bits_per_pixel bpp = _8BPP) {
+                const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP) {
             this->pallete = pallete;
             this->pallete_len = pallete_len;
-            this->pallete_id = palette_id;
+            this->pallete_id = 0;
             this->bpp = bpp;
             this->num_sprites = num_sprites;
             this->num_tiles = tiles_len / ((bpp == _4BPP) ? 32 : 64);
@@ -75,6 +75,8 @@ class Texture {
 
             metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
             metadata.pb = pallete_id;
+
+            print("tid: %d, pb: %d\n", metadata.tid, metadata.pb);
         }
 
         Texture(const Texture *texture) {
@@ -95,6 +97,8 @@ class Texture {
 
             metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
             metadata.pb = pallete_id;
+
+            print("tid: %d, pb: %d\n", metadata.tid, metadata.pb);
         }
 
         void update(uint64_t dt); 
