@@ -10,6 +10,8 @@
 #include "platform_base.h"
 #include "platform_middle.h"
 
+#include "plat1.h"
+
 #include "tw_will.h"
 #include "game.h"
 

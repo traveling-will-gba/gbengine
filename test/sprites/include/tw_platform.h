@@ -10,7 +10,7 @@
 class TWPlatform : public GameObject, public Collidable {
     public:
         TWPlatform(int x, int y);
-        TWPlatform(int x, int y, const Texture *texture);
+        TWPlatform(int x, int y, const vector<Texture*> textures);
 
         void update_self(uint64_t dt);
         void draw_self();
@@ -19,13 +19,14 @@ class TWPlatform : public GameObject, public Collidable {
         void update_bounding_box();
         void set_x(int x);
         void set_y(int y);
+        int get_x() { return m_x; }
 
         const int x() const;
         const int y() const;
-        Texture *texture();
+        vector<Texture*> textures();
 
     private:
-        Texture *m_texture;
+        vector<Texture*> m_textures;
         int m_x, m_y;
         Rectangle m_bounding_box;
 };

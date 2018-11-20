@@ -47,15 +47,16 @@ TWLevel::TWLevel() {
     for (int i = 0; i < 2000 / 4; i++) {
         int aux=rand()%32;
         for (int j = 0; j < 4; j++) {
-            platform_height[i * 4 + j] = 150 - aux;
+            platform_height[i * 4 + j] = 0;
         }
     }
 
+
     for (int i = 0; i < 35; i++) {
-        if (i)
-            platforms[i] = new TWPlatform(i * 8, platform_height[i], platforms[0]->texture());
+        if (i == 0)
+            platforms[i] = new TWPlatform(i * 32, platform_height[i]);
         else
-            platforms[i] = new TWPlatform(i * 8, platform_height[i]);
+            platforms[i] = new TWPlatform(i * 32, platform_height[i], platforms[0]->textures());
 
         add_child(platforms[i]);
         q.push(platforms[i]);
@@ -66,20 +67,21 @@ TWLevel::TWLevel() {
 }
 
 void TWLevel::update_self(uint64_t dt) {
+    /*
     while (1) {
         print("%d\n", platform_idx);
-        if (platform_idx * 8 <= m_x + 240) {
+        if (platform_idx * 32 <= m_x + 240) {
             auto aux = q.front();
             q.pop();
 
-            aux->set_x(platform_idx * 8 - m_x);
+            aux->set_x(platform_idx * 32 - m_x);
             aux->set_y(platform_height[platform_idx]);
 
             q.push(aux);
         } else break;
         platform_idx++;
     }
-
+*/
     for (int i = 0; i < 35; i++) {
         platforms[i]->set_x(platforms[i]->x() - 2);
     }
@@ -92,6 +94,7 @@ void TWLevel::update_self(uint64_t dt) {
 
     REG_BG2HOFS = mx2;
     mx2 += 1 / (dt % 2);
+
 }
 
 void TWLevel::draw_self() {
