@@ -164,7 +164,7 @@ $(BUILD):
 all	: $(BUILD)
 
 run:
-	vbam sprites.gba
+	vbam game.gba
 
 clean:
 	@echo clean ...
