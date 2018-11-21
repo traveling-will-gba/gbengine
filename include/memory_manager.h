@@ -30,43 +30,72 @@ struct tile {
     uint8_t pixel[32];
 };
 
+struct palette
+{
+    void *raw;
+    void *offset;
+};
+
+struct charblock
+{
+    volatile void *raw;
+    volatile void *offset;
+};
+
+struct screenblock
+{
+    volatile void *raw;
+    volatile void *offset;
+};
+
 class MemoryManager {
     private:
-        // FIXME: Change this to volatile
-        volatile uint8_t *background_pal;
-        volatile uint8_t *texture_pal;
-        volatile struct tile *texture_mem;
+        // palette members
+        volatile uint8_t* background_palette;
+        volatile uint8_t* texture_palette;
 
+        bitset<512> background_palette_used;
+        bitset<512> texture_palette_used;
+
+        volatile struct tile *texture_mem;
         volatile struct attr *oam_mem;
+
+        // bool cb[4];
+        volatile struct charblock charblock_mem[4];
+        volatile struct screenblock screenblock_mem[4][8];
+        // static struct palette palette_bg_mem;
+
+        bitset<4> charblock_used;
+        bitset<32> screenblock_used;
 
         unordered_map <volatile void *, uint32_t> memory_map;
 
-        bitset<512> background_pal_used;
-        bitset<512> texture_pal_used;
+        MemoryManager();
 
-        MemoryManager() {
-            background_pal = (volatile uint8_t *) 0x05000000;
-            background_pal_used.reset();
+        volatile uint8_t *alloc_palette(bitset<512>& used, volatile uint8_t *palette, size_t size);
+        void free_palette(volatile uint8_t *ptr, bitset<512>& used, volatile uint8_t *palette);
 
-            texture_pal = (volatile uint8_t *)0x05000200;
-            texture_pal_used.reset();
-
-            oam_mem = (volatile struct attr *)0x07000000;
-            texture_mem = (volatile struct tile *)0x06010000;
-        }
-
-    public:
+      public:
         static MemoryManager *get_memory_manager();
-        
-        volatile uint8_t *alloc_background_pal(size_t size);
-        volatile uint8_t *alloc_texture_pal(size_t size);
-        volatile struct attr *alloc_oam_entry();
-        volatile struct tile *alloc_texture(size_t size);
+        static MemoryManager *instance;
 
-        void free_background_pal(volatile uint8_t *background_pal_ptr);
-        void free_texture_pal(volatile uint8_t *texture_pal_ptr);
-        void free_oam_entry(volatile struct attr *oam_ptr);
+        // backgrounds
+        volatile uint8_t *alloc_background_palette(size_t size);
+        volatile void *alloc_background_tiles(size_t tile_size, int *cb_used);
+        volatile void *alloc_background_map(size_t map_size, int *se_used);
+        void free_background_palette(volatile uint8_t *background_pal_ptr);
+        // TODO free_background_tiles()
+        // TODO free_background_map()
+
+        // textures
+        volatile uint8_t *alloc_texture_palette(size_t size);
+        volatile struct tile *alloc_texture(size_t size);
         void free_texture(volatile struct tile *texture_ptr);
+        void free_texture_palette(volatile uint8_t *texture_pal_ptr);
+
+        // texture attributes metadata
+        volatile struct attr *alloc_oam_entry();
+        void free_oam_entry(volatile struct attr *oam_ptr);
 
         volatile struct tile *base_texture_mem() {
             return texture_mem;

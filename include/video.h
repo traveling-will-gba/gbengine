@@ -5,17 +5,10 @@
 #include <stdio.h>
 #include "base_types.h"
 
-
-void bla(const void *pal0, const void *tiles0, int tiles0_len, const void *map0, int map0_len,
-         const void *pal1, const void *tiles1, int tiles1_len, const void *map1, int map1_len,
-         const void *pal2, const void *tiles2, int tiles2_len, const void *map2, int map2_len);
 void vsync();
 void reset_dispcnt();
 void set_video_mode(int video_mode);
 void enable_background(int background);
-void set_background(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
-void set_background0(const void *pal, int pal_len, const void *tiles, int tiles_len, const void *map, int map_len);
-uint32_t available_len(void *raw, void *offset);
 
 // --- secondary typedefs ---
 
@@ -33,11 +26,6 @@ typedef TILE		CHARBLOCK[512];
 #define PAL_SIZE	0x00400
 #define VRAM_SIZE	0x18000
 
-//#define pal_bg_mem		((COLOR*)MEM_PAL)
-
-#define tile_mem		( (CHARBLOCK*)MEM_VRAM)
-//#define se_mem			((SCREENBLOCK*)MEM_VRAM)
-
 // --- sizes ---
 #define SCREEN_WIDTH	240
 #define SCREEN_HEIGHT	160
@@ -49,12 +37,6 @@ typedef TILE		CHARBLOCK[512];
 #define REG_DISPCNT			*(vu32*)(REG_BASE+0x0000)	// display control
 #define REG_DISPSTAT		*(vu16*)(REG_BASE+0x0004)	// display interupt status
 #define REG_VCOUNT			*(vu16*)(REG_BASE+0x0006)	// vertical count
-
-// --- background ---
-#define REG_BG0CNT			*(vu16*)(REG_BASE+0x0008)	// bg 0-3 control
-#define REG_BG1CNT			*(vu16*)(REG_BASE+0x000A)
-#define REG_BG2CNT			*(vu16*)(REG_BASE+0x000C)
-#define REG_BG3CNT			*(vu16*)(REG_BASE+0x000E)
 
 // --- REG_DISPCNT ---
 
@@ -71,20 +53,5 @@ typedef TILE		CHARBLOCK[512];
 
 #define DCNT_OBJ_1D			0x0040	//!< OBJ-VRAM as array
 #define DCNT_OBJ			0x1000	//!< Enable objects
-
-// --- REG_BGxCNT ---
-
-#define BG_4BPP					 0	//!< 4bpp (16 color) bg (no effect on affine bg)
-#define BG_8BPP				0x0080	//!< 8bpp (256 color) bg (no effect on affine bg)
-#define BG_REG_32x32             0
-#define BG_REG_64x32		0x4000	//!< reg bg, 64x32 (512x256 px)
-
-#define BG_CBB_MASK		0x000C
-#define BG_CBB_SHIFT		 2
-#define BG_CBB(n)		((n)<<BG_CBB_SHIFT)
-
-#define BG_SBB_MASK		0x1F00
-#define BG_SBB_SHIFT		 8
-#define BG_SBB(n)		((n)<<BG_SBB_SHIFT)
 
 #endif
