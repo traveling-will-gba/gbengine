@@ -16,6 +16,8 @@ class TWLevel : public Level {
 
         void update_self(uint64_t dt);
         void draw_self();
+        void set_platform_num(int num) { platform_num = num; }
+
     private:
         uint32_t n_platforms;
         TWPlatform *platforms[100];
@@ -24,6 +26,7 @@ class TWLevel : public Level {
         int platform_height[10100];
 
         int platform_idx;
+        int platform_num;
 
         int mx1, my1;
         int mx2, my2;

@@ -7,6 +7,8 @@
 #include "physics.h"
 #include "tw_platform.h"
 
+#include "level1.h"
+
 #define REG_BG2HOFS *(vu16*)(REG_BASE+0x0018)
 #define REG_BG2VOFS *(vu16*)(REG_BASE+0x001A)
 
@@ -40,17 +42,12 @@ TWLevel::TWLevel() {
     
     TWWill *will = new TWWill(10, 128);
 
+    platform_num = level1_len;
     platform_idx = 9;
-    n_platforms = 90;
 
-    srand(0);
-    for (int i = 0; i < 500 / 4; i++) {
-        int aux = rand() % 160;
-        for (int j = 0; j < 4; j++) {
-            platform_height[i * 4 + j] = 145;
-        }
+    for (int i=0; i < platform_num; i++) {
+        platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160 
     }
-
 
     for (int i = 0; i < 9; i++) {
         if (i == 0)
@@ -68,7 +65,6 @@ TWLevel::TWLevel() {
 
 void TWLevel::update_self(uint64_t dt) {
     while (1) {
-        print("%d\n", platform_idx);
         if (platform_idx * 32 <= m_x + 240) {
             auto aux = q.front();
             q.pop();
@@ -82,6 +78,7 @@ void TWLevel::update_self(uint64_t dt) {
     }
 
     for (int i = 0; i < 10; i++) {
+        print("height: %d %d\n", platform_height[i], platform_height[i] * 3);
         platforms[i]->set_x(platforms[i]->x() - 2);
     }
 
