@@ -3,13 +3,12 @@
 
 //======================================================================
 //
-//	plat1, 32x32@4, 
-//	Transparent palette entry: 17.
+//	plat1, 16x32@4, 
 //	+ palette 16 entries, not compressed
-//	+ 16 tiles Metatiled by 4x4 not compressed
-//	Total size: 32 + 512 = 544
+//	+ 8 tiles Metatiled by 2x4 not compressed
+//	Total size: 32 + 256 = 288
 //
-//	Time-stamp: 2018-11-20, 09:16:20
+//	Time-stamp: 2018-11-21, 23:41:23
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -18,8 +17,8 @@
 #ifndef GRIT_PLAT1_H
 #define GRIT_PLAT1_H
 
-#define plat1TilesLen 512
-extern const unsigned int plat1Tiles[128];
+#define plat1TilesLen 256
+extern const unsigned int plat1Tiles[64];
 
 #define plat1PalLen 32
 extern const unsigned short plat1Pal[16];

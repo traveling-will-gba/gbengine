@@ -9,7 +9,9 @@
 
 #include "level1.h"
 
-const int max_platforms_loaded = 15;
+const int max_platforms_loaded = 32;
+const int platform_width = 16;
+const int screen_width = 240;
 
 TWLevel::TWLevel() {
     reset_dispcnt();
@@ -42,14 +44,15 @@ TWLevel::TWLevel() {
     platform_idx = max_platforms_loaded;
 
     for (int i=0; i < platform_num; i++) {
-        platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
+        // platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
+        platform_height[i] = 0; // 480 -> 160
     }
 
     for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
-            platforms[i] = new TWPlatform(i * 32, platform_height[i]);
+            platforms[i] = new TWPlatform(i * platform_width, platform_height[i]);
         else
-            platforms[i] = new TWPlatform(i * 32, platform_height[i], platforms[0]->textures());
+            platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
 
         add_child(platforms[i]);
         q.push(platforms[i]);
@@ -66,11 +69,11 @@ TWLevel::TWLevel() {
 
 void TWLevel::update_self(uint64_t dt) {
     while (1) {
-        if (platform_idx * 32 <= m_x + 240) {
+        if (platform_idx * platform_width <= m_x + screen_width) {
             auto aux = q.front();
             q.pop();
 
-            aux->set_x(platform_idx * 32 - m_x);
+            aux->set_x(platform_idx * platform_width - m_x);
             aux->set_y(platform_height[platform_idx]);
 
             q.push(aux);
@@ -79,10 +82,10 @@ void TWLevel::update_self(uint64_t dt) {
     }
 
     for (int i = 0; i < max_platforms_loaded; i++) {
-        platforms[i]->set_x(platforms[i]->x() - 2);
+        platforms[i]->set_x(platforms[i]->x() - 1);
     }
 }
 
 void TWLevel::draw_self() {
-
+    m_x += 1;
 }

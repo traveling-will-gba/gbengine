@@ -3,29 +3,20 @@
 
 //======================================================================
 //
-//	plat3, 32x32@4, 
+//	plat3, 16x32@4, 
 //	Transparent palette entry: 17.
-//	+ palette 16 entries, not compressed
-//	+ 16 tiles Metatiled by 4x4 not compressed
-//	Total size: 32 + 512 = 544
+//	+ palette 2 entries, not compressed
+//	+ 8 tiles Metatiled by 2x4 not compressed
+//	Total size: 4 + 256 = 260
 //
-//	Time-stamp: 2018-11-20, 09:16:39
+//	Time-stamp: 2018-11-21, 23:54:33
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-const unsigned int plat3Tiles[128] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned int plat3Tiles[64] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
-	0x53322266,0x53322266,0x76611122,0x66611122,0x66611122,0x22211111,0x22211111,0x11111111,
-	0x62222255,0x62222255,0x62211166,0x62211166,0x62211166,0x26666622,0x26666622,0x16677611,
-	0x62222666,0x62222666,0x51111266,0x61111477,0x61111477,0x26666222,0x26666222,0x27777211,
-	0x22222666,0x22222666,0x11111666,0x11111666,0x11111666,0x66666222,0x66666222,0x66666111,
-	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
-	0x16666611,0x16666611,0x62211111,0x62211111,0x62211111,0x62211111,0x62211111,0x11111111,
-	0x26666211,0x26666211,0x61111466,0x61111577,0x61111577,0x21111266,0x21111266,0x11111111,
-	0x66666111,0x66666111,0x11122666,0x11122666,0x11122666,0x11111666,0x11111666,0x11111111,
-
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
@@ -36,10 +27,9 @@ const unsigned int plat3Tiles[128] __attribute__((aligned(4))) __attribute__((vi
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
 };
 
-const unsigned short plat3Pal[16] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned short plat3Pal[2] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
-	0x0002,0x088B,0x088D,0x108D,0x08CD,0x10CD,0x10D0,0x10D2,
-	0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
+	0x0002,0x0000,
 };
 
 //}}BLOCK(plat3)

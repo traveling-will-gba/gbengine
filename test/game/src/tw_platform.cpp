@@ -12,7 +12,7 @@
 #include "plat3.h"
 #include "plat4.h"
 
-const int platform_width = 32;
+const int platform_width = 16;
 const int platform_height = 32;
 const int platform_tiles = 5;
 
@@ -27,7 +27,7 @@ TWPlatform::TWPlatform(int x, int y) {
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;
-        m_textures[i]->metadata.sh = 0;
+        m_textures[i]->metadata.sh = 2;
         m_textures[i]->metadata.sz = 2;
     }
 
@@ -46,7 +46,7 @@ TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures) {
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;
-        m_textures[i]->metadata.sh = 0;
+        m_textures[i]->metadata.sh = 2;
         m_textures[i]->metadata.sz = 2;
     }
 
