@@ -45,33 +45,27 @@
 #define REG_BG3HOFS *(vu16 *)(REG_BASE + 0x001C)
 #define REG_BG3VOFS *(vu16 *)(REG_BASE + 0x001E)
 
-// enum bits_per_pixel
-// {
-//     _4BPP = 0,
-//     _8BPP
-// };
-
 class Background : public GameObject
 {
     private:
-      MemoryManager *memory_manager;
+        MemoryManager *memory_manager;
 
-      const unsigned short *pallete;
-      uint32_t pallete_len;
+        const unsigned short *pallete;
+        uint32_t pallete_len;
 
-      const unsigned int *tiles;
-      uint32_t tiles_len;
+        const unsigned int *tiles;
+        uint32_t tiles_len;
 
-      const unsigned short *map;
-      uint32_t map_len;
+        const unsigned short *map;
+        uint32_t map_len;
 
-      volatile int background_id;
+        volatile int background_id;
 
-      // enum bits_per_pixel bpp;
+        int frames_to_skip;
 
-      bool set_tiles();
-      bool set_map();
-      void set_background_register(int background);
+        bool set_tiles();
+        bool set_map();
+        void set_background_register(int background);
 
     public:
         Background() {}
@@ -93,6 +87,9 @@ class Background : public GameObject
 
         bool set_palette(const unsigned short *pallete, uint32_t pallete_len);
         void set_speed(int x, int y);
+        void set_frames_to_skip(int fr) { frames_to_skip = fr; }
+        void set_speed_x(int sp) { m_speed_x = sp; }
+        void set_speed_y(int sp) { m_speed_y = sp; }
 
         int tiles_cb_used;
         int map_se_used;

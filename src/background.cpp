@@ -11,8 +11,8 @@ Background::Background(const unsigned short *pallete, uint32_t pallete_len,
 Background::Background(const unsigned short *pallete, uint32_t pallete_len,
                         const unsigned int *tiles, uint32_t tiles_len,
                         const unsigned short *map, uint32_t map_len,
-                        int background, int start_x, int start_y,
-                        int start_speed_x, int start_speed_y)
+                        int background, int start_x = 0, int start_y = 0,
+                        int start_speed_x = 0, int start_speed_y = 0)
 {
     this->pallete = pallete;
     // FIXME pallete_len should not be hardcoded
@@ -106,8 +106,12 @@ void Background::set_speed(int x, int y) {
 
 void Background::update_self(uint64_t dt)
 {
-    m_x += m_speed_x;
-    m_y += m_speed_y;
+    print("oi oi oi %d %d %d\n", this->background_id, m_x, m_y);
+
+    if (dt % frames_to_skip == 0) {
+        m_x += m_speed_x;
+        m_y += m_speed_y;
+    }
 
     switch(this->background_id) {
         case 0:

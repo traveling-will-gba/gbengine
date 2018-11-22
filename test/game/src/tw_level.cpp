@@ -9,15 +9,6 @@
 
 #include "level1.h"
 
-#define REG_BG2HOFS *(vu16*)(REG_BASE+0x0018)
-#define REG_BG2VOFS *(vu16*)(REG_BASE+0x001A)
-
-#define REG_BG0HOFS *(vu16*)(REG_BASE+0x0010)
-#define REG_BG0VOFS *(vu16*)(REG_BASE+0x0012)
-
-#define REG_BG1HOFS *(vu16*)(REG_BASE+0x0014)
-#define REG_BG1VOFS *(vu16*)(REG_BASE+0x0016)
-
 const int max_platforms_loaded = 15;
 
 TWLevel::TWLevel() {
@@ -28,9 +19,11 @@ TWLevel::TWLevel() {
     enable_background(2);
 
     m_backgrounds.clear();
-    m_backgrounds.push_back(new Background(b0Pal, b0PalLen, b0Tiles, b0TilesLen, b0Map, b0MapLen, 0));
-    m_backgrounds.push_back(new Background(b1Pal, b1PalLen, b1Tiles, b1TilesLen, b1Map, b1MapLen, 1));
-    m_backgrounds.push_back(new Background(b2Pal, b2PalLen, b2Tiles, b2TilesLen, b2Map, b2MapLen, 2));
+    m_backgrounds.push_back(new Background(b0Pal, b0PalLen, b0Tiles, b0TilesLen, b0Map, b0MapLen, 0, 0, 0, 1, 0));
+    m_backgrounds.push_back(new Background(b1Pal, b1PalLen, b1Tiles, b1TilesLen, b1Map, b1MapLen, 1, 0, 0, 1, 0));
+    m_backgrounds.push_back(new Background(b2Pal, b2PalLen, b2Tiles, b2TilesLen, b2Map, b2MapLen, 2, 0, 0, 2, 0));
+
+    m_backgrounds[0]->set_frames_to_skip(2);
 
     volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE+0x0000;
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
@@ -63,6 +56,11 @@ TWLevel::TWLevel() {
     }
 
     add_child(will);
+
+    for (auto background : m_backgrounds) {
+        add_child(background);
+    }
+
     Physics::get_physics()->set_target(will);
 }
 
@@ -83,15 +81,6 @@ void TWLevel::update_self(uint64_t dt) {
     for (int i = 0; i < max_platforms_loaded; i++) {
         platforms[i]->set_x(platforms[i]->x() - 2);
     }
-
-    REG_BG0HOFS = m_x;
-    m_x += 2;
-
-    REG_BG1HOFS = mx1;
-    mx1 += 1;
-
-    REG_BG2HOFS = mx2;
-    if (dt % 2 == 0) mx2++;
 }
 
 void TWLevel::draw_self() {
