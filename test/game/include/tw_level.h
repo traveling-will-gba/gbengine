@@ -3,6 +3,7 @@
 
 #include "level.h"
 #include "tw_platform.h"
+#include "background.h"
 
 #include <stdio.h>
 #include <vector>
@@ -24,6 +25,8 @@ class TWLevel : public Level {
 
         queue <TWPlatform *> q;
         int platform_height[10100];
+
+        vector<Background *> m_backgrounds;
 
         int platform_idx;
         int platform_num;

@@ -5,7 +5,6 @@ Background::Background(const unsigned short *pallete, uint32_t pallete_len,
                        const unsigned short *map, uint32_t map_len,
                        int background)
 {
-    print("VITOR %d\n", background);
     Background(pallete, pallete_len, tiles, tiles_len, map, map_len, background, 0, 0, 0, 0);
 }
 
@@ -105,7 +104,7 @@ void Background::set_speed(int x, int y) {
     this->m_speed_y = y;
 }
 
-void Background::update_self()
+void Background::update_self(uint64_t dt)
 {
     m_x += m_speed_x;
     m_y += m_speed_y;

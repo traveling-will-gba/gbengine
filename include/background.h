@@ -87,7 +87,7 @@ class Background : public GameObject
             int start_speed_x, int start_speed_y);
 
         void draw_self() {}
-        void update_self();
+        void update_self(uint64_t dt);
 
         static void init_background_mem();
 

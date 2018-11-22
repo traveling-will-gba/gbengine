@@ -47,7 +47,7 @@ class Texture {
         Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
             const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp);
 
-        void update();
+        void update(uint64_t dt);
         void set_priority(int priority);
 
         static uint8_t *sprite_pal;

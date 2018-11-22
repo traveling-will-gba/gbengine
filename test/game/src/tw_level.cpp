@@ -18,6 +18,8 @@
 #define REG_BG1HOFS *(vu16*)(REG_BASE+0x0014)
 #define REG_BG1VOFS *(vu16*)(REG_BASE+0x0016)
 
+const int max_platforms_loaded = 15;
+
 TWLevel::TWLevel() {
     reset_dispcnt();
     set_video_mode(0);
@@ -25,9 +27,10 @@ TWLevel::TWLevel() {
     enable_background(1);
     enable_background(2);
 
-    bla(b2Pal, b2Tiles, b2TilesLen, b2Map, b2MapLen,
-        b1Pal, b1Tiles, b1TilesLen, b1Map, b1MapLen,
-        b0Pal, b0Tiles, b0TilesLen, b0Map, b0MapLen);
+    m_backgrounds.clear();
+    m_backgrounds.push_back(new Background(b0Pal, b0PalLen, b0Tiles, b0TilesLen, b0Map, b0MapLen, 0));
+    m_backgrounds.push_back(new Background(b1Pal, b1PalLen, b1Tiles, b1TilesLen, b1Map, b1MapLen, 1));
+    m_backgrounds.push_back(new Background(b2Pal, b2PalLen, b2Tiles, b2TilesLen, b2Map, b2MapLen, 2));
 
     volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE+0x0000;
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
@@ -38,18 +41,18 @@ TWLevel::TWLevel() {
     mx2 = my2 = 0;
     m_done = false;
 
-    init_sprite_attr_mem();
-    
+    Texture::init_sprite_attr_mem();
+
     TWWill *will = new TWWill(10, 128);
 
     platform_num = level1_len;
-    platform_idx = 9;
+    platform_idx = max_platforms_loaded;
 
     for (int i=0; i < platform_num; i++) {
-        platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160 
+        platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
     }
 
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
             platforms[i] = new TWPlatform(i * 32, platform_height[i]);
         else
@@ -77,8 +80,7 @@ void TWLevel::update_self(uint64_t dt) {
         platform_idx++;
     }
 
-    for (int i = 0; i < 10; i++) {
-        print("height: %d %d\n", platform_height[i], platform_height[i] * 3);
+    for (int i = 0; i < max_platforms_loaded; i++) {
         platforms[i]->set_x(platforms[i]->x() - 2);
     }
 
