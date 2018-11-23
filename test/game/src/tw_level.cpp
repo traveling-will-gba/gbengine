@@ -45,18 +45,28 @@ TWLevel::TWLevel() {
 
     srand(0);
     for (int i = 0; i < 500 / 4; i++) {
-        int aux = rand() % 160;
+        int aux = rand() % 145;
         for (int j = 0; j < 4; j++) {
-            platform_height[i * 4 + j] = 145;
+            platform_height[i * 4 + j] = aux;
         }
     }
 
+    TWPlatform *vaux[12];
 
     for (int i = 0; i < 9; i++) {
         if (i == 0)
-            platforms[i] = new TWPlatform(i * 32, platform_height[i]);
+            vaux[i] = new TWPlatform(i * 32, 145);
         else
-            platforms[i] = new TWPlatform(i * 32, platform_height[i], platforms[0]->textures());
+            vaux[i] = new TWPlatform(i * 32, 145, vaux[0]->textures());
+
+        add_child(vaux[i]);
+    }
+
+    for (int i = 0; i < 9; i++) {
+        if (i == 0)
+            platforms[i] = new TWPlatform(i * 32, platform_height[i] - 15);
+        else
+            platforms[i] = new TWPlatform(i * 32, platform_height[i] - 15, platforms[0]->textures());
 
         add_child(platforms[i]);
         q.push(platforms[i]);
@@ -68,7 +78,7 @@ TWLevel::TWLevel() {
 
 void TWLevel::update_self(uint64_t dt) {
     while (1) {
-        print("%d\n", platform_idx);
+        //print("%d\n", platform_idx);
         if (platform_idx * 32 <= m_x + 240) {
             auto aux = q.front();
             q.pop();

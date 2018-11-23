@@ -24,11 +24,6 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
     auto bbA = a->bounding_box();
     auto bbB = b->bounding_box();
 
-    /*auto r = bbA.intersection(bbB);
-
-    print("Area: %f\n", r.area());
-
-    return r.area() > 0;*/
     return bbA.intersection(bbB);
 }
 

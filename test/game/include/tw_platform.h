@@ -19,7 +19,6 @@ class TWPlatform : public GameObject, public Collidable {
         void update_bounding_box();
         void set_x(int x);
         void set_y(int y);
-        int get_x() { return m_x; }
 
         const int x() const;
         const int y() const;

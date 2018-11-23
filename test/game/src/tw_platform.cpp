@@ -40,7 +40,7 @@ TWPlatform::TWPlatform(int x, int y) {
 }
 
 TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures) {
-    print("size: %d\n", textures.size());
+    //print("size: %d\n", textures.size());
 
     for (int i = 0; i < platform_tiles; i++) {
         m_textures.push_back(new Texture(textures[i]));

@@ -10,6 +10,8 @@
 #include "collidable.h"
 #include "texture.h"
 
+#include "tw_platform.h"
+
 class TWWill : public GameObject, public Collidable {
     public:
         enum State { RUNNING, JUMPING, SLIDING, FALLING, GAME_OVER, PUNCHING, STOPPED, REVERSE_RUNNING };
@@ -26,9 +28,18 @@ class TWWill : public GameObject, public Collidable {
         vector <Texture *> m_texture;
         Rectangle m_bounding_box;
 
+        const TWPlatform *cur_plat;
+
         State m_state;
 
         bool m_colliding;
+
+        void check_running();
+        void check_jumping();
+        void check_falling();
+
+        void set_x(int x);
+        void set_y(int y);
 };
 
 #endif
