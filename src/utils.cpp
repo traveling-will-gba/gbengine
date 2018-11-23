@@ -1,6 +1,9 @@
 #include "utils.h"
 #include "vbaprint.h"
 
+// remove this
+#include "video.h"
+
 void mem16cpy(volatile void *dest, const void *src, size_t n)
 {
     if (n & 1) {
@@ -29,3 +32,9 @@ int print(const char *fmt, ...) {
     return rc;
 }
 
+// FIXME REG_VCOUNT imported from video.h
+
+void vsync() {
+    while(REG_VCOUNT >= 160);
+    while(REG_VCOUNT < 160);
+}

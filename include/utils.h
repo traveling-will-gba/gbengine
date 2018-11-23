@@ -6,5 +6,6 @@
 
 int print(const char *fmt, ...);
 void mem16cpy(volatile void *dest, const void *src, size_t n);
+void vsync();
 
 #endif
