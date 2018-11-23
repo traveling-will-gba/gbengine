@@ -9,7 +9,7 @@
 
 #include "level1.h"
 
-const int max_platforms_loaded = 32;
+const int max_platforms_loaded = 16;
 const int platform_width = 16;
 const int screen_width = 240;
 

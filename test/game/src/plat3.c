@@ -4,12 +4,12 @@
 //======================================================================
 //
 //	plat3, 16x32@4, 
-//	Transparent palette entry: 17.
+//	Transparent palette entry: 1.
 //	+ palette 2 entries, not compressed
 //	+ 8 tiles Metatiled by 2x4 not compressed
 //	Total size: 4 + 256 = 260
 //
-//	Time-stamp: 2018-11-21, 23:54:33
+//	Time-stamp: 2018-11-23, 09:16:29
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -29,7 +29,7 @@ const unsigned int plat3Tiles[64] __attribute__((aligned(4))) __attribute__((vis
 
 const unsigned short plat3Pal[2] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
-	0x0002,0x0000,
+	0x0000,0x0889,
 };
 
 //}}BLOCK(plat3)

@@ -4,11 +4,12 @@
 //======================================================================
 //
 //	plat1, 16x32@4, 
+//	Transparent palette entry: 17.
 //	+ palette 16 entries, not compressed
 //	+ 8 tiles Metatiled by 2x4 not compressed
 //	Total size: 32 + 256 = 288
 //
-//	Time-stamp: 2018-11-21, 23:41:23
+//	Time-stamp: 2018-11-23, 09:21:04
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
