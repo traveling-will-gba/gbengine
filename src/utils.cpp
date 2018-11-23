@@ -31,10 +31,3 @@ int print(const char *fmt, ...) {
 
     return rc;
 }
-
-// FIXME REG_VCOUNT imported from video.h
-
-void vsync() {
-    while(REG_VCOUNT >= 160);
-    while(REG_VCOUNT < 160);
-}

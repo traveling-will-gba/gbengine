@@ -106,7 +106,7 @@ void Background::set_speed(int x, int y) {
 
 void Background::update_self(uint64_t dt)
 {
-    print("oi oi oi %d %d %d\n", this->background_id, m_x, m_y);
+    //print("oi oi oi %d %d %d\n", this->background_id, m_x, m_y);
 
     if (dt % frames_to_skip == 0) {
         m_x += m_speed_x;
