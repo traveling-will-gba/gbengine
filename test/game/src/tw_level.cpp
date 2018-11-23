@@ -44,8 +44,7 @@ TWLevel::TWLevel() {
     platform_idx = max_platforms_loaded;
 
     for (int i=0; i < platform_num; i++) {
-        // platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
-        platform_height[i] = 0; // 480 -> 160
+        platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
     }
 
     for (int i = 0; i < max_platforms_loaded; i++) {
