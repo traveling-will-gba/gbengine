@@ -38,7 +38,7 @@ TWLevel::TWLevel() {
 
     TWPlatform *floor_plats[max_platforms_loaded];
 
-  /*  for (int i = 0; i < max_platforms_loaded; i++) {
+    for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
             floor_plats[i] = new TWPlatform(i * platform_width, 148);
         else
@@ -46,7 +46,7 @@ TWLevel::TWLevel() {
 
         add_child(floor_plats[i]);
     }
-*/
+
     platform_num = level1_len;
     platform_idx = max_platforms_loaded;
 

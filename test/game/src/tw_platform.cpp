@@ -14,14 +14,14 @@
 
 const int platform_width = 16;
 const int platform_height = 32;
-const int platform_tiles = 5;
+const int platform_tiles = 4;
 
 TWPlatform::TWPlatform(int x, int y) {
     m_textures.push_back(new Texture(1, plat0Pal, plat0PalLen, plat0Tiles, plat0TilesLen, _4BPP));
     m_textures.push_back(new Texture(1, plat1Pal, plat1PalLen, plat1Tiles, plat1TilesLen, _4BPP));
     m_textures.push_back(new Texture(1, plat2Pal, plat2PalLen, plat2Tiles, plat2TilesLen, _4BPP));
     m_textures.push_back(new Texture(1, plat3Pal, plat3PalLen, plat3Tiles, plat3TilesLen, _4BPP));
-    m_textures.push_back(new Texture(1, plat4Pal, plat4PalLen, plat4Tiles, plat4TilesLen, _4BPP));
+//    m_textures.push_back(new Texture(1, plat4Pal, plat4PalLen, plat4Tiles, plat4TilesLen, _4BPP));
 
     for (int i=0; i<platform_tiles; i++) {
         m_textures[i]->metadata.pr = 0;

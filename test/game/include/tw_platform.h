@@ -22,6 +22,7 @@ class TWPlatform : public GameObject, public Collidable {
 
         const int x() const;
         const int y() const;
+
         vector<Texture*> textures();
 
     private:

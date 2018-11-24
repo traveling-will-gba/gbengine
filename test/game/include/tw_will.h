@@ -28,7 +28,7 @@ class TWWill : public GameObject, public Collidable {
         vector <Texture *> m_texture;
         Rectangle m_bounding_box;
 
-        const TWPlatform *cur_plat;
+        vector <const TWPlatform *> cur_plat;
 
         State m_state;
 

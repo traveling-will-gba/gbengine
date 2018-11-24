@@ -63,17 +63,26 @@ void TWWill::update_self(uint64_t dt) {
     }
 
     m_colliding = false;
+    cur_plat.clear();
 }
 
 void TWWill::check_running() {
     print("check_running\n");
-    if (m_colliding && (m_y + will_height >= cur_plat->y() && m_y + will_height <= cur_plat->y() + 3)) {
-        print("set_running %d\n", m_y_speed);
-        m_y_speed = 0;
+    for (int i = 0; i < cur_plat.size(); i++) {
+        if (m_colliding) {
+            print("colidindo com plataforma de y %d\n", cur_plat[i]->y());
+            print("will na altura %d\n", m_y);
+        }
 
-        set_y(cur_plat->y() - will_height);
+        if (m_colliding && (m_y + will_height >= cur_plat[i]->y() && m_y + will_height <= cur_plat[i]->y() + 3)) {
+            print("set_running %d\n", m_y_speed);
+            m_y_speed = 0;
 
-        m_state = RUNNING;
+            set_y(cur_plat[i]->y() - will_height);
+
+            m_state = RUNNING;
+            break;
+        }
     }
 }
 
@@ -101,10 +110,12 @@ void TWWill::check_falling() {
 
 void TWWill::on_collision(const Collidable *who) {
     if (auto platform = dynamic_cast <const TWPlatform *>(who)) {
-        print("colidindo com plataforma\n");
+        //print("colidindo com plataforma de y %d\n", platform->y());
+        //print("will na altura %d\n", m_y);
         m_colliding = true;
 
-        cur_plat = platform;
+        cur_plat.push_back(platform);
+        //cur_plat = platform;
     } else
         m_colliding = false;
 }
