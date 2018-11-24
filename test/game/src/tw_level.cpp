@@ -30,20 +30,27 @@ TWLevel::TWLevel() {
     volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE+0x0000;
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
 
-    m_x = m_y = 0;
-    mx1 = 3;
-    my1 = 0;
-    mx2 = my2 = 0;
     m_done = false;
 
     Texture::init_sprite_attr_mem();
 
-    TWWill *will = new TWWill(10, 128);
+    TWWill *will = new TWWill(10, 127);
 
+    TWPlatform *floor_plats[max_platforms_loaded];
+
+  /*  for (int i = 0; i < max_platforms_loaded; i++) {
+        if (i == 0)
+            floor_plats[i] = new TWPlatform(i * platform_width, 148);
+        else
+            floor_plats[i] = new TWPlatform(i * platform_width, 148, floor_plats[0]->textures());
+
+        add_child(floor_plats[i]);
+    }
+*/
     platform_num = level1_len;
     platform_idx = max_platforms_loaded;
 
-    for (int i=0; i < platform_num; i++) {
+    for (int i = 0; i < platform_num; i++) {
         platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
     }
 
@@ -68,23 +75,27 @@ TWLevel::TWLevel() {
 
 void TWLevel::update_self(uint64_t dt) {
     while (1) {
-        if (platform_idx * platform_width <= m_x + screen_width) {
+        if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
             auto aux = q.front();
             q.pop();
 
-            aux->set_x(platform_idx * platform_width - m_x);
+            aux->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
             aux->set_y(platform_height[platform_idx]);
 
             q.push(aux);
         } else break;
+
         platform_idx++;
     }
 
-    for (int i = 0; i < max_platforms_loaded; i++) {
-        platforms[i]->set_x(platforms[i]->x() - 1);
+    if (dt % 2 == 0) {
+        for (int i = 0; i < max_platforms_loaded; i++) {
+            platforms[i]->set_x(platforms[i]->x() - 1);
+//            platforms[i]->update_bounding_box();
+        }
     }
 }
 
 void TWLevel::draw_self() {
-    m_x += 1;
+
 }

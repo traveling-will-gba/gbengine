@@ -104,8 +104,7 @@ void Background::set_speed(int x, int y) {
     this->m_speed_y = y;
 }
 
-void Background::update_self(uint64_t dt)
-{
+void Background::update_self(uint64_t dt) {
     //print("oi oi oi %d %d %d\n", this->background_id, m_x, m_y);
 
     if (dt % frames_to_skip == 0) {
@@ -134,4 +133,12 @@ void Background::update_self(uint64_t dt)
             print("Invalid background id\n");
             break;
     }
+}
+
+const int Background::x() const {
+    return m_x;
+}
+
+const int Background::y() const{
+    return m_y;
 }

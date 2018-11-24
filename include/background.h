@@ -91,6 +91,9 @@ class Background : public GameObject
         void set_speed_x(int sp) { m_speed_x = sp; }
         void set_speed_y(int sp) { m_speed_y = sp; }
 
+        const int x() const;
+        const int y() const;
+
         int tiles_cb_used;
         int map_se_used;
 };

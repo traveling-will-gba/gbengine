@@ -63,6 +63,7 @@ void TWPlatform::update_bounding_box() {
 }
 
 void TWPlatform::update_self(uint64_t dt) {
+    update_bounding_box();
     for(int i=0;i<platform_tiles;i++) {
         m_textures[i]->metadata.x = m_x;
         m_textures[i]->update(dt);
