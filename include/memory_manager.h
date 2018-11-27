@@ -3,7 +3,6 @@
 
 #include <bitset>
 #include <map>
-#include <unordered_map>
 
 using namespace std;
 
@@ -68,7 +67,7 @@ class MemoryManager {
         bitset<4> charblock_used;
         bitset<32> screenblock_used;
 
-        unordered_map <volatile void *, uint32_t> memory_map;
+        map <volatile void *, uint32_t> memory_map;
 
         MemoryManager();
 

@@ -6,6 +6,7 @@
 #include "tw_will.h"
 #include "physics.h"
 #include "tw_platform.h"
+#include "tw_collectable.h"
 
 #include "level1.h"
 
@@ -40,9 +41,9 @@ TWLevel::TWLevel() {
 
     for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
-            floor_plats[i] = new TWPlatform(i * platform_width, 148);
+            floor_plats[i] = new TWPlatform(i * platform_width, 148, true);
         else
-            floor_plats[i] = new TWPlatform(i * platform_width, 148, floor_plats[0]->textures());
+            floor_plats[i] = new TWPlatform(i * platform_width, 148, floor_plats[0]->textures(), true);
 
         add_child(floor_plats[i]);
     }
@@ -66,6 +67,17 @@ TWLevel::TWLevel() {
 
     add_child(will);
 
+    TWCollectable *cols[max_platforms_loaded];
+    for (int i = 0; i < max_platforms_loaded; i++) {
+        if (i == 0)
+            cols[i] = new TWCollectable(i * platform_width, platform_height[i] - 8);
+        else
+            cols[i] = new TWCollectable(i * platform_width, platform_height[i] - 8, cols[0]->texture());
+
+        platforms[i]->set_collectable(cols[i]);
+        cols[i]->set_visibility(true);
+    }
+
     for (auto background : m_backgrounds) {
         add_child(background);
     }
@@ -76,13 +88,13 @@ TWLevel::TWLevel() {
 void TWLevel::update_self(uint64_t dt) {
     while (1) {
         if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
-            auto aux = q.front();
+            auto plat = q.front();
             q.pop();
 
-            aux->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
-            aux->set_y(platform_height[platform_idx]);
+            plat->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
+            plat->set_y(platform_height[platform_idx]);
 
-            q.push(aux);
+            q.push(plat);
         } else break;
 
         platform_idx++;

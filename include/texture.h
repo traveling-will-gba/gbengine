@@ -43,6 +43,9 @@ class Texture {
         uint32_t pallete_id;
 
         Texture() {}
+
+        Texture(volatile struct attr *oam_entry, uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
+                const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp);
         Texture(const Texture *texture);
         Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
             const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp);
@@ -53,6 +56,8 @@ class Texture {
         static uint8_t *sprite_pal;
         static volatile void *obj_attr_mem;
         static void init_sprite_attr_mem();
+
+        volatile struct attr *get_oam_entry();
 };
 
 #endif

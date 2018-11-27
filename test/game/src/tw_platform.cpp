@@ -10,20 +10,22 @@
 #include "plat1.h"
 #include "plat2.h"
 #include "plat3.h"
-#include "plat4.h"
 
 const int platform_width = 16;
 const int platform_height = 32;
-const int platform_tiles = 4;
 
-TWPlatform::TWPlatform(int x, int y) {
+TWPlatform::TWPlatform(int x, int y, bool is_floor) {
     m_textures.push_back(new Texture(1, plat0Pal, plat0PalLen, plat0Tiles, plat0TilesLen, _4BPP));
-    m_textures.push_back(new Texture(1, plat1Pal, plat1PalLen, plat1Tiles, plat1TilesLen, _4BPP));
-    m_textures.push_back(new Texture(1, plat2Pal, plat2PalLen, plat2Tiles, plat2TilesLen, _4BPP));
-    m_textures.push_back(new Texture(1, plat3Pal, plat3PalLen, plat3Tiles, plat3TilesLen, _4BPP));
-//    m_textures.push_back(new Texture(1, plat4Pal, plat4PalLen, plat4Tiles, plat4TilesLen, _4BPP));
 
-    for (int i=0; i<platform_tiles; i++) {
+    if (not is_floor) {
+        m_textures.push_back(new Texture(1, plat1Pal, plat1PalLen, plat1Tiles, plat1TilesLen, _4BPP));
+        m_textures.push_back(new Texture(1, plat2Pal, plat2PalLen, plat2Tiles, plat2TilesLen, _4BPP));
+        m_textures.push_back(new Texture(1, plat3Pal, plat3PalLen, plat3Tiles, plat3TilesLen, _4BPP));
+    }
+
+    platform_tiles = m_textures.size();
+
+    for (size_t i = 0; i < platform_tiles; i++) {
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;
@@ -39,8 +41,10 @@ TWPlatform::TWPlatform(int x, int y) {
     Physics::get_physics()->register_object(this);
 }
 
-TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures) {
-    for (int i = 0; i < platform_tiles; i++) {
+TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures, bool is_floor) {
+    platform_tiles = textures.size();
+
+    for (size_t i = 0; i < platform_tiles; i++) {
         m_textures.push_back(new Texture(textures[i]));
 
         m_textures[i]->metadata.pr = 0;
@@ -64,10 +68,12 @@ void TWPlatform::update_bounding_box() {
 
 void TWPlatform::update_self(uint64_t dt) {
     update_bounding_box();
-    for(int i=0;i<platform_tiles;i++) {
+    for (size_t i=0;i<platform_tiles;i++) {
         m_textures[i]->metadata.x = m_x;
         m_textures[i]->update(dt);
     }
+
+    m_collectable->set_x(m_x);
 }
 
 void TWPlatform::draw_self() {
@@ -114,4 +120,9 @@ void TWPlatform::set_y(int y) {
             m_textures[i]->metadata.om = 0;
         }
     }
+}
+
+void TWPlatform::set_collectable(TWCollectable *col) {
+    m_collectable = col;
+    add_child(col);
 }

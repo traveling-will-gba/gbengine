@@ -7,6 +7,7 @@ class Collidable {
     public:
         virtual void on_collision(const Collidable *who) = 0;
         virtual const Rectangle& bounding_box() const = 0;
+        virtual bool active() const = 0;
 };
 
 #endif

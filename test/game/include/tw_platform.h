@@ -5,18 +5,23 @@
 #include "collidable.h"
 #include "texture.h"
 
+#include "tw_collectable.h"
+
 #include <stdio.h>
 
 class TWPlatform : public GameObject, public Collidable {
     public:
-        TWPlatform(int x, int y);
-        TWPlatform(int x, int y, const vector<Texture*> textures);
+        TWPlatform(int x, int y, bool is_floor = false);
+        TWPlatform(int x, int y, const vector<Texture*> textures, bool is_floor = false);
 
         void update_self(uint64_t dt);
         void draw_self();
+        bool active() const { return true; }
+
         void on_collision(const Collidable *who);
         const Rectangle& bounding_box() const;
         void update_bounding_box();
+
         void set_x(int x);
         void set_y(int y);
 
@@ -25,9 +30,13 @@ class TWPlatform : public GameObject, public Collidable {
 
         vector<Texture*> textures();
 
+        void set_collectable(TWCollectable *col);
+
     private:
         vector<Texture*> m_textures;
+        TWCollectable *m_collectable;
         int m_x, m_y;
+        int platform_tiles;
         Rectangle m_bounding_box;
 };
 

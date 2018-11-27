@@ -1,7 +1,10 @@
 #include "tw_will.h"
 #include "tw_platform.h"
+#include "tw_collectable.h"
 
 #include "will_idle.h"
+#include "will_jumping.h"
+
 #include "physics.h"
 
 #include "input.h"
@@ -13,17 +16,12 @@ TWWill::TWWill(int x, int y) {
     m_x_speed = 0;
     m_y_speed = 0;
 
-    m_texture.resize(10);
-
-    Texture *t = new Texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen, _4BPP);
-
-    t->metadata.pr = 0;
-    t->metadata.cm = 0;
-    t->metadata.om = 0;
-    t->metadata.sh = 0; // square
-    t->metadata.sz = 1;
-
-    m_texture[RUNNING] = t;
+    m_texture = new Texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen, _4BPP);
+    m_texture->metadata.pr = 0;
+    m_texture->metadata.cm = 0;
+    m_texture->metadata.om = 0;
+    m_texture->metadata.sh = 0; // square
+    m_texture->metadata.sz = 1;
 
     set_x(x);
     set_y(y);
@@ -39,7 +37,7 @@ void TWWill::draw_self() {
 }
 
 void TWWill::update_self(uint64_t dt) {
-    m_texture[RUNNING]->update(dt); 
+    m_texture->update(dt); 
 
     set_x(m_x + m_x_speed);
     set_y(m_y + m_y_speed);
@@ -69,12 +67,12 @@ void TWWill::update_self(uint64_t dt) {
 void TWWill::check_running() {
     print("check_running\n");
     for (size_t i = 0; i < colliding_plats.size(); i++) {
-        if (m_colliding) {
+        //if (m_colliding) {
             print("colidindo com plataforma de y %d\n", colliding_plats[i]->y());
             print("will na altura %d\n", m_y);
-        }
+        //}
 
-        if (m_colliding && (m_y + will_height >= colliding_plats[i]->y() && m_y + will_height <= colliding_plats[i]->y() + 3)) {
+        if (/*m_colliding &&*/ (m_y + will_height >= colliding_plats[i]->y() && m_y + will_height <= colliding_plats[i]->y() + 3)) {
             print("set_running %d\n", m_y_speed);
             m_y_speed = 0;
 
@@ -109,26 +107,28 @@ void TWWill::check_falling() {
 }
 
 void TWWill::on_collision(const Collidable *who) {
-    if (auto platform = dynamic_cast <const TWPlatform *>(who)) {
-        //print("colidindo com plataforma de y %d\n", platform->y());
+    m_colliding = false;
+
+    if (auto col = dynamic_cast <const TWCollectable *>(who)) {
+        print("COLETAVEL\n");
+    } else if (auto platform = dynamic_cast <const TWPlatform *>(who)) {
+        print("ahhhh colidindo com plataforma de y %d\n", platform->y());
         //print("will na altura %d\n", m_y);
         m_colliding = true;
 
         colliding_plats.push_back(platform);
-        //cur_plat.push_back(platform);
-        //cur_plat = platform;
-    } else
-        m_colliding = false;
+        return;
+    }
 }
 
 void TWWill::set_x(int x) {
     m_x = x;
-    m_texture[RUNNING]->metadata.x = m_x;
+    m_texture->metadata.x = m_x;
 
 }
 void TWWill::set_y(int y) {
     m_y = y;
-    m_texture[RUNNING]->metadata.y = m_y;
+    m_texture->metadata.y = m_y;
 }
 
 const Rectangle& TWWill::bounding_box() const {

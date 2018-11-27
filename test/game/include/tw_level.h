@@ -21,7 +21,7 @@ class TWLevel : public Level {
 
     private:
         uint32_t n_platforms;
-        TWPlatform *platforms[100];
+        TWPlatform *platforms[50];
 
         queue <TWPlatform *> q;
         int platform_height[10100];

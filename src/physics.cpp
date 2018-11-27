@@ -37,7 +37,7 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
 
 void Physics::do_collisions() {
     for (auto obj : objects) {
-        if (obj == target) continue;
+        if (obj == target or not obj->active() or not target->active()) continue;
 
         if (check_collision(target, obj)) {
             target->on_collision(obj);

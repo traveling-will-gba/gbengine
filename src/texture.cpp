@@ -22,6 +22,29 @@ void Texture::init_sprite_attr_mem()
     }
 }
 
+Texture::Texture(volatile struct attr *oam_entry, uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
+                 const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP)
+{
+    this->pallete = pallete;
+    this->pallete_len = pallete_len;
+    this->pallete_id = 0;
+    this->bpp = bpp;
+    this->num_sprites = num_sprites;
+    this->num_tiles = tiles_len / ((bpp == _4BPP) ? 32 : 64);
+    this->tiles_per_sprite = num_tiles / num_sprites;
+    this->tiles = tiles;
+    this->tiles_len = tiles_len;
+
+    memory_manager = MemoryManager::get_memory_manager();
+
+    set_sprite_pal();
+    set_sprite();
+    this->oam_entry = oam_entry;
+
+    metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
+    metadata.pb = pallete_id;
+}
+
 Texture::Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete_len,
         const unsigned int *tiles, uint32_t tiles_len, enum bits_per_pixel bpp = _8BPP)
 {
@@ -72,7 +95,7 @@ bool Texture::set_sprite_pal() {
 
     this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
 
-    //print("pal: %d\n", this->pallete_id);
+    print("pal: %d\n", this->pallete_id);
 
     return true;
 }
@@ -83,7 +106,7 @@ bool Texture::set_sprite() {
     mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
     tile_base = teste - memory_manager->base_texture_mem();
 
-    //print("tile: %d\n", tile_base);
+    print("tile_base: %d\n", tile_base);
 
     return true;
 }
@@ -103,4 +126,9 @@ void Texture::update(uint64_t dt) {
 
 void Texture::set_priority(int priority) {
     metadata.pr = priority;
+}
+
+
+volatile struct attr *Texture::get_oam_entry() {
+    return oam_entry;
 }
