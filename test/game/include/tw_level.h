@@ -24,7 +24,9 @@ class TWLevel : public Level {
         TWPlatform *platforms[50];
 
         queue <TWPlatform *> q;
-        int platform_height[10100];
+        int platform_height[500];
+        int collectable_height[500];
+        bool collectable_present[500];
 
         vector<Background *> m_backgrounds;
 

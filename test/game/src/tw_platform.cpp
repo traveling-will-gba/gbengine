@@ -126,3 +126,7 @@ void TWPlatform::set_collectable(TWCollectable *col) {
     m_collectable = col;
     add_child(col);
 }
+
+TWCollectable *TWPlatform::collectable() {
+    return m_collectable;
+}

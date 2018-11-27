@@ -53,6 +53,8 @@ TWLevel::TWLevel() {
 
     for (int i = 0; i < platform_num; i++) {
         platform_height[i] = 160 - level1_platform_heights[i] / 3; // 480 -> 160
+        collectable_height[i] = 160 - level1_collectable_heights[i] / 3; // 480 -> 160
+        collectable_present[i] = level1_collectable_present[i];
     }
 
     for (int i = 0; i < max_platforms_loaded; i++) {
@@ -70,12 +72,12 @@ TWLevel::TWLevel() {
     TWCollectable *cols[max_platforms_loaded];
     for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
-            cols[i] = new TWCollectable(i * platform_width, platform_height[i] - 8);
+            cols[i] = new TWCollectable(i * platform_width, collectable_height[i]);
         else
-            cols[i] = new TWCollectable(i * platform_width, platform_height[i] - 8, cols[0]->texture());
+            cols[i] = new TWCollectable(i * platform_width, collectable_height[i], cols[0]->texture());
 
         platforms[i]->set_collectable(cols[i]);
-        cols[i]->set_visibility(true);
+        cols[i]->set_visibility(collectable_present[i]);
     }
 
     for (auto background : m_backgrounds) {
@@ -93,6 +95,8 @@ void TWLevel::update_self(uint64_t dt) {
 
             plat->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
             plat->set_y(platform_height[platform_idx]);
+
+            plat->collectable()->set_y(collectable_height[platform_idx]);
 
             q.push(plat);
         } else break;

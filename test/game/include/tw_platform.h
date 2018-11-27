@@ -31,6 +31,7 @@ class TWPlatform : public GameObject, public Collidable {
         vector<Texture*> textures();
 
         void set_collectable(TWCollectable *col);
+        TWCollectable *collectable();
 
     private:
         vector<Texture*> m_textures;
