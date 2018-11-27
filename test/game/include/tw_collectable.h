@@ -23,6 +23,8 @@ class TWCollectable : public GameObject, public Collidable {
 
         void on_collision(const Collidable *who);
         const Rectangle& bounding_box() const;
+        void update_bounding_box();
+
         const Texture *texture() const;
 
         void set_x(int x);

@@ -12,6 +12,7 @@
 
 const int max_platforms_loaded = 16;
 const int platform_width = 16;
+const int collectable_width = 8;
 const int screen_width = 240;
 
 TWLevel::TWLevel() {
@@ -72,9 +73,9 @@ TWLevel::TWLevel() {
     TWCollectable *cols[max_platforms_loaded];
     for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
-            cols[i] = new TWCollectable(i * platform_width, collectable_height[i]);
+            cols[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2, collectable_height[i]);
         else
-            cols[i] = new TWCollectable(i * platform_width, collectable_height[i], cols[0]->texture());
+            cols[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2, collectable_height[i], cols[0]->texture());
 
         platforms[i]->set_collectable(cols[i]);
         cols[i]->set_visibility(collectable_present[i]);

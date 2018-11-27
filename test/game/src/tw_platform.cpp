@@ -14,6 +14,8 @@
 const int platform_width = 16;
 const int platform_height = 32;
 
+const int collectable_width = 8;
+
 TWPlatform::TWPlatform(int x, int y, bool is_floor) {
     m_textures.push_back(new Texture(1, plat0Pal, plat0PalLen, plat0Tiles, plat0TilesLen, _4BPP));
 
@@ -73,7 +75,7 @@ void TWPlatform::update_self(uint64_t dt) {
         m_textures[i]->update(dt);
     }
 
-    m_collectable->set_x(m_x);
+    m_collectable->set_x(m_x + platform_width / 2 - collectable_width / 2);
 }
 
 void TWPlatform::draw_self() {

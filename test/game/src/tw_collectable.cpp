@@ -56,6 +56,7 @@ const Texture *TWCollectable::texture() const {
 }
 
 void TWCollectable::update_self(uint64_t dt) {
+    update_bounding_box();
     m_texture->update(dt);
 }
 
@@ -83,4 +84,8 @@ void TWCollectable::set_y(int y) {
 
 const Rectangle& TWCollectable::bounding_box() const {
     return m_bounding_box;
+}
+
+void TWCollectable::update_bounding_box() {
+    m_bounding_box = Rectangle(m_x + col_width / 2, m_y + col_height / 2, col_width, col_height);
 }
