@@ -26,6 +26,14 @@ class TWWill : public GameObject, public Collidable {
 
         uint32_t items_collected();
 
+        void set_speed_x(int x);
+        void set_speed_y(int y);
+
+        const int x() const { return m_x; }
+        const int y() const { return m_y; }
+        const int speed_x() const { return m_x_speed; }
+        const int speed_y() const { return m_y_speed; }
+
     private:
         int m_x, m_y;
         int m_x_speed, m_y_speed;

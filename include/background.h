@@ -93,6 +93,8 @@ class Background : public GameObject
 
         const int x() const;
         const int y() const;
+        const int speed_x() const;
+        const int speed_y() const;
 
         int tiles_cb_used;
         int map_se_used;

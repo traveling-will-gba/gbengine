@@ -142,3 +142,11 @@ const int Background::x() const {
 const int Background::y() const{
     return m_y;
 }
+
+const int Background::speed_x() const {
+    return m_speed_x;
+}
+
+const int Background::speed_y() const {
+    return m_speed_y;
+}

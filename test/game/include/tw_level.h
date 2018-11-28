@@ -4,6 +4,7 @@
 #include "level.h"
 #include "tw_platform.h"
 #include "background.h"
+#include "tw_will.h"
 
 #include <stdio.h>
 #include <vector>
@@ -22,6 +23,7 @@ class TWLevel : public Level {
     private:
         uint32_t n_platforms;
         TWPlatform *platforms[50];
+        TWWill *will;
 
         queue <TWPlatform *> q;
         int platform_height[500];
@@ -35,6 +37,8 @@ class TWLevel : public Level {
 
         int mx1, my1;
         int mx2, my2;
+
+        bool m_is_level_ending;
 };
 
 #endif

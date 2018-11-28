@@ -3,7 +3,6 @@
 #include "b0.h"
 #include "b1.h"
 #include "b2.h"
-#include "tw_will.h"
 #include "physics.h"
 #include "tw_platform.h"
 #include "tw_collectable.h"
@@ -33,10 +32,11 @@ TWLevel::TWLevel() {
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
 
     m_done = false;
+    m_is_level_ending = false;
 
     Texture::init_sprite_attr_mem();
 
-    TWWill *will = new TWWill(10, 127);
+    will = new TWWill(10, 127);
 
     TWPlatform *floor_plats[max_platforms_loaded];
 
@@ -106,10 +106,33 @@ void TWLevel::update_self(uint64_t dt) {
         platform_idx++;
     }
 
-    if (dt % 2 == 0) {
-        for (int i = 0; i < max_platforms_loaded; i++) {
-            platforms[i]->set_x(platforms[i]->x() - 1);
-//            platforms[i]->update_bounding_box();
+    int outer_x = 240 + 10;
+
+    if (will->x() >= outer_x) {
+        m_done = true;
+        print("level ended\n");
+        // FIXME remove this exit() call
+        exit(1);
+    }
+
+    if (platform_idx == platform_num && !m_is_level_ending) {
+        int level_speed_x = m_backgrounds[0]->speed_x();
+
+        will->set_speed_x(level_speed_x);
+
+        for (int i=0; i<m_backgrounds.size();i++) {
+            m_backgrounds[i]->set_speed_x(0);
+        }
+
+        m_is_level_ending = true;
+    }
+    else if (!m_is_level_ending) {
+        print("mas uai\n");
+        if (dt % 2 == 0) {
+            for (int i = 0; i < max_platforms_loaded; i++) {
+                platforms[i]->set_x(platforms[i]->x() - 1);
+    //            platforms[i]->update_bounding_box();
+            }
         }
     }
 }

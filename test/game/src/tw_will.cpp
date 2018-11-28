@@ -137,6 +137,14 @@ void TWWill::set_y(int y) {
     m_texture->metadata.y = m_y;
 }
 
+void TWWill::set_speed_x(int x) {
+    m_x_speed = x;
+}
+
+void TWWill::set_speed_y(int y) {
+    m_y_speed = y;
+}
+
 const Rectangle& TWWill::bounding_box() const {
     return m_bounding_box;
 }
