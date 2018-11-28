@@ -1,4 +1,4 @@
-#include "game.h"
+#include "tw_game.h"
 
 #include "tw_level.h"
 #include "physics.h"
@@ -17,8 +17,7 @@
 #include "input.h"
 #include "utils.h"
 
-void Game::run() {
-    //FIXME: THE ENGINE SHOULD NOT CALL THE GAME
+void TWGame::run() {
     TWLevel level;
 
     uint64_t dt = 0;

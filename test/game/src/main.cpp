@@ -13,7 +13,7 @@
 #include "plat1.h"
 
 #include "tw_will.h"
-#include "game.h"
+#include "tw_game.h"
 
 #include <unistd.h>
 #include <string.h>
@@ -32,7 +32,7 @@ int main(){
 
     Texture::init_sprite_attr_mem();
 
-    Game game;
+    TWGame game;
     game.run();
 
     return 0;
