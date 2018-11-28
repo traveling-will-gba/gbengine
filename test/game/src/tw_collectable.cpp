@@ -1,5 +1,7 @@
 #include "tw_collectable.h"
 
+#include "tw_will.h"
+
 #include "col.h"
 
 #include "physics.h"
@@ -69,7 +71,9 @@ bool TWCollectable::active() const {
 }
 
 void TWCollectable::on_collision(const Collidable *who) {
-    print("Peguei o coletável\n");
+    if (auto will = dynamic_cast <const TWWill *>(who)) {
+        set_visibility(false);
+    }
 }
 
 void TWCollectable::set_x(int x) {

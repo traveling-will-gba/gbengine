@@ -24,11 +24,16 @@ class TWWill : public GameObject, public Collidable {
         void on_collision(const Collidable *who);
         const Rectangle& bounding_box() const;
 
+        uint32_t items_collected();
+
     private:
         int m_x, m_y;
         int m_x_speed, m_y_speed;
+        int m_jump_counter;
         Texture *m_texture;
         Rectangle m_bounding_box;
+
+        uint32_t m_items_collected;
 
         //vector <const TWPlatform *> cur_plat;
 

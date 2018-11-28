@@ -29,6 +29,8 @@ TWWill::TWWill(int x, int y) {
     m_bounding_box = Rectangle(m_x + will_width / 2, m_y + will_height / 2, will_width, will_height);
 
     m_state = RUNNING;
+    m_jump_counter = 0;
+    m_items_collected = 0;
 
     Physics::get_physics()->register_object(this);
 }
@@ -46,6 +48,7 @@ void TWWill::update_self(uint64_t dt) {
 
     switch (m_state) {
         case RUNNING:
+            m_jump_counter = 0;
             check_falling();
             check_jumping();
             break;
@@ -55,6 +58,7 @@ void TWWill::update_self(uint64_t dt) {
             break;
         case FALLING:
             check_running();
+            check_jumping();
             break;
         default:
             break;
@@ -86,9 +90,10 @@ void TWWill::check_running() {
 
 void TWWill::check_jumping() {
     print("check_jumping\n");
-    if (pressed(BUTTON_UP)) {
+    if (pressed(BUTTON_UP) && m_jump_counter < 3) {
         print("set_jumping\n");
         m_y_speed = -7;
+        m_jump_counter++;
         m_state = JUMPING;
     }
 }
@@ -110,10 +115,11 @@ void TWWill::on_collision(const Collidable *who) {
     m_colliding = false;
 
     if (auto col = dynamic_cast <const TWCollectable *>(who)) {
-        print("COLETAVEL\n");
+        print("Colidiu com coletavel\n");
+        m_items_collected++;
+        print("COLETAVEIS PEGOS %d\n", m_items_collected);
     } else if (auto platform = dynamic_cast <const TWPlatform *>(who)) {
-        print("ahhhh colidindo com plataforma de y %d\n", platform->y());
-        //print("will na altura %d\n", m_y);
+        print("Colidiu com plataforma\n");
         m_colliding = true;
 
         colliding_plats.push_back(platform);
@@ -133,4 +139,8 @@ void TWWill::set_y(int y) {
 
 const Rectangle& TWWill::bounding_box() const {
     return m_bounding_box;
+}
+
+uint32_t TWWill::items_collected() {
+    return m_items_collected;
 }

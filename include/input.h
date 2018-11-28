@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include <stdbool.h>
+#include <stdio.h>
 #include "base_types.h"
 
 #define BUTTON_A 1
@@ -18,6 +19,8 @@
 #define N_BUTTON 10
 
 extern int pressed_state[N_BUTTON];
+extern uint64_t key_update[N_BUTTON];
+extern uint64_t update_counter;
 
 void check_buttons_states();
 bool pressed(int button);

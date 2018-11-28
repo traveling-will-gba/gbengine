@@ -98,6 +98,7 @@ void TWLevel::update_self(uint64_t dt) {
             plat->set_y(platform_height[platform_idx]);
 
             plat->collectable()->set_y(collectable_height[platform_idx]);
+            plat->collectable()->set_visibility(collectable_present[platform_idx]);
 
             q.push(plat);
         } else break;
