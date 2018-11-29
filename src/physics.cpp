@@ -36,7 +36,12 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
 }
 
 void Physics::do_collisions() {
+    if (not target) {
+        return;
+    }
+
     for (auto obj : objects) {
+        if (not obj) continue;
         if (obj == target or not obj->active() or not target->active()) continue;
 
         if (check_collision(target, obj)) {
@@ -44,6 +49,11 @@ void Physics::do_collisions() {
             obj->on_collision(target);
         }
     }
+}
+
+void Physics::dispose() {
+    // objects.clear();
+    target = nullptr;
 }
 
 void Physics::set_target(Collidable *c) {

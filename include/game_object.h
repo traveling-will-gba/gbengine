@@ -25,6 +25,8 @@ class GameObject {
         void set_parent(GameObject *obj) { m_parent = obj; }
         void add_child(GameObject *);
         void remove_child(GameObject *);
+
+        // virtual ~GameObject();
 };
 
 #endif

@@ -2,6 +2,15 @@
 
 #include "game_object.h"
 
+// GameObject::~GameObject() {
+//     int children_size = m_children.size();
+//     for(int i=0;i<children_size; i++) {
+//         delete m_children[i];
+//     }
+
+//     m_children.clear();
+// }
+
 void GameObject::update(uint64_t dt) {
     for (auto child : m_children) {
         child->update(dt);
@@ -24,8 +33,11 @@ void GameObject::add_child(GameObject *obj) {
     auto p = obj->parent();
 
     if (p) {
-        if (p != this)
+        if (p != this) {
+            print("eita 0\n");
             p->remove_child(obj);
+            print("eita 1\n");
+        }
         else
             return;
     }

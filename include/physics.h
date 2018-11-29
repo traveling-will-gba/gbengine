@@ -16,6 +16,7 @@ class Physics {
         void unregister_object(Collidable *);
         void do_collisions();
         void set_target(Collidable *c);
+        void dispose();
 
     private:
         static list<Collidable *> objects;

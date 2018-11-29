@@ -34,48 +34,94 @@ const int screen_width = 240;
 TWLevel::TWLevel(int level, bool playable = true) {
     print("level %d is playable? %d\n", level, playable);
     reset_dispcnt();
+    print("l1\n");
     set_video_mode(0);
+    print("l2\n");
     enable_background(0);
+    print("l3\n");
     enable_background(1);
+    print("l4\n");
     enable_background(2);
+    print("l5\n");
 
     volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE + 0x0000;
+    print("l6\n");
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
+    print("l7\n");
 
     m_current_level = level;
+    print("l8\n");
     m_playable = playable;
+    print("l9\n");
     m_done = false;
+    print("l10\n");
     m_is_level_ending = false;
+    print("l11\n");
 
     Texture::init_sprite_attr_mem();
 
-    if (m_playable) {
-        will = new TWWill(10, 127);
-    }
-
+    print("l12\n");
     load_level_design(level);
+    print("l13\n");
     load_backgrounds(level);
 
     if (m_playable) {
+        print("l14\n");
+        will = new TWWill(10, 127);
+        print("l15\n");
         add_child(will);
+        print("l16\n");
         Physics::get_physics()->set_target(will);
     }
+    print("end const level\n");
 }
 
 TWLevel::~TWLevel() {
-    while (!q.empty()) {
-        q.pop();
+    print("enter des\n");
+    if (m_playable) {
+        print("d1\n");
+        while(!m_children.empty()) {
+            print("d2\n");
+            remove_child(*m_children.begin());
+        }
+        print("d3\n");
+
+        for (int i=0; i<max_platforms_loaded; i++) {
+            print("d4 %d\n", i);
+            delete platforms[i];
+            // delete collectables[i];
+            delete floor_plats[i];
+        }
+
+        print("d5\n");
+        delete will;
+
+        while (!q.empty())
+        {
+            print("d6\n");
+            q.pop();
+        }
+        print("d7\n");
     }
 
-    m_backgrounds.clear();
+    print("d8\n");
+    int backgrounds_size = m_backgrounds.size();
 
-    for(auto child : m_children) {
-        remove_child(child);
+    print("d9\n");
+    for (int i = 0; i < backgrounds_size; i++)
+    {
+        print("d10 %d\n", i);
+        delete m_backgrounds[i];
     }
-
+    print("d11\n");
     MemoryManager *manager = MemoryManager::get_memory_manager();
 
+    print("d12\n");
     manager->reset_memory();
+
+    print("d13\n");
+    Physics::get_physics()->dispose();
+    print("leave des\n");
 }
 
 void TWLevel::update_self(uint64_t dt) {
@@ -155,6 +201,7 @@ void TWLevel::draw_self() {
 }
 
 void TWLevel::load_backgrounds(int level) {
+    print("load back\n");
     m_backgrounds.clear();
 
     switch(level) {
@@ -216,10 +263,14 @@ void TWLevel::load_backgrounds(int level) {
             break;
     }
 
+    print("about to add child back\n");
     for (auto background : m_backgrounds)
     {
+        print("add backaa %d\n", level);
         add_child(background);
+        print("end aasad\n");
     }
+    print("ended load back\n");
 }
 
 void TWLevel::load_level_design(int level) {
