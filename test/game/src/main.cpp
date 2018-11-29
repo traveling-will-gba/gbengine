@@ -20,6 +20,7 @@ int main(){
     Texture::init_sprite_attr_mem();
 
     TWGame game;
+
     game.run();
 
     return 0;

@@ -80,6 +80,7 @@ void TWWill::check_running() {
 
         if (/*m_colliding &&*/ (m_y + will_height >= colliding_plats[i]->y() && m_y + will_height <= colliding_plats[i]->y() + 3)) {
             // print("set_running %d\n", m_y_speed);
+
             m_y_speed = 0;
 
             set_y(colliding_plats[i]->y() - will_height);

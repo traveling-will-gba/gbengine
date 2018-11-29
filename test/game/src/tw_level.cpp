@@ -55,6 +55,7 @@ TWLevel::TWLevel(int level, bool playable = true) {
     enable_background(2);
 
     volatile uint32_t *reg_dispcnt = (volatile uint32_t *)REG_BASE + 0x0000;
+
     *reg_dispcnt |= DCNT_OBJ | DCNT_OBJ_1D;
 
     m_current_level = level;

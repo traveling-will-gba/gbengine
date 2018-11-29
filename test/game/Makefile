@@ -36,7 +36,7 @@ export PROJ	:= $(notdir $(CURDIR))
 TITLE		:= $(PROJ)
 GFXLIBS		:= libgfx.a
 
-LIBS		:= -ltonc -lgfx
+LIBS		:= -ltonc -lgfx -lgba -lmm
 
 BUILD		:= build
 SRCDIRS	:= ../../src src
@@ -44,7 +44,8 @@ DATADIRS	:= data
 INCDIRS	:= ../../include include
 LIBTONC	:= $(TONCCODE)/tonclib
 TONCINCDIRS	:= $(LIBTONC)/include
-TONCLIBDIRS	:= $(LIBTONC)/lib
+TONCLIBDIRS	:= $(LIBTONC)/lib $(LIBGBA)
+MUSIC       := maxmod_data
 
 # --- switches ---
 
@@ -129,6 +130,11 @@ CPPFILES	:=	$(foreach dir, $(SRCDIRS) , $(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir, $(SRCDIRS) , $(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir, $(DATADIRS), $(notdir $(wildcard $(dir)/*.*)))
 
+ifneq ($(strip $(MUSIC)),)
+    export AUDIOFILES   :=  $(foreach dir,$(notdir $(wildcard $(MUSIC)/*.*)),$(CURDIR)/$(MUSIC)/$(dir))
+    BINFILES += soundbank.bin
+endif
+
 # --- Set linker depending on C++ file existence ---
 ifeq ($(strip $(CPPFILES)),)
 	export LD	:= $(CC)
@@ -183,6 +189,19 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).gba	:	$(OUTPUT).elf
 
 $(OUTPUT).elf	:	$(OFILES)
+
+$(OFILES_SOURCES) : $(HFILES)
+
+soundbank.bin soundbank.h : $(AUDIOFILES)
+    $@: (mmutil) $^ -osoundbank.bin -hsoundbank.h
+
+#---------------------------------------------------------------------------------
+# This rule links in binary data with the .bin extension
+#---------------------------------------------------------------------------------
+%.bin.o %_bin.h :   %.bin
+#---------------------------------------------------------------------------------
+    $@: echo $(notdir $<)
+    $@: (bin2o)
 
 -include $(DEPENDS)
 

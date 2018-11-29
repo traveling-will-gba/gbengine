@@ -1,5 +1,7 @@
 #include "background.h"
 
+#include "sound.h"
+
 Background::Background(const unsigned short *pallete, uint32_t pallete_len,
                        const unsigned int *tiles, uint32_t tiles_len,
                        const unsigned short *map, uint32_t map_len,

@@ -14,7 +14,7 @@ void enable_background(int background);
 
 typedef u16 COLOR;
 typedef u16 SCR_ENTRY;
-typedef struct { u32 data[8]; } TILE;
+typedef struct { uint32_t data[8]; } TILE;
 
 typedef SCR_ENTRY	SCREENBLOCK[1024];
 typedef TILE		CHARBLOCK[512];
