@@ -37,9 +37,13 @@ void GameObject::add_child(GameObject *obj) {
 void GameObject::remove_child(GameObject *obj) {
     if (obj) {
         obj->set_parent(nullptr);
-        for (auto it = m_children.begin(); it != m_children.end(); it++) {
-            if (*it == obj) {
-                m_children.erase(it);
+
+        int children_size = m_children.size();
+
+        for(int i=0;i<children_size; i++) {
+            if (m_children[i] == obj)
+            {
+                m_children.erase(m_children.begin() + i);
                 return;
             }
         }

@@ -15,6 +15,7 @@ using std::vector;
 class TWLevel : public Level {
     public:
         TWLevel(int level, bool playable);
+        ~TWLevel();
 
         void update_self(uint64_t dt);
         void draw_self();

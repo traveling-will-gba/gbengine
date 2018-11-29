@@ -135,9 +135,12 @@ TWCollectable *TWPlatform::collectable() {
 
 void TWPlatform::load_platforms(int level) {
     switch(level) {
-        case 0:
+        case LEVEL_MENU:
+        case MENU_DEFEAT:
+        case MENU_VICTORY:
             // do nothing
-        case 1:
+            break;
+        case LEVEL_1:
             m_textures.push_back(new Texture(1, level1_plat0Pal, level1_plat0PalLen, level1_plat0Tiles, level1_plat0TilesLen, _4BPP));
 
             if (not m_is_floor)
@@ -148,7 +151,7 @@ void TWPlatform::load_platforms(int level) {
             }
 
             break;
-        case 2:
+        case LEVEL_2:
             m_textures.push_back(new Texture(1, level2_plat0Pal, level2_plat0PalLen, level2_plat0Tiles, level2_plat0TilesLen, _4BPP));
 
             if (not m_is_floor)
@@ -158,7 +161,7 @@ void TWPlatform::load_platforms(int level) {
                 m_textures.push_back(new Texture(1, level2_plat3Pal, level2_plat3PalLen, level2_plat3Tiles, level2_plat3TilesLen, _4BPP));
             }
             break;
-        case 3:
+        case LEVEL_3:
             // m_textures.push_back(new Texture(1, level3_plat0Pal, level3_plat0PalLen, level3_plat0Tiles, level3_plat0TilesLen, _4BPP));
 
             // if (not m_is_floor)
@@ -168,7 +171,7 @@ void TWPlatform::load_platforms(int level) {
             //     m_textures.push_back(new Texture(1, level3_plat3Pal, level3_plat3PalLen, level3_plat3Tiles, level3_plat3TilesLen, _4BPP));
             // }
             break;
-        case 4:
+        case LEVEL_4:
             // m_textures.push_back(new Texture(1, level4_plat0Pal, level4_plat0PalLen, level4_plat0Tiles, level4_plat0TilesLen, _4BPP));
 
             // if (not m_is_floor)
@@ -178,7 +181,7 @@ void TWPlatform::load_platforms(int level) {
             //     m_textures.push_back(new Texture(1, level4_plat3Pal, level4_plat3PalLen, level4_plat3Tiles, level4_plat3TilesLen, _4BPP));
             // }
             break;
-        case 5:
+        case LEVEL_5:
             // m_textures.push_back(new Texture(1, level5_plat0Pal, level5_plat0PalLen, level5_plat0Tiles, level5_plat0TilesLen, _4BPP));
 
             // if (not m_is_floor)
@@ -188,7 +191,7 @@ void TWPlatform::load_platforms(int level) {
             //     m_textures.push_back(new Texture(1, level5_plat3Pal, level5_plat3PalLen, level5_plat3Tiles, level5_plat3TilesLen, _4BPP));
             // }
             break;
-        case 6:
+        case LEVEL_6:
             // m_textures.push_back(new Texture(1, level6_plat0Pal, level6_plat0PalLen, level6_plat0Tiles, level6_plat0TilesLen, _4BPP));
 
             // if (not m_is_floor)

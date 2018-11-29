@@ -16,17 +16,8 @@
 #include "input.h"
 #include "utils.h"
 
-#define LEVEL_MENU 0
-#define LEVEL_1 1
-#define LEVEL_2 2
-#define LEVEL_3 3
-#define LEVEL_4 4
-#define LEVEL_5 5
-#define LEVEL_6 6
-#define MENU_VICTORY 7
-#define MENU_DEFEAT 8
-
 void TWGame::run() {
+    previous_playable_level = -1;
     current_level = LEVEL_MENU;
     m_level = new TWLevel(current_level, false);
 
@@ -42,12 +33,21 @@ void TWGame::run() {
         m_level->draw();
 
         if (m_level->done()) {
-            current_level = m_level->next();
+            if (m_level->next() == NEXT_LEVEL) {
+                current_level = (previous_playable_level + 1) % (LOADED_LEVELS + 1);
+                if (current_level == 0)
+                    current_level++;
+            }
+            else {
+                previous_playable_level = current_level;
+                current_level = m_level->next();
+            }
 
-            m_level->dispose();
+            delete m_level;
 
             bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
                 && current_level != MENU_DEFEAT;
+
 
             m_level = new TWLevel(current_level, is_playable);
         }

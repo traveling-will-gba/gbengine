@@ -6,6 +6,7 @@
 class TWGame {
     private:
         TWLevel *m_level;
+        int previous_playable_level;
         int current_level;
 
     public:

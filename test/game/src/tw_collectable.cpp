@@ -2,14 +2,15 @@
 
 #include "tw_will.h"
 
+#include "utils.h"
+#include "physics.h"
+
 #include "level1_item.h"
 #include "level2_item.h"
 // #include "level3_item.h"
 // #include "level4_item.h"
 // #include "level5_item.h"
 // #include "level6_item.h"
-
-#include "physics.h"
 
 const int col_width = 8;
 const int col_height = 8;
@@ -105,24 +106,27 @@ void TWCollectable::update_bounding_box() {
 
 void TWCollectable::load_collectable_texture(int level) {
     switch(level) {
-        case 0:
+        case LEVEL_MENU:
+        case MENU_DEFEAT:
+        case MENU_VICTORY:
             // do nothing
-        case 1:
+            break;
+        case LEVEL_1:
             m_texture = new Texture(6, level1_itemPal, level1_itemPalLen, level1_itemTiles, level1_itemTilesLen, _4BPP);
             break;
-        case 2:
+        case LEVEL_2:
             m_texture = new Texture(6, level2_itemPal, level2_itemPalLen, level2_itemTiles, level2_itemTilesLen, _4BPP);
             break;
-        case 3:
+        case LEVEL_3:
             // m_texture = new Texture(6, level3_itemPal, level3_itemPalLen, level3_itemTiles, level3_itemTilesLen, _4BPP);
             break;
-        case 4:
+        case LEVEL_4:
             // m_texture = new Texture(6, level4_itemPal, level4_itemPalLen, level4_itemTiles, level4_itemTilesLen, _4BPP);
             break;
-        case 5:
+        case LEVEL_5:
             // m_texture = new Texture(6, level5_itemPal, level5_itemPalLen, level5_itemTiles, level5_itemTilesLen, _4BPP);
             break;
-        case 6:
+        case LEVEL_6:
             // m_texture = new Texture(6, level6_itemPal, level6_itemPalLen, level6_itemTiles, level6_itemTilesLen, _4BPP);
             break;
     }
