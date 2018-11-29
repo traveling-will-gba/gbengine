@@ -3,10 +3,10 @@
 
 //======================================================================
 //
-//	b2, 256x160@4, 
+//	b2, 256x160@4,
 //	+ palette 16 entries, not compressed
 //	+ 277 tiles (t|f reduced) not compressed
-//	+ regular map (flat), not compressed, 32x20 
+//	+ regular map (flat), not compressed, 32x20
 //	Total size: 32 + 8864 + 1280 = 10176
 //
 //	Time-stamp: 2018-11-16, 11:47:58
@@ -15,7 +15,7 @@
 //
 //======================================================================
 
-const unsigned int b2Tiles[2216] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned int level1_b2Tiles[2216] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
 	0xCCCCEEEE,0xACCCCEEC,0xACCEEEEC,0xACCEEEEC,0xCCCEEEEC,0xCEECEECE,0xCEEECCCC,0xEEEECCCC,
@@ -330,7 +330,7 @@ const unsigned int b2Tiles[2216] __attribute__((aligned(4))) __attribute__((visi
 	0x88888888,0x88088888,0x88088888,0x88088888,0x88888888,0x88888888,0x88888888,0x88888888,
 };
 
-const unsigned short b2Map[640] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned short level1_b2Map[640] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x2001,0x2002,0x2003,0x2004,0x2005,0x2006,0x2007,0x2007,
 	0x2007,0x2008,0x2009,0x200A,0x200B,0x200C,0x2007,0x2007,
@@ -423,7 +423,7 @@ const unsigned short b2Map[640] __attribute__((aligned(4))) __attribute__((visib
 	0x20FA,0x20FA,0x20FA,0x20FA,0x20FA,0x20FA,0x20FA,0x20FA,
 };
 
-const unsigned short b2Pal[16] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned short level1_b2Pal[16] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x3E9D,0x4AD6,0x52D6,0x4AD9,0x52D9,0x3EDB,0x4ADB,0x5334,
 	0x3EDD,0x5B34,0x6734,0x5336,0x6F34,0x5B36,0x6F74,0x0000,

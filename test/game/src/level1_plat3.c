@@ -1,9 +1,9 @@
 
-//{{BLOCK(plat3)
+//{{BLOCK(level1_plat3)
 
 //======================================================================
 //
-//	plat3, 16x32@4, 
+//	level1_plat3, 16x32@4,
 //	Transparent palette entry: 1.
 //	+ palette 2 entries, not compressed
 //	+ 8 tiles Metatiled by 2x4 not compressed
@@ -15,7 +15,7 @@
 //
 //======================================================================
 
-const unsigned int plat3Tiles[64] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned int level1_plat3Tiles[64] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
@@ -27,9 +27,9 @@ const unsigned int plat3Tiles[64] __attribute__((aligned(4))) __attribute__((vis
 	0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,0x11111111,
 };
 
-const unsigned short plat3Pal[2] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned short level1_plat3Pal[2] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x0000,0x0889,
 };
 
-//}}BLOCK(plat3)
+//}}BLOCK(level1_plat3)

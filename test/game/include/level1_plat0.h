@@ -1,9 +1,8 @@
-
-//{{BLOCK(plat0)
+//{{BLOCK(level1_plat0)
 
 //======================================================================
 //
-//	plat0, 16x32@4, 
+//	level1_plat0, 16x32@4,
 //	Transparent palette entry: 17.
 //	+ palette 16 entries, not compressed
 //	+ 8 tiles Metatiled by 2x4 not compressed
@@ -15,15 +14,15 @@
 //
 //======================================================================
 
-#ifndef GRIT_PLAT0_H
-#define GRIT_PLAT0_H
+#ifndef GRIT_LEVEL1_PLAT0_H
+#define GRIT_LEVEL1_PLAT0_H
 
-#define plat0TilesLen 256
-extern const unsigned int plat0Tiles[64];
+#define level1_plat0TilesLen 256
+extern const unsigned int level1_plat0Tiles[64];
 
-#define plat0PalLen 32
-extern const unsigned short plat0Pal[16];
+#define level1_plat0PalLen 32
+extern const unsigned short level1_plat0Pal[16];
 
-#endif // GRIT_PLAT0_H
+#endif // GRIT_LEVEL1_PLAT0_H
 
-//}}BLOCK(plat0)
+//}}BLOCK(level1_plat0)

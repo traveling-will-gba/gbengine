@@ -1,6 +1,5 @@
 #include "tw_game.h"
 
-#include "tw_level.h"
 #include "physics.h"
 
 //FIXME: ERASE THIS, PLEASE
@@ -18,7 +17,7 @@
 #include "utils.h"
 
 void TWGame::run() {
-    TWLevel level;
+    m_level = new TWLevel(1);
 
     uint64_t dt = 0;
     while (true) {
@@ -28,8 +27,8 @@ void TWGame::run() {
 
         Physics::get_physics()->do_collisions();
 
-        level.update(dt);
-        level.draw();
+        m_level->update(dt);
+        m_level->draw();
 
         dt++;
     }

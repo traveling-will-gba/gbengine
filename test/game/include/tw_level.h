@@ -14,11 +14,16 @@ using std::vector;
 
 class TWLevel : public Level {
     public:
-        TWLevel();
+        TWLevel(int level);
 
         void update_self(uint64_t dt);
         void draw_self();
         void set_platform_num(int num) { platform_num = num; }
+        void load_level(int level);
+        void load_backgrounds(int level);
+        void load_level_design(int level);
+        void load_level_objects(const int level_len, const int *platform_heights,
+            const int *collectable_heights, const int *collectables_present);
 
     private:
         uint32_t n_platforms;
