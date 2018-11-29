@@ -26,6 +26,7 @@ TWPlatform::TWPlatform(int level, int x, int y, bool is_floor) {
     platform_tiles = m_textures.size();
 
     for (size_t i = 0; i < platform_tiles; i++) {
+        m_textures[i]->metadata.aid = 0;
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;
@@ -47,6 +48,7 @@ TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures, bool is_f
     for (size_t i = 0; i < platform_tiles; i++) {
         m_textures.push_back(new Texture(textures[i]));
 
+        m_textures[i]->metadata.aid = 0;
         m_textures[i]->metadata.pr = 0;
         m_textures[i]->metadata.cm = 0;
         m_textures[i]->metadata.om = 0;

@@ -17,6 +17,8 @@ TWWill::TWWill(int x, int y) {
     m_y_speed = 0;
 
     m_texture = new Texture(6, will_idlePal, will_idlePalLen, will_idleTiles, will_idleTilesLen, _4BPP);
+
+    m_texture->metadata.aid = 0;
     m_texture->metadata.pr = 0;
     m_texture->metadata.cm = 0;
     m_texture->metadata.om = 0;

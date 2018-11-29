@@ -17,6 +17,7 @@ const int col_height = 8;
 TWCollectable::TWCollectable(int level, int x, int y) {
     load_collectable_texture(level);
 
+    m_texture->metadata.aid = 0;
     m_texture->metadata.pr = 0;
     m_texture->metadata.cm = 0;
     m_texture->metadata.om = 0;
@@ -34,6 +35,8 @@ TWCollectable::TWCollectable(int level, int x, int y) {
 
 TWCollectable::TWCollectable(int x, int y, const Texture *texture) {
     m_texture = new Texture(texture);
+
+    m_texture->metadata.aid = 0;
     m_texture->metadata.pr = 0;
     m_texture->metadata.cm = 0;
     m_texture->metadata.om = 0;

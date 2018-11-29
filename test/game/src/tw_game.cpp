@@ -49,7 +49,6 @@ void TWGame::run() {
             bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
                 && current_level != MENU_DEFEAT;
 
-            print("loading level %d\n", current_level);
             m_level = new TWLevel(current_level, is_playable);
         }
 
