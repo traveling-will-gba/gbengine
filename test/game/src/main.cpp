@@ -25,13 +25,21 @@
 #define REG_BG2HOFS         *(vu16*)(REG_BASE+0x0018)
 #define REG_BG2VOFS         *(vu16*)(REG_BASE+0x001A)
 
+#define LEVEL_MENU 0
+#define LEVEL_1 1
+#define LEVEL_2 2
+#define LEVEL_3 3
+#define LEVEL_4 4
+#define LEVEL_5 5
+#define LEVEL_6 6
+
 int main(){
     reset_dispcnt();
 
     Texture::init_sprite_attr_mem();
 
     TWGame game;
-    game.run();
+    game.run(LEVEL_MENU);
 
     return 0;
 }

@@ -6,9 +6,10 @@
 class TWGame {
     private:
         TWLevel *m_level;
+        int current_level;
 
     public:
-        void run();
+        void run(int level);
 };
 
 #endif

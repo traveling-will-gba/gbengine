@@ -99,6 +99,8 @@ class MemoryManager {
         volatile struct tile *base_texture_mem() {
             return texture_mem;
         }
+
+        void reset_memory();
 };
 
 #endif

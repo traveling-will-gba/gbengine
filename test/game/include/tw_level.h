@@ -14,7 +14,7 @@ using std::vector;
 
 class TWLevel : public Level {
     public:
-        TWLevel(int level);
+        TWLevel(int level, bool playable);
 
         void update_self(uint64_t dt);
         void draw_self();
@@ -24,6 +24,9 @@ class TWLevel : public Level {
         void load_level_design(int level);
         void load_level_objects(const int level_len, const int *platform_heights,
             const int *collectable_heights, const int *collectables_present);
+
+        const bool done() const { return m_done; }
+        void dispose();
 
     private:
         uint32_t n_platforms;
@@ -41,11 +44,13 @@ class TWLevel : public Level {
 
         int platform_idx;
         int platform_num;
+        int m_current_level;
 
         int mx1, my1;
         int mx2, my2;
 
         bool m_is_level_ending;
+        bool m_playable;
 };
 
 #endif

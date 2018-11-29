@@ -239,3 +239,12 @@ volatile struct attr *MemoryManager::alloc_oam_entry()
 void MemoryManager::free_oam_entry(volatile struct attr *oam_ptr) {
     memory_map.erase(oam_ptr);
 }
+
+void MemoryManager::reset_memory() {
+    memory_map.clear();
+
+    charblock_used.reset();
+    screenblock_used.reset();
+    background_palette_used.reset();
+    texture_palette_used.reset();
+}

@@ -170,6 +170,9 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
 
+reset:
+	make clean && make
+
 
 else		# If we're here, we should be in the BUILD dir
 
