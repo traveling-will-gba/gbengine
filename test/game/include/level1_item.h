@@ -1,9 +1,9 @@
 
-//{{BLOCK(col)
+//{{BLOCK(level1_item)
 
 //======================================================================
 //
-//	col, 48x8@4, 
+//	level1_item, 48x8@4,
 //	+ palette 256 entries, not compressed
 //	+ 6 tiles not compressed
 //	Total size: 512 + 192 = 704
@@ -14,15 +14,15 @@
 //
 //======================================================================
 
-#ifndef GRIT_COL_H
-#define GRIT_COL_H
+#ifndef GRIT_LEVEL1_ITEM_H
+#define GRIT_LEVEL1_ITEM_H
 
-#define colTilesLen 192
-extern const unsigned int colTiles[48];
+#define level1_itemTilesLen 192
+extern const unsigned int level1_itemTiles[48];
 
-#define colPalLen 512
-extern const unsigned short colPal[256];
+#define level1_itemPalLen 512
+extern const unsigned short level1_itemPal[256];
 
-#endif // GRIT_COL_H
+#endif // GRIT_LEVEL1_ITEM_H
 
-//}}BLOCK(col)
+//}}BLOCK(level1_item)

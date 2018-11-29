@@ -1,9 +1,9 @@
 
-//{{BLOCK(col)
+//{{BLOCK(level1_item)
 
 //======================================================================
 //
-//	col, 48x8@4, 
+//	level1_item, 48x8@4,
 //	+ palette 256 entries, not compressed
 //	+ 6 tiles not compressed
 //	Total size: 512 + 192 = 704
@@ -14,7 +14,7 @@
 //
 //======================================================================
 
-const unsigned int colTiles[48] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned int level1_itemTiles[48] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x008AAA00,0x07EDDDD0,0x08DD3E3C,0x7EDA9FFA,0x65BDDDDA,0x78DDDDE0,0x077BBBA0,0x00210100,
 	0x00088800,0x00DDEDB0,0x08DD3E30,0x77EA9FE9,0x8AEDDDEA,0x75DDDDDD,0x078EEEB0,0x00540400,
@@ -24,7 +24,7 @@ const unsigned int colTiles[48] __attribute__((aligned(4))) __attribute__((visib
 	0x008AAA00,0x07EDDDD0,0x08DD3E3C,0x8DDA9FF9,0x776DDDDA,0x77EDDDE0,0x077BBBA0,0x00210100,
 };
 
-const unsigned short colPal[256] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+const unsigned short level1_itemPal[256] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
 {
 	0x31CC,0x2E12,0x2A13,0x1E18,0x2235,0x1A38,0x1239,0x0E5B,
 	0x165B,0x165D,0x1E7C,0x227D,0x3EB8,0x2A9D,0x2E9D,0x3AFD,
@@ -63,4 +63,4 @@ const unsigned short colPal[256] __attribute__((aligned(4))) __attribute__((visi
 	0x7FFF,0x7FFF,0x7FFF,0x7FFF,0x7FFF,0x7FFF,0x7FFF,0x7FFF,
 };
 
-//}}BLOCK(col)
+//}}BLOCK(level1_item)

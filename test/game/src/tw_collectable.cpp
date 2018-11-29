@@ -2,15 +2,21 @@
 
 #include "tw_will.h"
 
-#include "col.h"
+#include "level1_item.h"
+#include "level2_item.h"
+// #include "level3_item.h"
+// #include "level4_item.h"
+// #include "level5_item.h"
+// #include "level6_item.h"
 
 #include "physics.h"
 
 const int col_width = 8;
 const int col_height = 8;
 
-TWCollectable::TWCollectable(int x, int y) {
-    m_texture = new Texture(6, colPal, colPalLen, colTiles, colTilesLen, _4BPP);
+TWCollectable::TWCollectable(int level, int x, int y) {
+    load_collectable_texture(level);
+
     m_texture->metadata.pr = 0;
     m_texture->metadata.cm = 0;
     m_texture->metadata.om = 0;
@@ -92,4 +98,29 @@ const Rectangle& TWCollectable::bounding_box() const {
 
 void TWCollectable::update_bounding_box() {
     m_bounding_box = Rectangle(m_x + col_width / 2, m_y + col_height / 2, col_width, col_height);
+}
+
+void TWCollectable::load_collectable_texture(int level) {
+    switch(level) {
+        case 0:
+            // do nothing
+        case 1:
+            m_texture = new Texture(6, level1_itemPal, level1_itemPalLen, level1_itemTiles, level1_itemTilesLen, _4BPP);
+            break;
+        case 2:
+            m_texture = new Texture(6, level2_itemPal, level2_itemPalLen, level2_itemTiles, level2_itemTilesLen, _4BPP);
+            break;
+        case 3:
+            // m_texture = new Texture(6, level3_itemPal, level3_itemPalLen, level3_itemTiles, level3_itemTilesLen, _4BPP);
+            break;
+        case 4:
+            // m_texture = new Texture(6, level4_itemPal, level4_itemPalLen, level4_itemTiles, level4_itemTilesLen, _4BPP);
+            break;
+        case 5:
+            // m_texture = new Texture(6, level5_itemPal, level5_itemPalLen, level5_itemTiles, level5_itemTilesLen, _4BPP);
+            break;
+        case 6:
+            // m_texture = new Texture(6, level6_itemPal, level6_itemPalLen, level6_itemTiles, level6_itemTilesLen, _4BPP);
+            break;
+    }
 }

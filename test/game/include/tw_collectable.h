@@ -12,7 +12,7 @@
 
 class TWCollectable : public GameObject, public Collidable {
     public:
-        TWCollectable(int x, int y);
+        TWCollectable(int level, int x, int y);
         TWCollectable(int x, int y, const Texture *texture);
 
         void update_self(uint64_t dt);
@@ -35,6 +35,8 @@ class TWCollectable : public GameObject, public Collidable {
         Texture *m_texture;
         Rectangle m_bounding_box;
         bool m_active;
+
+        void load_collectable_texture(int level);
 };
 
 #endif

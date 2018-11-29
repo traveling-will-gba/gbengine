@@ -22,7 +22,7 @@ class TWLevel : public Level {
         void load_level(int level);
         void load_backgrounds(int level);
         void load_level_design(int level);
-        void load_level_objects(const int level_len, const int *platform_heights,
+        void load_level_objects(int level, const int level_len, const int *platform_heights,
             const int *collectable_heights, const int *collectables_present);
 
         const bool done() const { return m_done; }

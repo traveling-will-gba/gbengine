@@ -5,7 +5,6 @@
 
 #include "menu_bg.h"
 #include "will_idle.h"
-#include "collectable.h"
 #include "metr.h"
 
 #include "tw_will.h"

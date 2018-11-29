@@ -1,15 +1,27 @@
 #include "tw_level.h"
 #include "video.h"
-#include "level1_b0.h"
-#include "level1_b1.h"
-#include "level1_b2.h"
+
 #include "physics.h"
 #include "tw_platform.h"
 #include "tw_collectable.h"
 
-#include "level1.h"
 #include "menu.h"
 #include "input.h"
+
+#include "level1.h"
+#include "level1_b0.h"
+#include "level1_b1.h"
+#include "level1_b2.h"
+
+#include "level2.h"
+#include "level2_b0.h"
+#include "level2_b1.h"
+#include "level2_b2.h"
+
+#include "level3.h"
+#include "level4.h"
+#include "level5.h"
+#include "level6.h"
 
 const int max_platforms_loaded = 16;
 const int platform_width = 16;
@@ -54,6 +66,10 @@ void TWLevel::dispose() {
 
 void TWLevel::update_self(uint64_t dt) {
     if (m_playable) {
+        if (pressed(BUTTON_SELECT)) {
+            m_done = true;
+        }
+
         while (1) {
             if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
                 auto plat = q.front();
@@ -85,7 +101,8 @@ void TWLevel::update_self(uint64_t dt) {
 
             will->set_speed_x(level_speed_x);
 
-            for (int i=0; i<m_backgrounds.size();i++) {
+            int backgrounds_size = m_backgrounds.size();
+            for (int i=0; i<backgrounds_size;i++) {
                 m_backgrounds[i]->set_speed_x(0);
             }
 
@@ -121,12 +138,37 @@ void TWLevel::load_backgrounds(int level) {
             m_backgrounds.push_back(new Background(level1_b0Pal, level1_b0PalLen, level1_b0Tiles, level1_b0TilesLen, level1_b0Map, level1_b0MapLen, 0, 0, 0, 1, 0));
             m_backgrounds.push_back(new Background(level1_b1Pal, level1_b1PalLen, level1_b1Tiles, level1_b1TilesLen, level1_b1Map, level1_b1MapLen, 1, 0, 0, 1, 0));
             m_backgrounds.push_back(new Background(level1_b2Pal, level1_b2PalLen, level1_b2Tiles, level1_b2TilesLen, level1_b2Map, level1_b2MapLen, 2, 0, 0, 2, 0));
-
-            m_backgrounds[0]->set_frames_to_skip(2);
+            break;
+        case 2:
+            m_backgrounds.push_back(new Background(level2_b0Pal, level2_b0PalLen, level2_b0Tiles, level2_b0TilesLen, level2_b0Map, level2_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level2_b1Pal, level2_b1PalLen, level2_b1Tiles, level2_b1TilesLen, level2_b1Map, level2_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level2_b2Pal, level2_b2PalLen, level2_b2Tiles, level2_b2TilesLen, level2_b2Map, level2_b2MapLen, 2, 0, 0, 2, 0));
+            break;
+        case 3:
+            // m_backgrounds.push_back(new Background(level3_b0Pal, level3_b0PalLen, level3_b0Tiles, level3_b0TilesLen, level3_b0Map, level3_b0MapLen, 0, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level3_b1Pal, level3_b1PalLen, level3_b1Tiles, level3_b1TilesLen, level3_b1Map, level3_b1MapLen, 1, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level3_b2Pal, level3_b2PalLen, level3_b2Tiles, level3_b2TilesLen, level3_b2Map, level3_b2MapLen, 2, 0, 0, 2, 0));
+            break;
+        case 4:
+            // m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level4_b1Pal, level4_b1PalLen, level4_b1Tiles, level4_b1TilesLen, level4_b1Map, level4_b1MapLen, 1, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level4_b2Pal, level4_b2PalLen, level4_b2Tiles, level4_b2TilesLen, level4_b2Map, level4_b2MapLen, 2, 0, 0, 2, 0));
+            break;
+        case 5:
+            // m_backgrounds.push_back(new Background(level5_b0Pal, level5_b0PalLen, level5_b0Tiles, level5_b0TilesLen, level5_b0Map, level5_b0MapLen, 0, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level5_b1Pal, level5_b1PalLen, level5_b1Tiles, level5_b1TilesLen, level5_b1Map, level5_b1MapLen, 1, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level5_b2Pal, level5_b2PalLen, level5_b2Tiles, level5_b2TilesLen, level5_b2Map, level5_b2MapLen, 2, 0, 0, 2, 0));
+            break;
+        case 6:
+            // m_backgrounds.push_back(new Background(level6_b0Pal, level6_b0PalLen, level6_b0Tiles, level6_b0TilesLen, level6_b0Map, level6_b0MapLen, 0, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level6_b1Pal, level6_b1PalLen, level6_b1Tiles, level6_b1TilesLen, level6_b1Map, level6_b1MapLen, 1, 0, 0, 1, 0));
+            // m_backgrounds.push_back(new Background(level6_b2Pal, level6_b2PalLen, level6_b2Tiles, level6_b2TilesLen, level6_b2Map, level6_b2MapLen, 2, 0, 0, 2, 0));
             break;
         default:
             break;
     }
+
+    m_backgrounds[0]->set_frames_to_skip(2);
 
     for (auto background : m_backgrounds)
     {
@@ -140,14 +182,29 @@ void TWLevel::load_level_design(int level) {
             // do nothing
             break;
         case 1:
-            load_level_objects(level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present);
+            load_level_objects(level, level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present);
+            break;
+        case 2:
+            load_level_objects(level, level2_len, level2_platform_heights, level2_collectable_heights, level2_collectable_present);
+            break;
+        case 3:
+            load_level_objects(level, level3_len, level3_platform_heights, level3_collectable_heights, level3_collectable_present);
+            break;
+        case 4:
+            load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
+            break;
+        case 5:
+            load_level_objects(level, level5_len, level5_platform_heights, level5_collectable_heights, level5_collectable_present);
+            break;
+        case 6:
+            load_level_objects(level, level6_len, level6_platform_heights, level6_collectable_heights, level6_collectable_present);
             break;
         default:
             break;
     }
 }
 
-void TWLevel::load_level_objects(const int level_len, const int *platform_heights, const int *collectable_heights, const int *collectables_present)
+void TWLevel::load_level_objects(int level, const int level_len, const int *platform_heights, const int *collectable_heights, const int *collectables_present)
 {
     platform_num = level_len;
     platform_idx = max_platforms_loaded;
@@ -164,7 +221,7 @@ void TWLevel::load_level_objects(const int level_len, const int *platform_height
     {
         if (i == 0)
         {
-            floor_plats[i] = new TWPlatform(i * platform_width, 142, true);
+            floor_plats[i] = new TWPlatform(level, i * platform_width, 142, true);
         }
         else
         {
@@ -178,8 +235,8 @@ void TWLevel::load_level_objects(const int level_len, const int *platform_height
     {
         if (i == 0)
         {
-            platforms[i] = new TWPlatform(i * platform_width, platform_height[i]);
-            collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
+            platforms[i] = new TWPlatform(level, i * platform_width, platform_height[i]);
+            collectables[i] = new TWCollectable(level, i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i]);
         }
         else

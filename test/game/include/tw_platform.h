@@ -11,7 +11,7 @@
 
 class TWPlatform : public GameObject, public Collidable {
     public:
-        TWPlatform(int x, int y, bool is_floor = false);
+        TWPlatform(int level, int x, int y, bool is_floor = false);
         TWPlatform(int x, int y, const vector<Texture*> textures, bool is_floor = false);
 
         void update_self(uint64_t dt);
@@ -39,6 +39,9 @@ class TWPlatform : public GameObject, public Collidable {
         int m_x, m_y;
         int platform_tiles;
         Rectangle m_bounding_box;
+        bool m_is_floor;
+
+        void load_platforms(int level);
 };
 
 #endif
