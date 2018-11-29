@@ -39,7 +39,7 @@ void TWWill::draw_self() {
 }
 
 void TWWill::update_self(uint64_t dt) {
-    m_texture->update(dt); 
+    m_texture->update(dt);
 
     set_x(m_x + m_x_speed);
     set_y(m_y + m_y_speed);
@@ -69,15 +69,15 @@ void TWWill::update_self(uint64_t dt) {
 }
 
 void TWWill::check_running() {
-    print("check_running\n");
+    // print("check_running\n");
     for (size_t i = 0; i < colliding_plats.size(); i++) {
         //if (m_colliding) {
-            print("colidindo com plataforma de y %d\n", colliding_plats[i]->y());
-            print("will na altura %d\n", m_y);
+            // print("colidindo com plataforma de y %d\n", colliding_plats[i]->y());
+            // print("will na altura %d\n", m_y);
         //}
 
         if (/*m_colliding &&*/ (m_y + will_height >= colliding_plats[i]->y() && m_y + will_height <= colliding_plats[i]->y() + 3)) {
-            print("set_running %d\n", m_y_speed);
+            // print("set_running %d\n", m_y_speed);
             m_y_speed = 0;
 
             set_y(colliding_plats[i]->y() - will_height);
@@ -89,9 +89,9 @@ void TWWill::check_running() {
 }
 
 void TWWill::check_jumping() {
-    print("check_jumping\n");
+    // print("check_jumping\n");
     if (pressed(BUTTON_UP) && m_jump_counter < 3) {
-        print("set_jumping\n");
+        // print("set_jumping\n");
         m_y_speed = -7;
         m_jump_counter++;
         m_state = JUMPING;
@@ -99,13 +99,13 @@ void TWWill::check_jumping() {
 }
 
 void TWWill::check_falling() {
-    print("check_falling\n");
+    // print("check_falling\n");
     if(m_state == JUMPING && m_y_speed >= 0) {
-        print("set_falling\n");
+        // print("set_falling\n");
         m_state = FALLING;
         m_y_speed = 2;
     } else if (m_state == RUNNING) {
-        print("set falling\n");
+        // print("set falling\n");
         m_state = FALLING;
         m_y_speed = 2;
     }
@@ -115,11 +115,11 @@ void TWWill::on_collision(const Collidable *who) {
     m_colliding = false;
 
     if (auto col = dynamic_cast <const TWCollectable *>(who)) {
-        print("Colidiu com coletavel\n");
+        // print("Colidiu com coletavel\n");
         m_items_collected++;
-        print("COLETAVEIS PEGOS %d\n", m_items_collected);
+        // print("COLETAVEIS PEGOS %d\n", m_items_collected);
     } else if (auto platform = dynamic_cast <const TWPlatform *>(who)) {
-        print("Colidiu com plataforma\n");
+        // print("Colidiu com plataforma\n");
         m_colliding = true;
 
         colliding_plats.push_back(platform);

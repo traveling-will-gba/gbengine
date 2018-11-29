@@ -42,9 +42,9 @@ TWLevel::TWLevel() {
 
     for (int i = 0; i < max_platforms_loaded; i++) {
         if (i == 0)
-            floor_plats[i] = new TWPlatform(i * platform_width, 148, true);
+            floor_plats[i] = new TWPlatform(i * platform_width, 142, true);
         else
-            floor_plats[i] = new TWPlatform(i * platform_width, 148, floor_plats[0]->textures(), true);
+            floor_plats[i] = new TWPlatform(i * platform_width, 142, floor_plats[0]->textures(), true);
 
         add_child(floor_plats[i]);
     }
@@ -127,11 +127,11 @@ void TWLevel::update_self(uint64_t dt) {
         m_is_level_ending = true;
     }
     else if (!m_is_level_ending) {
-        print("mas uai\n");
+        // print("mas uai\n");
         if (dt % 2 == 0) {
             for (int i = 0; i < max_platforms_loaded; i++) {
                 platforms[i]->set_x(platforms[i]->x() - 1);
-    //            platforms[i]->update_bounding_box();
+                // platforms[i]->update_bounding_box();
             }
         }
     }
