@@ -27,7 +27,9 @@ class TWLevel : public Level {
 
     private:
         uint32_t n_platforms;
-        TWPlatform *platforms[50];
+        TWPlatform* platforms[20];
+        TWCollectable *collectables[20];
+        TWPlatform *floor_plats[20];
         TWWill *will;
 
         queue <TWPlatform *> q;

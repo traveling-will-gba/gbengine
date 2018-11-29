@@ -29,59 +29,54 @@ TWLevel::TWLevel(int level) {
 
     Texture::init_sprite_attr_mem();
 
-    will = new TWWill(10, 127);
-    add_child(will);
-    Physics::get_physics()->set_target(will);
-
-    load_backgrounds(level);
-    load_level_design(level);
+    load_level(level);
 }
 
 void TWLevel::update_self(uint64_t dt) {
-    // while (1) {
-    //     if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
-    //         auto plat = q.front();
-    //         q.pop();
+    while (1) {
+        if (platform_idx * platform_width <= m_backgrounds[0]->x() + screen_width) {
+            auto plat = q.front();
+            q.pop();
 
-    //         plat->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
-    //         plat->set_y(platform_height[platform_idx]);
+            plat->set_x(platform_idx * platform_width - m_backgrounds[0]->x());
+            plat->set_y(platform_height[platform_idx]);
 
-    //         plat->collectable()->set_y(collectable_height[platform_idx]);
-    //         plat->collectable()->set_visibility(collectable_present[platform_idx]);
+            plat->collectable()->set_y(collectable_height[platform_idx]);
+            plat->collectable()->set_visibility(collectable_present[platform_idx]);
 
-    //         q.push(plat);
-    //     } else break;
+            q.push(plat);
+        } else break;
 
-    //     platform_idx++;
-    // }
+        platform_idx++;
+    }
 
-    // int outer_x = screen_width + 10;
+    int outer_x = screen_width + 10;
 
-    // if (will->x() >= outer_x) {
-    //     m_done = true;
-    //     print("level ended\n");
-    //     // FIXME remove this exit() call
-    //     exit(1);
-    // }
+    if (will->x() >= outer_x) {
+        m_done = true;
+        print("level ended\n");
+        // FIXME remove this exit() call
+        exit(1);
+    }
 
-    // if (platform_idx == platform_num && !m_is_level_ending) {
-    //     int level_speed_x = m_backgrounds[0]->speed_x();
+    if (platform_idx == platform_num && !m_is_level_ending) {
+        int level_speed_x = m_backgrounds[0]->speed_x();
 
-    //     will->set_speed_x(level_speed_x);
+        will->set_speed_x(level_speed_x);
 
-    //     for (int i=0; i<m_backgrounds.size();i++) {
-    //         m_backgrounds[i]->set_speed_x(0);
-    //     }
+        for (int i=0; i<m_backgrounds.size();i++) {
+            m_backgrounds[i]->set_speed_x(0);
+        }
 
-    //     m_is_level_ending = true;
-    // }
-    // else if (!m_is_level_ending) {
-    //     if (dt % 2 == 0) {
-    //         for (int i = 0; i < max_platforms_loaded; i++) {
-    //             platforms[i]->set_x(platforms[i]->x() - 1);
-    //         }
-    //     }
-    // }
+        m_is_level_ending = true;
+    }
+    else if (!m_is_level_ending) {
+        if (dt % 2 == 0) {
+            for (int i = 0; i < max_platforms_loaded; i++) {
+                platforms[i]->set_x(platforms[i]->x() - 1);
+            }
+        }
+    }
 }
 
 void TWLevel::draw_self() {
@@ -90,10 +85,12 @@ void TWLevel::draw_self() {
 
 void TWLevel::load_level(int level) {
     will = new TWWill(10, 127);
-    add_child(will);
 
-    load_backgrounds(level);
     load_level_design(level);
+    load_backgrounds(level);
+
+    add_child(will);
+    Physics::get_physics()->set_target(will);
 }
 
 void TWLevel::load_backgrounds(int level) {
@@ -134,8 +131,6 @@ void TWLevel::load_level_design(int level) {
 
 void TWLevel::load_level_objects(const int level_len, const int *platform_heights, const int *collectable_heights, const int *collectables_present)
 {
-    TWPlatform *floor_plats[max_platforms_loaded];
-
     platform_num = level_len;
     platform_idx = max_platforms_loaded;
 
@@ -147,27 +142,38 @@ void TWLevel::load_level_objects(const int level_len, const int *platform_height
         collectable_present[i] = collectables_present[i];
     }
 
-    TWCollectable *cols[max_platforms_loaded];
+    for (int i = 0; i < max_platforms_loaded; i++)
+    {
+        if (i == 0)
+        {
+            floor_plats[i] = new TWPlatform(i * platform_width, 142, true);
+        }
+        else
+        {
+            floor_plats[i] = new TWPlatform(i * platform_width, 142, floor_plats[0]->textures(), true);
+        }
+
+        add_child(floor_plats[i]);
+    }
 
     for (int i = 0; i < max_platforms_loaded; i++)
     {
         if (i == 0)
         {
             platforms[i] = new TWPlatform(i * platform_width, platform_height[i]);
-            floor_plats[i] = new TWPlatform(i * platform_width, 142, true);
-            cols[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2, collectable_height[i]);
+            collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
+                collectable_height[i]);
         }
         else
         {
             platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
-            floor_plats[i] = new TWPlatform(i * platform_width, 142, floor_plats[0]->textures(), true);
-            cols[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2, collectable_height[i], cols[0]->texture());
+            collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
+                collectable_height[i], collectables[0]->texture());
         }
 
-        platforms[i]->set_collectable(cols[i]);
+        platforms[i]->set_collectable(collectables[i]);
+        collectables[i]->set_visibility(collectable_present[i]);
 
-        cols[i]->set_visibility(collectable_present[i]);
-        add_child(floor_plats[i]);
         add_child(platforms[i]);
         q.push(platforms[i]);
     }
