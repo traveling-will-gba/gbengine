@@ -23,3 +23,7 @@ void check_buttons_states() {
 bool pressed(int button) {
 	return pressed_state[32 - __builtin_clz(button) - 1] && key_update[32 - __builtin_clz(button) - 1] == update_counter;
 }
+
+bool pressing(int button) {
+	return pressed_state[32 - __builtin_clz(button) - 1];
+}

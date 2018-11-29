@@ -67,7 +67,7 @@ IARCH   := -mthumb-interwork -marm -mlong-calls
 
 # --- Main flags ---
 
-CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -O2 -std=c++11
+CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -std=c++11
 CFLAGS		+= -Wall
 CFLAGS		+= $(INCLUDE)
 CFLAGS		+= -ffast-math -fno-strict-aliasing
@@ -166,6 +166,9 @@ all	: $(BUILD)
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
+
+run:
+	vbam input.gba
 
 
 else		# If we're here, we should be in the BUILD dir

@@ -24,5 +24,6 @@ extern uint64_t update_counter;
 
 void check_buttons_states();
 bool pressed(int button);
+bool pressing(int button);
 
 #endif
