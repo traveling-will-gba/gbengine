@@ -26,6 +26,7 @@ class TWLevel : public Level {
             const int *collectable_heights, const int *collectables_present);
 
         const bool done() const { return m_done; }
+        const int next() const { return m_next; }
         void dispose();
 
     private:

@@ -16,8 +16,18 @@
 #include "input.h"
 #include "utils.h"
 
-void TWGame::run(int level) {
-    current_level = level;
+#define LEVEL_MENU 0
+#define LEVEL_1 1
+#define LEVEL_2 2
+#define LEVEL_3 3
+#define LEVEL_4 4
+#define LEVEL_5 5
+#define LEVEL_6 6
+#define MENU_VICTORY 7
+#define MENU_DEFEAT 8
+
+void TWGame::run() {
+    current_level = LEVEL_MENU;
     m_level = new TWLevel(current_level, false);
 
     uint64_t dt = 0;
@@ -32,10 +42,14 @@ void TWGame::run(int level) {
         m_level->draw();
 
         if (m_level->done()) {
+            current_level = m_level->next();
+
             m_level->dispose();
 
-            current_level++;
-            bool is_playable = current_level > 0;
+            bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
+                && current_level != MENU_DEFEAT;
+
+            print("loading level %d\n", current_level);
             m_level = new TWLevel(current_level, is_playable);
         }
 

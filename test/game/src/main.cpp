@@ -14,21 +14,13 @@
 #include <string.h>
 #include <time.h>
 
-#define LEVEL_MENU 0
-#define LEVEL_1 1
-#define LEVEL_2 2
-#define LEVEL_3 3
-#define LEVEL_4 4
-#define LEVEL_5 5
-#define LEVEL_6 6
-
 int main(){
     reset_dispcnt();
 
     Texture::init_sprite_attr_mem();
 
     TWGame game;
-    game.run(LEVEL_MENU);
+    game.run();
 
     return 0;
 }

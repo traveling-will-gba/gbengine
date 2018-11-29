@@ -6,9 +6,10 @@
 #include <stdio.h>
 
 class Level : public GameObject {
-    protected: 
+    protected:
         int m_x, m_y;
         bool m_done;
+        int m_next;
 };
 
 #endif

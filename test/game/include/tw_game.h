@@ -9,7 +9,7 @@ class TWGame {
         int current_level;
 
     public:
-        void run(int level);
+        void run();
 };
 
 #endif

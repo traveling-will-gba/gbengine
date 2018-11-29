@@ -13,7 +13,7 @@ void Texture::init_sprite_attr_mem()
     obj_attr_mem = (void *)0x07000000;
     sprite_pal = (uint8_t *)0x05000200;
 
-    //FIXME
+    // FIXME
     volatile struct attr *sprite_attr = (volatile struct attr *)malloc(sizeof(struct attr));
     sprite_attr->om = 2;
     for (int i = 0; i < 128; i++)
@@ -95,7 +95,7 @@ bool Texture::set_sprite_pal() {
 
     this->pallete_id = (teste - (volatile uint8_t *)0x05000200) / 32;
 
-    print("pal: %d\n", this->pallete_id);
+    // print("pal: %d\n", this->pallete_id);
 
     return true;
 }
@@ -106,7 +106,7 @@ bool Texture::set_sprite() {
     mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
     tile_base = teste - memory_manager->base_texture_mem();
 
-    print("tile_base: %d\n", tile_base);
+    // print("tile_base: %d\n", tile_base);
 
     return true;
 }

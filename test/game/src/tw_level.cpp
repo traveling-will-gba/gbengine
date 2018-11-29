@@ -27,6 +27,7 @@ const int max_platforms_loaded = 16;
 const int platform_width = 16;
 const int collectable_width = 8;
 const int screen_width = 240;
+const int levels = 2;
 
 TWLevel::TWLevel(int level, bool playable = true) {
     reset_dispcnt();
@@ -68,6 +69,8 @@ void TWLevel::update_self(uint64_t dt) {
     if (m_playable) {
         if (pressed(BUTTON_SELECT)) {
             m_done = true;
+            m_next = (m_current_level + 1) % (levels + 1);
+            if (m_next == 0) m_next++;
         }
 
         while (1) {
@@ -91,9 +94,9 @@ void TWLevel::update_self(uint64_t dt) {
 
         if (will->x() >= outer_x) {
             m_done = true;
-            print("level ended\n");
-            // FIXME remove this exit() call
-            exit(1);
+            m_next = (m_current_level + 1) % (levels + 1);
+            if (m_next == 0)
+                m_next++;
         }
 
         if (platform_idx == platform_num && !m_is_level_ending) {
@@ -119,6 +122,7 @@ void TWLevel::update_self(uint64_t dt) {
         // control menus
         if (pressed(BUTTON_START)) {
             m_done = true;
+            m_next = 1;
         }
     }
 }
