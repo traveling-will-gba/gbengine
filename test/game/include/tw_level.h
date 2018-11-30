@@ -32,7 +32,7 @@ class TWLevel : public Level {
 
     private:
         uint32_t n_platforms;
-        TWPlatform* platforms[20];
+        TWPlatform *platforms[20];
         TWCollectable *collectables[20];
         TWPlatform *floor_plats[20];
         TWWill *will;
@@ -43,6 +43,9 @@ class TWLevel : public Level {
         bool collectable_present[500];
 
         vector<Background *> m_backgrounds;
+
+        void delete_platforms();
+        void delete_backgrounds();
 
         int platform_idx;
         int platform_num;

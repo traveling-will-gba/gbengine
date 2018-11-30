@@ -64,6 +64,11 @@ TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures, bool is_f
     Physics::get_physics()->register_object(this);
 }
 
+TWPlatform::~TWPlatform() {
+    print("tirei da lista\n");
+    Physics::get_physics()->unregister_object(this);
+}
+
 void TWPlatform::update_bounding_box() {
     m_bounding_box = Rectangle(m_x + (platform_width / 2), m_y + ((platform_height * platform_tiles) / 2), platform_width, platform_height * platform_tiles);
 }

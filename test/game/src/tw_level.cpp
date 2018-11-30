@@ -63,19 +63,30 @@ TWLevel::TWLevel(int level, bool playable = true) {
 }
 
 TWLevel::~TWLevel() {
-    while (!q.empty()) {
+    clear_children();
+    delete_backgrounds();
+    //delete_platforms();
+
+    while (not q.empty()) {
+//        Physics::get_physics()->unregister_object(q.front());
         q.pop();
     }
 
-    m_backgrounds.clear();
+    MemoryManager::get_memory_manager()->reset_memory();
+}
 
-    for(auto child : m_children) {
-        remove_child(child);
+void TWLevel::delete_platforms() {
+    for (int i = 0; i < max_platforms_loaded; i++) {
+        delete(platforms[i]);
+        delete(floor_plats[i]);
     }
+}
 
-    MemoryManager *manager = MemoryManager::get_memory_manager();
-
-    manager->reset_memory();
+void TWLevel::delete_backgrounds() {
+    while (not m_backgrounds.empty()) {
+        free(m_backgrounds.back());
+        m_backgrounds.pop_back();
+    }
 }
 
 void TWLevel::update_self(uint64_t dt) {
@@ -286,12 +297,15 @@ void TWLevel::load_level_objects(int level, const int level_len, const int *plat
             platforms[i] = new TWPlatform(level, i * platform_width, platform_height[i]);
             collectables[i] = new TWCollectable(level, i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i]);
+            print("new plat %p\n", platforms[i]);
+            print("height %p\n", &platform_height[0]);
         }
         else
         {
             platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
             collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i], collectables[0]->texture());
+            print("new plat %p\n", platforms[i]);
         }
 
         platforms[i]->set_collectable(collectables[i]);

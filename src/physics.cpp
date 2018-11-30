@@ -35,6 +35,10 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
     return bbA.intersection(bbB);
 }
 
+void Physics::clear_list() {
+    objects.clear();
+}
+
 void Physics::do_collisions() {
     for (auto obj : objects) {
         if (obj == target or not obj->active() or not target->active()) continue;

@@ -14,6 +14,7 @@ class TWCollectable : public GameObject, public Collidable {
     public:
         TWCollectable(int level, int x, int y);
         TWCollectable(int x, int y, const Texture *texture);
+        ~TWCollectable();
 
         void update_self(uint64_t dt);
         void draw_self();

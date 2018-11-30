@@ -2,6 +2,17 @@
 
 #include "game_object.h"
 
+GameObject::~GameObject() {
+
+}
+
+void GameObject::clear_children() {
+    while (not m_children.empty()) {
+        m_children.back()->set_parent(nullptr);
+        m_children.pop_back();
+    }
+}
+
 void GameObject::update(uint64_t dt) {
     for (auto child : m_children) {
         child->update(dt);

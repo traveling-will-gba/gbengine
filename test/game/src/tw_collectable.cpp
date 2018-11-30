@@ -53,6 +53,9 @@ TWCollectable::TWCollectable(int x, int y, const Texture *texture) {
     Physics::get_physics()->register_object(this);
 }
 
+TWCollectable::~TWCollectable() {
+}
+
 void TWCollectable::set_visibility(bool visible) {
     if (visible) {
         m_texture->metadata.om = 0;

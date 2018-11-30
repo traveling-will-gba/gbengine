@@ -19,6 +19,9 @@ class GameObject {
         virtual void draw_self() = 0;
 
     public:
+        virtual ~GameObject();
+        void clear_children();
+        
         void update(uint64_t dt);
         void draw();
 
