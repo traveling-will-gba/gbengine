@@ -63,6 +63,7 @@ Texture::Texture(uint32_t num_sprites, const uint16_t *pallete, uint32_t pallete
 
     set_sprite_pal();
     set_sprite();
+
     oam_entry = memory_manager->alloc_oam_entry();
 
     metadata.tid = tile_base * ((bpp == _4BPP) ? 1 : 2);
@@ -102,7 +103,9 @@ bool Texture::set_sprite_pal() {
 }
 
 bool Texture::set_sprite() {
+    print("first\n");
     volatile struct tile *teste = memory_manager->alloc_texture(tiles_len);
+    print("second\n");
 
     mem16cpy((volatile struct tile *)teste, tiles, tiles_len);
     tile_base = teste - memory_manager->base_texture_mem();

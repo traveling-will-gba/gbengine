@@ -30,7 +30,7 @@ void TWGame::run() {
         check_buttons_states();
 
         print("antes do col\n");
-        // Physics::get_physics()->do_collisions();
+        Physics::get_physics()->do_collisions();
 
         m_level->update(dt);
         m_level->draw();

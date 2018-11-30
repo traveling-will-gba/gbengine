@@ -18,6 +18,8 @@ class GameObject {
         virtual void update_self(uint64_t dt) = 0;
         virtual void draw_self() = 0;
 
+        virtual ~GameObject();
+
     public:
         void update(uint64_t dt);
         void draw();
@@ -25,8 +27,6 @@ class GameObject {
         void set_parent(GameObject *obj) { m_parent = obj; }
         void add_child(GameObject *);
         void remove_child(GameObject *);
-
-        // virtual ~GameObject();
 };
 
 #endif

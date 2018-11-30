@@ -23,6 +23,8 @@ TWPlatform::TWPlatform(int level, int x, int y, bool is_floor) {
 
     load_platforms(level);
 
+    print("plat num%d\n", platform_tiles);
+
     platform_tiles = m_textures.size();
 
     for (size_t i = 0; i < platform_tiles; i++) {
@@ -62,6 +64,16 @@ TWPlatform::TWPlatform(int x, int y, const vector<Texture *> textures, bool is_f
     m_bounding_box = Rectangle(m_x + (platform_width / 2), m_y + ((platform_height * platform_tiles) / 2), platform_width, platform_height * platform_tiles);
 
     Physics::get_physics()->register_object(this);
+}
+
+TWPlatform::~TWPlatform() {
+    while (not m_textures.empty()) {
+        delete(m_textures.back());
+        m_textures.pop_back();
+    }
+    m_textures.clear();
+
+    //delete(m_collectable);
 }
 
 void TWPlatform::update_bounding_box() {
@@ -141,7 +153,9 @@ void TWPlatform::load_platforms(int level) {
             // do nothing
             break;
         case LEVEL_1:
+            print("blz, level1\n");
             m_textures.push_back(new Texture(1, level1_plat0Pal, level1_plat0PalLen, level1_plat0Tiles, level1_plat0TilesLen, _4BPP));
+            print("push back funfou\n");
 
             if (not m_is_floor)
             {
@@ -150,6 +164,7 @@ void TWPlatform::load_platforms(int level) {
                 m_textures.push_back(new Texture(1, level1_plat3Pal, level1_plat3PalLen, level1_plat3Tiles, level1_plat3TilesLen, _4BPP));
             }
 
+            print("passei\n");
             break;
         case LEVEL_2:
             m_textures.push_back(new Texture(1, level2_plat0Pal, level2_plat0PalLen, level2_plat0Tiles, level2_plat0TilesLen, _4BPP));

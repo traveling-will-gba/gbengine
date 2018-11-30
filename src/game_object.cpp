@@ -2,14 +2,18 @@
 
 #include "game_object.h"
 
-// GameObject::~GameObject() {
-//     int children_size = m_children.size();
-//     for(int i=0;i<children_size; i++) {
-//         delete m_children[i];
-//     }
-
-//     m_children.clear();
-// }
+GameObject::~GameObject() {
+    print("entrei no destrutor gameobject %u\n", m_children.size());
+    while (not m_children.empty()) {
+        auto *p = m_children.back();
+        if (p) {
+            // FIXME: WHY THIS DOESN'T WORK!?
+            //p->set_parent(NULL);
+        }
+        m_children.pop_back();
+    }
+    print("saí do destrutor gameobject\n");
+}
 
 void GameObject::update(uint64_t dt) {
     for (auto child : m_children) {

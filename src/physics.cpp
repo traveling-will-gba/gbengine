@@ -52,7 +52,7 @@ void Physics::do_collisions() {
 }
 
 void Physics::dispose() {
-    // objects.clear();
+    objects.clear();
     target = nullptr;
 }
 

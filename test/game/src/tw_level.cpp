@@ -78,13 +78,8 @@ TWLevel::TWLevel(int level, bool playable = true) {
 
 TWLevel::~TWLevel() {
     print("enter des\n");
-    if (m_playable) {
+/*    if (m_playable) {
         print("d1\n");
-        while(!m_children.empty()) {
-            print("d2\n");
-            remove_child(*m_children.begin());
-        }
-        print("d3\n");
 
         for (int i=0; i<max_platforms_loaded; i++) {
             print("d4 %d\n", i);
@@ -102,13 +97,10 @@ TWLevel::~TWLevel() {
             q.pop();
         }
         print("d7\n");
-    }
-
-    print("d8\n");
-    int backgrounds_size = m_backgrounds.size();
+    }*/
 
     print("d9\n");
-    for (int i = 0; i < backgrounds_size; i++)
+    for (size_t i = 0; i < m_backgrounds.size(); i++)
     {
         print("d10 %d\n", i);
         delete m_backgrounds[i];
@@ -316,8 +308,11 @@ void TWLevel::load_level_objects(int level, const int level_len, const int *plat
         collectable_present[i] = collectables_present[i];
     }
 
+    print("preenchi os dados do level\n");
+
     for (int i = 0; i < max_platforms_loaded; i++)
     {
+        print("criei %d\n", i);
         if (i == 0)
         {
             floor_plats[i] = new TWPlatform(level, i * platform_width, 142, true);
@@ -327,8 +322,10 @@ void TWLevel::load_level_objects(int level, const int level_len, const int *plat
             floor_plats[i] = new TWPlatform(i * platform_width, 142, floor_plats[0]->textures(), true);
         }
 
-        add_child(floor_plats[i]);
+        //add_child(floor_plats[i]);
     }
+
+    print("adicionei chão\n");
 
     for (int i = 0; i < max_platforms_loaded; i++)
     {

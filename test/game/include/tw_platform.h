@@ -13,6 +13,7 @@ class TWPlatform : public GameObject, public Collidable {
     public:
         TWPlatform(int level, int x, int y, bool is_floor = false);
         TWPlatform(int x, int y, const vector<Texture*> textures, bool is_floor = false);
+        ~TWPlatform();
 
         void update_self(uint64_t dt);
         void draw_self();
