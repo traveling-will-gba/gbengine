@@ -84,7 +84,6 @@ TWLevel::~TWLevel() {
     //delete_platforms();
 
     while (not q.empty()) {
-//        Physics::get_physics()->unregister_object(q.front());
         q.pop();
     }
 
@@ -100,7 +99,7 @@ void TWLevel::delete_platforms() {
 
 void TWLevel::delete_backgrounds() {
     while (not m_backgrounds.empty()) {
-        free(m_backgrounds.back());
+  //      free(m_backgrounds.back());
         m_backgrounds.pop_back();
     }
 }
