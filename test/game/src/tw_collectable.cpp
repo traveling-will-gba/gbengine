@@ -8,7 +8,7 @@
 #include "level1_item.h"
 #include "level2_item.h"
 #include "level3_item.h"
-// #include "level4_item.h"
+#include "level4_item.h"
 // #include "level5_item.h"
 // #include "level6_item.h"
 
@@ -124,7 +124,7 @@ void TWCollectable::load_collectable_texture(int level) {
             m_texture = new Texture(8, level3_itemPal, level3_itemPalLen, level3_itemTiles, level3_itemTilesLen, _4BPP);
             break;
         case LEVEL_4:
-            // m_texture = new Texture(6, level4_itemPal, level4_itemPalLen, level4_itemTiles, level4_itemTilesLen, _4BPP);
+            m_texture = new Texture(6, level4_itemPal, level4_itemPalLen, level4_itemTiles, level4_itemTilesLen, _4BPP);
             break;
         case LEVEL_5:
             // m_texture = new Texture(6, level5_itemPal, level5_itemPalLen, level5_itemTiles, level5_itemTilesLen, _4BPP);

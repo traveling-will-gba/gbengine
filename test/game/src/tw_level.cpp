@@ -26,6 +26,11 @@
 #include "level3_b1.h"
 #include "level3_b2.h"
 
+#include "level4.h"
+#include "level4_b0.h"
+#include "level4_b1.h"
+#include "level4_b2.h"
+
 #include "level3.h"
 #include "level4.h"
 #include "level5.h"
@@ -205,11 +210,11 @@ void TWLevel::load_backgrounds(int level) {
             m_backgrounds[0]->set_frames_to_skip(2);
             break;
         case LEVEL_4:
-            // m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level4_b1Pal, level4_b1PalLen, level4_b1Tiles, level4_b1TilesLen, level4_b1Map, level4_b1MapLen, 1, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level4_b2Pal, level4_b2PalLen, level4_b2Tiles, level4_b2TilesLen, level4_b2Map, level4_b2MapLen, 2, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0, 20, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level4_b1Pal, level4_b1PalLen, level4_b1Tiles, level4_b1TilesLen, level4_b1Map, level4_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level4_b2Pal, level4_b2PalLen, level4_b2Tiles, level4_b2TilesLen, level4_b2Map, level4_b2MapLen, 2, 0, 0, 2, 0));
 
-            // m_backgrounds[0]->set_frames_to_skip(2);
+            m_backgrounds[0]->set_frames_to_skip(2);
 
             break;
         case LEVEL_5:
@@ -255,7 +260,8 @@ void TWLevel::load_level_design(int level) {
             load_level_objects(level, level3_len, level3_platform_heights, level3_collectable_heights, level3_collectable_present);
             break;
         case LEVEL_4:
-            load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
+            load_level_objects(level, level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present);
+            // load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
             break;
         case LEVEL_5:
             load_level_objects(level, level5_len, level5_platform_heights, level5_collectable_heights, level5_collectable_present);
@@ -318,5 +324,5 @@ void TWLevel::load_level_objects(int level, const int level_len, const int *plat
 
         add_child(platforms[i]);
         q.push(platforms[i]);
-    }
 }
+    }
