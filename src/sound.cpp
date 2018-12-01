@@ -5,6 +5,8 @@
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
+#include "utils.h"
+
 Sound* Sound::instance;
 
 Sound::Sound() {
@@ -15,11 +17,6 @@ Sound::Sound() {
 
     mmInitDefault( (mm_addr)soundbank_bin, 8);
     mmStart( MOD_MUSIC43K, MM_PLAY_LOOP );
-
-    //do {
-    //    VBlankIntrWait();
-      //  mmFrame();
-    //} while(1);
 }
 
 Sound *Sound::get_sound() {
@@ -30,10 +27,10 @@ Sound *Sound::get_sound() {
     return instance;
 }
 
-#include "utils.h"
-
-void Sound::teste() {
-    //VBlankIntrWait();
-    //vsync();
+void Sound::play() {
     mmFrame();
+}
+
+void Sound::stop() {
+    mmStop();
 }

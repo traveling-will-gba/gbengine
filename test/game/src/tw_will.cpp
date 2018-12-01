@@ -106,7 +106,7 @@ void TWWill::check_falling() {
     if(m_state == JUMPING && m_y_speed >= 0) {
         // print("set_falling\n");
         m_state = FALLING;
-        m_y_speed = 2;
+        m_y_speed = 1;
     } else if (m_state == RUNNING) {
         // print("set falling\n");
         m_state = FALLING;

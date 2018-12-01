@@ -155,9 +155,9 @@ void TWLevel::update_self(uint64_t dt) {
             m_is_level_ending = true;
         }
         else if (!m_is_level_ending) {
-            if (dt % 2 == 0) {
+            if (dt % m_backgrounds[0]->frames_to_skip() == 0) {
                 for (int i = 0; i < max_platforms_loaded; i++) {
-                    platforms[i]->set_x(platforms[i]->x() - 1);
+                    platforms[i]->set_x(platforms[i]->x() - m_backgrounds[0]->speed_x());
                 }
             }
         }
@@ -209,11 +209,11 @@ void TWLevel::load_backgrounds(int level) {
             m_backgrounds.push_back(new Background(defeatPal, defeatPalLen, defeatTiles, defeatTilesLen, defeatMap, defeatMapLen, 0, 0, 0, 0, 0));
             break;
         case LEVEL_1:
-            m_backgrounds.push_back(new Background(level1_b0Pal, level1_b0PalLen, level1_b0Tiles, level1_b0TilesLen, level1_b0Map, level1_b0MapLen, 0, 0, 0, 1, 0));
-            m_backgrounds.push_back(new Background(level1_b1Pal, level1_b1PalLen, level1_b1Tiles, level1_b1TilesLen, level1_b1Map, level1_b1MapLen, 1, 0, 0, 1, 0));
-            m_backgrounds.push_back(new Background(level1_b2Pal, level1_b2PalLen, level1_b2Tiles, level1_b2TilesLen, level1_b2Map, level1_b2MapLen, 2, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level1_b0Pal, level1_b0PalLen, level1_b0Tiles, level1_b0TilesLen, level1_b0Map, level1_b0MapLen, 0, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level1_b1Pal, level1_b1PalLen, level1_b1Tiles, level1_b1TilesLen, level1_b1Map, level1_b1MapLen, 1, 0, 0, 3, 0));
+            m_backgrounds.push_back(new Background(level1_b2Pal, level1_b2PalLen, level1_b2Tiles, level1_b2TilesLen, level1_b2Map, level1_b2MapLen, 2, 0, 0, 4, 0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+//            m_backgrounds[0]->set_frames_to_skip(3);
             break;
         case LEVEL_2:
             m_backgrounds.push_back(new Background(level2_b0Pal, level2_b0PalLen, level2_b0Tiles, level2_b0TilesLen, level2_b0Map, level2_b0MapLen, 0, 0, 0, 1, 0));
