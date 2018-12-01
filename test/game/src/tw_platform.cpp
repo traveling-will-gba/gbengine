@@ -13,6 +13,11 @@
 #include "level2_plat2.h"
 #include "level2_plat3.h"
 
+#include "level3_plat0.h"
+#include "level3_plat1.h"
+#include "level3_plat2.h"
+#include "level3_plat3.h"
+
 const int platform_width = 16;
 const int platform_height = 32;
 
@@ -167,14 +172,14 @@ void TWPlatform::load_platforms(int level) {
             }
             break;
         case LEVEL_3:
-            // m_textures.push_back(new Texture(1, level3_plat0Pal, level3_plat0PalLen, level3_plat0Tiles, level3_plat0TilesLen, _4BPP));
+            m_textures.push_back(new Texture(1, level3_plat0Pal, level3_plat0PalLen, level3_plat0Tiles, level3_plat0TilesLen, _4BPP));
 
-            // if (not m_is_floor)
-            // {
-            //     m_textures.push_back(new Texture(1, level3_plat1Pal, level3_plat1PalLen, level3_plat1Tiles, level3_plat1TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level3_plat2Pal, level3_plat2PalLen, level3_plat2Tiles, level3_plat2TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level3_plat3Pal, level3_plat3PalLen, level3_plat3Tiles, level3_plat3TilesLen, _4BPP));
-            // }
+            if (not m_is_floor)
+            {
+                m_textures.push_back(new Texture(1, level3_plat1Pal, level3_plat1PalLen, level3_plat1Tiles, level3_plat1TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level3_plat2Pal, level3_plat2PalLen, level3_plat2Tiles, level3_plat2TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level3_plat3Pal, level3_plat3PalLen, level3_plat3Tiles, level3_plat3TilesLen, _4BPP));
+            }
             break;
         case LEVEL_4:
             // m_textures.push_back(new Texture(1, level4_plat0Pal, level4_plat0PalLen, level4_plat0Tiles, level4_plat0TilesLen, _4BPP));

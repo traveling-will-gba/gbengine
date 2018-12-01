@@ -14,7 +14,7 @@
 #define MENU_VICTORY 7
 #define MENU_DEFEAT 8
 #define NEXT_LEVEL 42
-#define LOADED_LEVELS 2
+#define LOADED_LEVELS 3
 
 int print(const char *fmt, ...);
 void mem16cpy(volatile void *dest, const void *src, size_t n);

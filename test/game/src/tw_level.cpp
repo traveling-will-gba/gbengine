@@ -22,6 +22,11 @@
 #include "level2_b2.h"
 
 #include "level3.h"
+#include "level3_b0.h"
+#include "level3_b1.h"
+#include "level3_b2.h"
+
+#include "level3.h"
 #include "level4.h"
 #include "level5.h"
 #include "level6.h"
@@ -193,11 +198,11 @@ void TWLevel::load_backgrounds(int level) {
             m_backgrounds[0]->set_frames_to_skip(2);
             break;
         case LEVEL_3:
-            // m_backgrounds.push_back(new Background(level3_b0Pal, level3_b0PalLen, level3_b0Tiles, level3_b0TilesLen, level3_b0Map, level3_b0MapLen, 0, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level3_b1Pal, level3_b1PalLen, level3_b1Tiles, level3_b1TilesLen, level3_b1Map, level3_b1MapLen, 1, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level3_b2Pal, level3_b2PalLen, level3_b2Tiles, level3_b2TilesLen, level3_b2Map, level3_b2MapLen, 2, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level3_b0Pal, level3_b0PalLen, level3_b0Tiles, level3_b0TilesLen, level3_b0Map, level3_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level3_b1Pal, level3_b1PalLen, level3_b1Tiles, level3_b1TilesLen, level3_b1Map, level3_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level3_b2Pal, level3_b2PalLen, level3_b2Tiles, level3_b2TilesLen, level3_b2Map, level3_b2MapLen, 2, 0, 0, 2, 0));
 
-            // m_backgrounds[0]->set_frames_to_skip(2);
+            m_backgrounds[0]->set_frames_to_skip(2);
             break;
         case LEVEL_4:
             // m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0, 0, 0, 1, 0));
