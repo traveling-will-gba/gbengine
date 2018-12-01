@@ -50,6 +50,7 @@ class TWLevel : public Level {
         int platform_idx;
         int platform_num;
         int m_current_level;
+        int collectables_num;
 
         int mx1, my1;
         int mx2, my2;

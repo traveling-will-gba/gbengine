@@ -47,7 +47,7 @@ const int collectable_width = 8;
 const int screen_width = 240;
 
 TWLevel::TWLevel(int level, bool playable = true) {
-    print("level %d is playable? %d\n", level, playable);
+    // print("level %d is playable? %d\n", level, playable);
     reset_dispcnt();
     set_video_mode(0);
     enable_background(0);
@@ -132,7 +132,13 @@ void TWLevel::update_self(uint64_t dt) {
 
         if (will->x() >= outer_x) {
             m_done = true;
-            m_next = MENU_VICTORY;
+
+            if (will->items_collected() < collectables_num * 0.7) {
+                m_next = MENU_DEFEAT;
+            }
+            else {
+                m_next = MENU_VICTORY;
+            }
         }
 
         if (platform_idx == platform_num && !m_is_level_ending) {
@@ -172,6 +178,14 @@ void TWLevel::update_self(uint64_t dt) {
             if (pressed(BUTTON_A)) {
                 m_done = true;
                 m_next = NEXT_LEVEL;
+            }
+        }
+
+        if (m_current_level == MENU_DEFEAT) {
+            if (pressed(BUTTON_B))
+            {
+                m_done = true;
+                m_next = LEVEL_MENU;
             }
         }
     }
@@ -289,6 +303,7 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
         platform_height[i] = 160 - platform_heights[i] / 3;       // 480 -> 160
         collectable_height[i] = 160 - collectable_heights[i] / 3; // 480 -> 160
         collectable_present[i] = collectables_present[i];
+        collectables_num += collectable_present[i];
     }
 
     for (int i = 0; i < max_platforms_loaded; i++)
@@ -312,15 +327,15 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
             platforms[i] = new TWPlatform(level, i * platform_width, platform_height[i]);
             collectables[i] = new TWCollectable(level, i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i]);
-            print("new plat %p\n", platforms[i]);
-            print("height %p\n", &platform_height[0]);
+            // print("new plat %p\n", platforms[i]);
+            // print("height %p\n", &platform_height[0]);
         }
         else
         {
             platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
             collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i], collectables[0]->texture());
-            print("new plat %p\n", platforms[i]);
+            // print("new plat %p\n", platforms[i]);
         }
 
         platforms[i]->set_collectable(collectables[i]);

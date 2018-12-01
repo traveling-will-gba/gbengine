@@ -4,13 +4,13 @@
 //======================================================================
 //
 //	defeat, 256x160@4, 
-//	Transparent palette entry: 50.
+//	Transparent palette entry: 3.
 //	+ palette 256 entries, not compressed
 //	+ 110 tiles (t|f reduced) not compressed
 //	+ regular map (flat), not compressed, 32x20 
 //	Total size: 512 + 3520 + 1280 = 5312
 //
-//	Time-stamp: 2018-11-29, 13:39:57
+//	Time-stamp: 2018-12-01, 03:29:59
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
 //	( http://www.coranac.com/projects/#grit )
 //
