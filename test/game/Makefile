@@ -163,6 +163,7 @@ export LIBPATHS	:=	-L$(CURDIR) $(foreach dir,$(TONCLIBDIRS),-L$(dir))
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
+	@cp sound_binaries/soundbank.bin.o $@ 
 	@make --no-print-directory -f $(CURDIR)/gfxmake
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	arm-none-eabi-nm -Sn $(OUTPUT).elf > $(BUILD)/$(TARGET).map

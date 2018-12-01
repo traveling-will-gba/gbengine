@@ -47,7 +47,7 @@ const int collectable_width = 8;
 const int screen_width = 240;
 
 TWLevel::TWLevel(int level, bool playable = true) {
-    // print("level %d is playable? %d\n", level, playable);
+    print("level %d is playable? %d\n", level, playable);
     reset_dispcnt();
     set_video_mode(0);
     enable_background(0);
@@ -344,5 +344,6 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
 
         add_child(platforms[i]);
         q.push(platforms[i]);
-}
     }
+
+}

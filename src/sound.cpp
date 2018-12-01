@@ -16,7 +16,7 @@ Sound::Sound() {
     irqEnable(IRQ_VBLANK);
 
     mmInitDefault( (mm_addr)soundbank_bin, 8);
-    mmStart( MOD_MUSIC43K, MM_PLAY_LOOP );
+    mmStart(MOD_MUSIC43K, MM_PLAY_ONCE);
 }
 
 Sound *Sound::get_sound() {
