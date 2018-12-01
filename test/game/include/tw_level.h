@@ -23,8 +23,8 @@ class TWLevel : public Level {
         void load_level(int level);
         void load_backgrounds(int level);
         void load_level_design(int level);
-        void load_level_objects(int level, const int level_len, const int *platform_heights,
-            const int *collectable_heights, const int *collectables_present);
+        void load_level_objects(int level, const int level_len, const short *platform_heights,
+            const short *collectable_heights, const bool *collectables_present);
 
         const bool done() const { return m_done; }
         const int next() const { return m_next; }
@@ -38,9 +38,9 @@ class TWLevel : public Level {
         TWWill *will;
 
         queue <TWPlatform *> q;
-        int platform_height[500];
-        int collectable_height[500];
-        bool collectable_present[500];
+        short platform_height[2000];
+        short collectable_height[2000];
+        bool collectable_present[2000];
 
         vector<Background *> m_backgrounds;
 

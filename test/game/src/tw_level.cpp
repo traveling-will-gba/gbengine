@@ -31,10 +31,15 @@
 #include "level4_b1.h"
 #include "level4_b2.h"
 
-#include "level3.h"
-#include "level4.h"
 #include "level5.h"
+#include "level5_b0.h"
+#include "level5_b1.h"
+#include "level5_b2.h"
+
 #include "level6.h"
+#include "level6_b0.h"
+#include "level6_b1.h"
+#include "level6_b2.h"
 
 const int max_platforms_loaded = 16;
 const int platform_width = 16;
@@ -218,19 +223,19 @@ void TWLevel::load_backgrounds(int level) {
 
             break;
         case LEVEL_5:
-            // m_backgrounds.push_back(new Background(level5_b0Pal, level5_b0PalLen, level5_b0Tiles, level5_b0TilesLen, level5_b0Map, level5_b0MapLen, 0, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level5_b1Pal, level5_b1PalLen, level5_b1Tiles, level5_b1TilesLen, level5_b1Map, level5_b1MapLen, 1, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level5_b2Pal, level5_b2PalLen, level5_b2Tiles, level5_b2TilesLen, level5_b2Map, level5_b2MapLen, 2, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level5_b0Pal, level5_b0PalLen, level5_b0Tiles, level5_b0TilesLen, level5_b0Map, level5_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level5_b1Pal, level5_b1PalLen, level5_b1Tiles, level5_b1TilesLen, level5_b1Map, level5_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level5_b2Pal, level5_b2PalLen, level5_b2Tiles, level5_b2TilesLen, level5_b2Map, level5_b2MapLen, 2, 0, 0, 2, 0));
 
-            // m_backgrounds[0]->set_frames_to_skip(2);
+            m_backgrounds[0]->set_frames_to_skip(2);
 
             break;
         case LEVEL_6:
-            // m_backgrounds.push_back(new Background(level6_b0Pal, level6_b0PalLen, level6_b0Tiles, level6_b0TilesLen, level6_b0Map, level6_b0MapLen, 0, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level6_b1Pal, level6_b1PalLen, level6_b1Tiles, level6_b1TilesLen, level6_b1Map, level6_b1MapLen, 1, 0, 0, 1, 0));
-            // m_backgrounds.push_back(new Background(level6_b2Pal, level6_b2PalLen, level6_b2Tiles, level6_b2TilesLen, level6_b2Map, level6_b2MapLen, 2, 0, 0, 2, 0));
+            m_backgrounds.push_back(new Background(level6_b0Pal, level6_b0PalLen, level6_b0Tiles, level6_b0TilesLen, level6_b0Map, level6_b0MapLen, 0, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level6_b1Pal, level6_b1PalLen, level6_b1Tiles, level6_b1TilesLen, level6_b1Map, level6_b1MapLen, 1, 0, 0, 1, 0));
+            m_backgrounds.push_back(new Background(level6_b2Pal, level6_b2PalLen, level6_b2Tiles, level6_b2TilesLen, level6_b2Map, level6_b2MapLen, 2, 0, 0, 2, 0));
 
-            // m_backgrounds[0]->set_frames_to_skip(2);
+            m_backgrounds[0]->set_frames_to_skip(2);
 
             break;
         default:
@@ -260,8 +265,7 @@ void TWLevel::load_level_design(int level) {
             load_level_objects(level, level3_len, level3_platform_heights, level3_collectable_heights, level3_collectable_present);
             break;
         case LEVEL_4:
-            load_level_objects(level, level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present);
-            // load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
+            load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
             break;
         case LEVEL_5:
             load_level_objects(level, level5_len, level5_platform_heights, level5_collectable_heights, level5_collectable_present);
@@ -274,7 +278,7 @@ void TWLevel::load_level_design(int level) {
     }
 }
 
-void TWLevel::load_level_objects(int level, const int level_len, const int *platform_heights, const int *collectable_heights, const int *collectables_present)
+void TWLevel::load_level_objects(int level, const int level_len, const short *platform_heights, const short *collectable_heights, const bool *collectables_present)
 {
     platform_num = level_len;
     platform_idx = max_platforms_loaded;

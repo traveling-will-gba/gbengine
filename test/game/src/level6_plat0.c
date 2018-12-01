@@ -1,0 +1,36 @@
+
+//{{BLOCK(level6_plat0)
+
+//======================================================================
+//
+//	level6_plat0, 16x32@4, 
+//	Transparent palette entry: 17.
+//	+ palette 16 entries, not compressed
+//	+ 8 tiles Metatiled by 2x1 not compressed
+//	Total size: 32 + 256 = 288
+//
+//	Time-stamp: 2018-12-01, 01:21:01
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.15
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned int level6_plat0Tiles[64] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x45111885,0x53111555,0xEEEDCCCE,0xCCCCCCCC,0x55111354,0x88888888,0x88A85445,0x11111111,
+	0x51188845,0x13184455,0xEEDEDDDE,0xCCCCC8CC,0x55545445,0x88888888,0x88888888,0x11111111,
+	0xAAAAAAAA,0x66666667,0x66637777,0x32223334,0xBABBBBB1,0x66666671,0x77776711,0x11111111,
+	0x3117AAAA,0x623BA776,0x326B7676,0x33173333,0xAABBBBBB,0x77666666,0x37663677,0x11111111,
+	0xAAAAAAAA,0x66666666,0x33333333,0x11111111,0x99999AAA,0x77773377,0x76336776,0x11111111,
+	0xAA211AAA,0x77312663,0x73133333,0x11111111,0xAAAAA999,0xB7666677,0xB7663667,0x11111111,
+	0xAAA63117,0x6666623B,0x6667326B,0x44433317,0xAAAAAAAA,0x66666667,0x37737366,0x42222322,
+	0x99999999,0x66666666,0x66737676,0x22223234,0x13AAAAAA,0x1B666666,0x1B676666,0x15343332,
+};
+
+const unsigned short level6_plat0Pal[16] __attribute__((aligned(4))) __attribute__((visibility("hidden")))=
+{
+	0x0002,0x10C7,0x194A,0x1D4C,0x196D,0x1D4F,0x25AD,0x25B0,
+	0x29F5,0x2E51,0x2E33,0x36B6,0x369A,0x4B3E,0x6FDF,0x0000,
+};
+
+//}}BLOCK(level6_plat0)

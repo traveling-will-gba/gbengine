@@ -23,6 +23,16 @@
 #include "level4_plat2.h"
 #include "level4_plat3.h"
 
+#include "level5_plat0.h"
+#include "level5_plat1.h"
+#include "level5_plat2.h"
+#include "level5_plat3.h"
+
+#include "level6_plat0.h"
+#include "level6_plat1.h"
+#include "level6_plat2.h"
+#include "level6_plat3.h"
+
 const int platform_width = 16;
 const int platform_height = 32;
 
@@ -197,24 +207,24 @@ void TWPlatform::load_platforms(int level) {
             }
             break;
         case LEVEL_5:
-            // m_textures.push_back(new Texture(1, level5_plat0Pal, level5_plat0PalLen, level5_plat0Tiles, level5_plat0TilesLen, _4BPP));
+            m_textures.push_back(new Texture(1, level5_plat0Pal, level5_plat0PalLen, level5_plat0Tiles, level5_plat0TilesLen, _4BPP));
 
-            // if (not m_is_floor)
-            // {
-            //     m_textures.push_back(new Texture(1, level5_plat1Pal, level5_plat1PalLen, level5_plat1Tiles, level5_plat1TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level5_plat2Pal, level5_plat2PalLen, level5_plat2Tiles, level5_plat2TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level5_plat3Pal, level5_plat3PalLen, level5_plat3Tiles, level5_plat3TilesLen, _4BPP));
-            // }
+            if (not m_is_floor)
+            {
+                m_textures.push_back(new Texture(1, level5_plat1Pal, level5_plat1PalLen, level5_plat1Tiles, level5_plat1TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level5_plat2Pal, level5_plat2PalLen, level5_plat2Tiles, level5_plat2TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level5_plat3Pal, level5_plat3PalLen, level5_plat3Tiles, level5_plat3TilesLen, _4BPP));
+            }
             break;
         case LEVEL_6:
-            // m_textures.push_back(new Texture(1, level6_plat0Pal, level6_plat0PalLen, level6_plat0Tiles, level6_plat0TilesLen, _4BPP));
+            m_textures.push_back(new Texture(1, level6_plat0Pal, level6_plat0PalLen, level6_plat0Tiles, level6_plat0TilesLen, _4BPP));
 
-            // if (not m_is_floor)
-            // {
-            //     m_textures.push_back(new Texture(1, level6_plat1Pal, level6_plat1PalLen, level6_plat1Tiles, level6_plat1TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level6_plat2Pal, level6_plat2PalLen, level6_plat2Tiles, level6_plat2TilesLen, _4BPP));
-            //     m_textures.push_back(new Texture(1, level6_plat3Pal, level6_plat3PalLen, level6_plat3Tiles, level6_plat3TilesLen, _4BPP));
-            // }
+            if (not m_is_floor)
+            {
+                m_textures.push_back(new Texture(1, level6_plat1Pal, level6_plat1PalLen, level6_plat1Tiles, level6_plat1TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level6_plat2Pal, level6_plat2PalLen, level6_plat2Tiles, level6_plat2TilesLen, _4BPP));
+                m_textures.push_back(new Texture(1, level6_plat3Pal, level6_plat3PalLen, level6_plat3Tiles, level6_plat3TilesLen, _4BPP));
+            }
             break;
         default:
             break;

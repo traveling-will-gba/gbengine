@@ -9,8 +9,8 @@
 #include "level2_item.h"
 #include "level3_item.h"
 #include "level4_item.h"
-// #include "level5_item.h"
-// #include "level6_item.h"
+#include "level5_item.h"
+#include "level6_item.h"
 
 const int col_width = 8;
 const int col_height = 8;
@@ -127,10 +127,10 @@ void TWCollectable::load_collectable_texture(int level) {
             m_texture = new Texture(6, level4_itemPal, level4_itemPalLen, level4_itemTiles, level4_itemTilesLen, _4BPP);
             break;
         case LEVEL_5:
-            // m_texture = new Texture(6, level5_itemPal, level5_itemPalLen, level5_itemTiles, level5_itemTilesLen, _4BPP);
+            m_texture = new Texture(6, level5_itemPal, level5_itemPalLen, level5_itemTiles, level5_itemTilesLen, _4BPP);
             break;
         case LEVEL_6:
-            // m_texture = new Texture(6, level6_itemPal, level6_itemPalLen, level6_itemTiles, level6_itemTilesLen, _4BPP);
+            m_texture = new Texture(6, level6_itemPal, level6_itemPalLen, level6_itemTiles, level6_itemTilesLen, _4BPP);
             break;
     }
 }
