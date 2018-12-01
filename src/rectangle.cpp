@@ -9,43 +9,43 @@ using std::max;
 using std::pair;
 using std::make_pair;
 
-Rectangle::Rectangle(double xv, double yv, double wv, double hv) :
+Rectangle::Rectangle(int xv, int yv, int wv, int hv) :
     m_x(xv), m_y(yv), m_w(wv), m_h(hv) { }   
 
-double Rectangle::x() const {
+int Rectangle::x() const {
     return m_x;
 }   
 
-double Rectangle::y() const {
+int Rectangle::y() const {
     return m_y;
 }   
 
-double Rectangle::w() const {
+int Rectangle::w() const {
     return m_w;
 }   
 
-double Rectangle::h() const {
+int Rectangle::h() const {
     return m_h;
 }   
 
-double Rectangle::area() const
+int Rectangle::area() const
 {   
     return m_w * m_h;
 }   
 
 bool Rectangle::intersection(const Rectangle& r) const
 {
-    double xa = x() - w() / 2;
-    double xb = x() + w() / 2;
+    int xa = x() - w() / 2;
+    int xb = x() + w() / 2;
 
-    double xc = r.x() - r.w() / 2;
-    double xd = r.x() + r.w() / 2;
+    int xc = r.x() - r.w() / 2;
+    int xd = r.x() + r.w() / 2;
 
-    double ya = y() - h() / 2;
-    double yb = y() + h() / 2;
+    int ya = y() - h() / 2;
+    int yb = y() + h() / 2;
 
-    double yc = r.y() - r.h() / 2;
-    double yd = r.y() + r.h() / 2;
+    int yc = r.y() - r.h() / 2;
+    int yd = r.y() + r.h() / 2;
 
     pair <int, int> interX = make_pair(max(xa, xc), min(xb, xd));
     pair <int, int> interY = make_pair(max(ya, yc), min(yb, yd));

@@ -61,7 +61,7 @@ class Background : public GameObject
 
         volatile int background_id;
 
-        int frames_to_skip;
+        int m_frames_to_skip;
 
         bool set_tiles();
         bool set_map();
@@ -87,7 +87,7 @@ class Background : public GameObject
 
         bool set_palette(const unsigned short *pallete, uint32_t pallete_len);
         void set_speed(int x, int y);
-        void set_frames_to_skip(int fr) { frames_to_skip = fr; }
+        void set_frames_to_skip(int fr) { m_frames_to_skip = fr; }
         void set_speed_x(int sp) { m_speed_x = sp; }
         void set_speed_y(int sp) { m_speed_y = sp; }
 
@@ -95,6 +95,7 @@ class Background : public GameObject
         const int y() const;
         const int speed_x() const;
         const int speed_y() const;
+        const int frames_to_skip() const;
 
         int tiles_cb_used;
         int map_se_used;

@@ -10,7 +10,14 @@ void mem16cpy(volatile void *dest, const void *src, size_t n)
         print("Size must be even");
     }
 
-    for (int i = 0; i < n / 2; i++) {
+    if ((uintptr_t)dest % 4 == 0 && (uintptr_t)src % 4 == 0 && n % 4 == 0) {
+        for (size_t i = 0; i < n / 4; i++) {
+            *(((volatile uint32_t *)dest) + i) = *(((uint32_t *)src) + i);
+        }
+        return;
+    }
+
+    for (size_t i = 0; i < n / 2; i++) {
         *(((volatile uint16_t *)dest) + i) = *(((uint16_t *)src) + i);
     }
 

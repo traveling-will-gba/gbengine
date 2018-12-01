@@ -1,33 +1,35 @@
+#include <stdlib.h>
+
 #include "tw_game.h"
 
 #include "physics.h"
+#include "sound.h"
 
-//FIXME: ERASE THIS, PLEASE
-#include "platform.h"
-#include "texture.h"
-
-#include "tw_platform.h"
-
-#include <stdlib.h>
-
-#include "time.h"
-
-#include "video.h"
 #include "input.h"
 #include "utils.h"
 
 void TWGame::run() {
     previous_playable_level = -1;
-    current_level = LEVEL_MENU;
-    m_level = new TWLevel(current_level, false);
+    current_level = LEVEL_1;
+
+    bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
+        && current_level != MENU_DEFEAT;
+
+    m_level = new TWLevel(current_level, is_playable);
+
+    Sound *sound = Sound::get_sound();
 
     uint64_t dt = 0;
     while (true) {
         vsync();
 
+        sound->play();
+
         check_buttons_states();
 
         Physics::get_physics()->do_collisions();
+
+        if (REG_VCOUNT < 160) print("WHAT!?\n");
 
         m_level->update(dt);
         m_level->draw();
@@ -45,10 +47,10 @@ void TWGame::run() {
 
             delete m_level;
 
-            bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
-                && current_level != MENU_DEFEAT;
-
             Physics::get_physics()->clear_list();
+
+            is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
+                && current_level != MENU_DEFEAT;
 
             m_level = new TWLevel(current_level, is_playable);
         }

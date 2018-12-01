@@ -14,7 +14,8 @@ class Sound {
         static Sound *get_sound();
         static Sound *instance;
 
-        void teste();
+        void play();
+        void stop();
 };
 
 #endif
