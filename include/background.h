@@ -45,6 +45,8 @@
 #define REG_BG3HOFS *(vu16 *)(REG_BASE + 0x001C)
 #define REG_BG3VOFS *(vu16 *)(REG_BASE + 0x001E)
 
+using namespace std;
+
 class Background : public GameObject
 {
     private:
@@ -61,6 +63,9 @@ class Background : public GameObject
 
         volatile int background_id;
 
+        uint32_t m_frame_div;
+        vector <int> m_bg_frame_speed;
+
         int m_frames_to_skip;
 
         bool set_tiles();
@@ -76,9 +81,8 @@ class Background : public GameObject
 
         Background(const unsigned short *pallete, uint32_t pallete_len,
             const unsigned int *tiles, uint32_t tiles_len,
-            const unsigned short *map, uint32_t map_len,
-            int background, int start_x, int start_y,
-            int start_speed_x, int start_speed_y);
+            const unsigned short *map, uint32_t map_len, int background,
+            vector <int> frame_speed);
 
         void draw_self() {}
         void update_self(uint64_t dt);
@@ -90,6 +94,9 @@ class Background : public GameObject
         void set_frames_to_skip(int fr) { m_frames_to_skip = fr; }
         void set_speed_x(int sp) { m_speed_x = sp; }
         void set_speed_y(int sp) { m_speed_y = sp; }
+
+        const vector <int> frame_speed() const;
+        const uint32_t frame_div() const;
 
         const int x() const;
         const int y() const;

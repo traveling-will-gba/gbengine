@@ -43,7 +43,7 @@ void TWWill::draw_self() {
 void TWWill::update_self(uint64_t dt) {
     m_texture->update(dt);
 
-    set_x(m_x + m_x_speed);
+//    set_x(m_x + m_x_speed);
     set_y(m_y + m_y_speed);
 
     m_bounding_box = Rectangle(m_x + will_width / 2, m_y + will_height / 2, will_width, will_height);

@@ -7,15 +7,9 @@ Background::Background(const unsigned short *pallete, uint32_t pallete_len,
                        const unsigned short *map, uint32_t map_len,
                        int background)
 {
-    Background(pallete, pallete_len, tiles, tiles_len, map, map_len, background, 0, 0, 0, 0);
-}
+    m_bg_frame_speed = {0};
+    m_frame_div = m_bg_frame_speed.size();
 
-Background::Background(const unsigned short *pallete, uint32_t pallete_len,
-                        const unsigned int *tiles, uint32_t tiles_len,
-                        const unsigned short *map, uint32_t map_len,
-                        int background, int start_x = 0, int start_y = 0,
-                        int start_speed_x = 0, int start_speed_y = 0)
-{
     this->pallete = pallete;
     // FIXME pallete_len should not be hardcoded
     this->pallete_len = 32;
@@ -24,17 +18,48 @@ Background::Background(const unsigned short *pallete, uint32_t pallete_len,
     this->map = map;
     this->map_len = map_len;
     this->background_id = background;
-
+    
     memory_manager = MemoryManager::get_memory_manager();
 
     set_palette(this->pallete, this->pallete_len);
     set_tiles();
     set_map();
 
-    m_x = start_x;
-    m_y = start_y;
-    m_speed_x = start_speed_x;
-    m_speed_y = start_speed_y;
+    m_speed_x = m_speed_y = 0;
+    m_x = m_y = 0;
+
+    m_frames_to_skip = 1;
+
+    set_background_register(this->background_id);
+}
+
+Background::Background(const unsigned short *pallete, uint32_t pallete_len,
+                       const unsigned int *tiles, uint32_t tiles_len,
+                       const unsigned short *map, uint32_t map_len,
+                       int background, vector <int> frame_speed)
+{
+    m_bg_frame_speed = frame_speed;
+    m_frame_div = frame_speed.size();
+
+    this->pallete = pallete;
+    // FIXME pallete_len should not be hardcoded
+    this->pallete_len = 32;
+    this->tiles = tiles;
+    this->tiles_len = tiles_len;
+    this->map = map;
+    this->map_len = map_len;
+    this->background_id = background;
+    
+    memory_manager = MemoryManager::get_memory_manager();
+
+    m_speed_x = m_speed_y = 0;
+    m_x = m_y = 0;
+
+    set_palette(this->pallete, this->pallete_len);
+    set_tiles();
+    set_map();
+
+    m_frames_to_skip = 1;
 
     set_background_register(this->background_id);
 }
@@ -106,13 +131,17 @@ void Background::set_speed(int x, int y) {
     this->m_speed_y = y;
 }
 
-void Background::update_self(uint64_t dt) {
-    //print("oi oi oi %d %d %d\n", this->background_id, m_x, m_y);
+const vector <int> Background::frame_speed() const {
+    return this->m_bg_frame_speed;
+}
 
-    if (dt % m_frames_to_skip == 0) {
-        m_x += m_speed_x;
-        m_y += m_speed_y;
-    }
+const uint32_t Background::frame_div() const {
+    return m_frame_div;
+}
+
+void Background::update_self(uint64_t dt) {
+    m_x += this->m_bg_frame_speed[dt % m_frame_div]; 
+    m_y += m_speed_y;
 
     switch(this->background_id) {
         case 0:
@@ -132,7 +161,7 @@ void Background::update_self(uint64_t dt) {
             REG_BG3VOFS = m_y;
             break;
         default:
-            print("Invalid background id\n");
+            print("Invalid background id %d\n");
             break;
     }
 }
