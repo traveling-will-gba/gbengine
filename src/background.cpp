@@ -140,7 +140,9 @@ const uint32_t Background::frame_div() const {
 }
 
 void Background::update_self(uint64_t dt) {
-    m_x += this->m_bg_frame_speed[dt % m_frame_div]; 
+    m_speed_x = this->m_bg_frame_speed[dt % m_frame_div];
+
+    m_x += m_speed_x;
     m_y += m_speed_y;
 
     switch(this->background_id) {

@@ -112,7 +112,6 @@ void TWLevel::update_self(uint64_t dt) {
         }
 
         if (platform_idx == platform_num && !m_is_level_ending) {
-            print("entrei\n");
             int level_speed_x = m_backgrounds[0]->speed_x();
 
             will->set_speed_x(level_speed_x);
@@ -212,58 +211,90 @@ void TWLevel::load_backgrounds(int level) {
                 vector <int> speed_bg0 = {2, 2, 2, 1};
                 m_backgrounds.push_back(new Background(level1_b0Pal, level1_b0PalLen, level1_b0Tiles, level1_b0TilesLen, level1_b0Map, level1_b0MapLen, 0,
                                                        speed_bg0));
-            }
 
-            {
                 vector <int> speed_bg1 = {2};
                 m_backgrounds.push_back(new Background(level1_b1Pal, level1_b1PalLen, level1_b1Tiles, level1_b1TilesLen, level1_b1Map, level1_b1MapLen, 1,
                                                        speed_bg1));
-            }
 
-            {
                 vector <int> speed_bg2 = {3};
                 m_backgrounds.push_back(new Background(level1_b2Pal, level1_b2PalLen, level1_b2Tiles, level1_b2TilesLen, level1_b2Map, level1_b2MapLen, 2,
                                                        speed_bg2));
             }
-//            m_backgrounds[0]->set_frames_to_skip(4);
             break;
         case LEVEL_2:
-            m_backgrounds.push_back(new Background(level2_b0Pal, level2_b0PalLen, level2_b0Tiles, level2_b0TilesLen, level2_b0Map, level2_b0MapLen, 0));
-            m_backgrounds.push_back(new Background(level2_b1Pal, level2_b1PalLen, level2_b1Tiles, level2_b1TilesLen, level2_b1Map, level2_b1MapLen, 1));
-            m_backgrounds.push_back(new Background(level2_b2Pal, level2_b2PalLen, level2_b2Tiles, level2_b2TilesLen, level2_b2Map, level2_b2MapLen, 2));
+            {
+                vector <int> speed_bg0 = {2, 2, 2, 1};
+                m_backgrounds.push_back(new Background(level2_b0Pal, level2_b0PalLen, level2_b0Tiles, level2_b0TilesLen, level2_b0Map, level2_b0MapLen, 0,
+                                                       speed_bg0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+                vector <int> speed_bg1 = {2};
+                m_backgrounds.push_back(new Background(level2_b1Pal, level2_b1PalLen, level2_b1Tiles, level2_b1TilesLen, level2_b1Map, level2_b1MapLen, 1,
+                                                       speed_bg1));
+
+                vector <int> speed_bg2 = {3};
+                m_backgrounds.push_back(new Background(level2_b2Pal, level2_b2PalLen, level2_b2Tiles, level2_b2TilesLen, level2_b2Map, level2_b2MapLen, 2,
+                                                       speed_bg2));
+            }
             break;
         case LEVEL_3:
-            m_backgrounds.push_back(new Background(level3_b0Pal, level3_b0PalLen, level3_b0Tiles, level3_b0TilesLen, level3_b0Map, level3_b0MapLen, 0));
-            m_backgrounds.push_back(new Background(level3_b1Pal, level3_b1PalLen, level3_b1Tiles, level3_b1TilesLen, level3_b1Map, level3_b1MapLen, 1));
-            m_backgrounds.push_back(new Background(level3_b2Pal, level3_b2PalLen, level3_b2Tiles, level3_b2TilesLen, level3_b2Map, level3_b2MapLen, 2));
+            {
+                vector <int> speed_bg0 = {2, 2, 2, 1};
+                m_backgrounds.push_back(new Background(level3_b0Pal, level3_b0PalLen, level3_b0Tiles, level3_b0TilesLen, level3_b0Map, level3_b0MapLen, 0,
+                                                       speed_bg0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+                vector <int> speed_bg1 = {2};
+                m_backgrounds.push_back(new Background(level3_b1Pal, level3_b1PalLen, level3_b1Tiles, level3_b1TilesLen, level3_b1Map, level3_b1MapLen, 1,
+                                                       speed_bg1));
+
+                vector <int> speed_bg2 = {3};
+                m_backgrounds.push_back(new Background(level3_b2Pal, level3_b2PalLen, level3_b2Tiles, level3_b2TilesLen, level3_b2Map, level3_b2MapLen, 2,
+                                                       speed_bg2));
+            }
             break;
         case LEVEL_4:
-            m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0));
-            m_backgrounds.push_back(new Background(level4_b1Pal, level4_b1PalLen, level4_b1Tiles, level4_b1TilesLen, level4_b1Map, level4_b1MapLen, 1));
-            m_backgrounds.push_back(new Background(level4_b2Pal, level4_b2PalLen, level4_b2Tiles, level4_b2TilesLen, level4_b2Map, level4_b2MapLen, 2));
+            {
+                vector <int> speed_bg0 = {2, 2, 2, 1};
+                m_backgrounds.push_back(new Background(level4_b0Pal, level4_b0PalLen, level4_b0Tiles, level4_b0TilesLen, level4_b0Map, level4_b0MapLen, 0,
+                                                       speed_bg0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+                vector <int> speed_bg1 = {2};
+                m_backgrounds.push_back(new Background(level4_b1Pal, level4_b1PalLen, level4_b1Tiles, level4_b1TilesLen, level4_b1Map, level4_b1MapLen, 1,
+                                                       speed_bg1));
 
+                vector <int> speed_bg2 = {3};
+                m_backgrounds.push_back(new Background(level4_b2Pal, level4_b2PalLen, level4_b2Tiles, level4_b2TilesLen, level4_b2Map, level4_b2MapLen, 2,
+                                                       speed_bg2));
+            }
             break;
         case LEVEL_5:
-            m_backgrounds.push_back(new Background(level5_b0Pal, level5_b0PalLen, level5_b0Tiles, level5_b0TilesLen, level5_b0Map, level5_b0MapLen, 0));
-            m_backgrounds.push_back(new Background(level5_b1Pal, level5_b1PalLen, level5_b1Tiles, level5_b1TilesLen, level5_b1Map, level5_b1MapLen, 1));
-            m_backgrounds.push_back(new Background(level5_b2Pal, level5_b2PalLen, level5_b2Tiles, level5_b2TilesLen, level5_b2Map, level5_b2MapLen, 2));
+            {
+                vector <int> speed_bg0 = {2, 2, 2, 1};
+                m_backgrounds.push_back(new Background(level5_b0Pal, level5_b0PalLen, level5_b0Tiles, level5_b0TilesLen, level5_b0Map, level5_b0MapLen, 0,
+                                                       speed_bg0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+                vector <int> speed_bg1 = {2};
+                m_backgrounds.push_back(new Background(level5_b1Pal, level5_b1PalLen, level5_b1Tiles, level5_b1TilesLen, level5_b1Map, level5_b1MapLen, 1,
+                                                       speed_bg1));
 
+                vector <int> speed_bg2 = {3};
+                m_backgrounds.push_back(new Background(level5_b2Pal, level5_b2PalLen, level5_b2Tiles, level5_b2TilesLen, level5_b2Map, level5_b2MapLen, 2,
+                                                       speed_bg2));
+            }
             break;
         case LEVEL_6:
-            m_backgrounds.push_back(new Background(level6_b0Pal, level6_b0PalLen, level6_b0Tiles, level6_b0TilesLen, level6_b0Map, level6_b0MapLen, 0));
-            m_backgrounds.push_back(new Background(level6_b1Pal, level6_b1PalLen, level6_b1Tiles, level6_b1TilesLen, level6_b1Map, level6_b1MapLen, 1));
-            m_backgrounds.push_back(new Background(level6_b2Pal, level6_b2PalLen, level6_b2Tiles, level6_b2TilesLen, level6_b2Map, level6_b2MapLen, 2));
+            {
+                vector <int> speed_bg0 = {2, 2, 2, 1};
+                m_backgrounds.push_back(new Background(level6_b0Pal, level6_b0PalLen, level6_b0Tiles, level6_b0TilesLen, level6_b0Map, level6_b0MapLen, 0,
+                                                       speed_bg0));
 
-            m_backgrounds[0]->set_frames_to_skip(2);
+                vector <int> speed_bg1 = {2};
+                m_backgrounds.push_back(new Background(level6_b1Pal, level6_b1PalLen, level6_b1Tiles, level6_b1TilesLen, level6_b1Map, level6_b1MapLen, 1,
+                                                       speed_bg1));
 
+                vector <int> speed_bg2 = {3};
+                m_backgrounds.push_back(new Background(level6_b2Pal, level6_b2PalLen, level6_b2Tiles, level6_b2TilesLen, level6_b2Map, level6_b2MapLen, 2,
+                                                       speed_bg2));
+            }
             break;
         default:
             break;
