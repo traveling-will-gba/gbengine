@@ -17,24 +17,30 @@ void TWGame::run() {
 
     m_level = new TWLevel(current_level, is_playable);
 
+    bool new_level = true;
+
     uint64_t dt = 0;
     while (true) {
         vsync();
 
-        // if (current_level == LEVEL_1) {
+        if (new_level && is_playable) {
+            Sound::get_sound()->load_music();
+        }
+
         Sound::get_sound()->play_music();
-        // }
 
         check_buttons_states();
 
         Physics::get_physics()->do_collisions();
 
-        if (REG_VCOUNT < 160) print("WHAT!?\n");
-
         m_level->update(dt);
         m_level->draw();
 
+        new_level = false;
+
         if (m_level->done()) {
+            Sound::get_sound()->stop_music();
+
             if (m_level->next() == NEXT_LEVEL) {
                 current_level = (previous_playable_level + 1) % (LOADED_LEVELS + 1);
                 if (current_level == 0)
@@ -53,6 +59,8 @@ void TWGame::run() {
                 && current_level != MENU_DEFEAT;
 
             m_level = new TWLevel(current_level, is_playable);
+
+            new_level = true;
         }
 
         dt++;

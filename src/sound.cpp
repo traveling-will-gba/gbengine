@@ -33,8 +33,12 @@ void Sound::play_music() {
     mmFrame();
 }
 
+void Sound::load_music() {
+    mmStart(MOD_MUSIC43K, MM_PLAY_ONCE);
+}
+
 void Sound::stop_music() {
-    mmStop();
+    mmPosition(1);
 }
 
 void Sound::init() {

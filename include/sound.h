@@ -49,6 +49,7 @@ class Sound {
 
 
         void play_music();
+        void load_music();
         void stop_music();
 
 
