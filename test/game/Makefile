@@ -171,7 +171,7 @@ $(BUILD):
 all	: $(BUILD)
 
 run:
-	vbam game.gba
+	vbam $(shell basename $(shell pwd)).gba
 
 clean:
 	@echo clean ...

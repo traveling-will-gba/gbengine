@@ -36,7 +36,7 @@ export PROJ	:= $(notdir $(CURDIR))
 TITLE		:= $(PROJ)
 GFXLIBS		:= libgfx.a
 
-LIBS		:= -ltonc -lgfx
+LIBS		:= -ltonc -lgfx -lgba -lmm
 
 BUILD		:= build
 SRCDIRS	:= ../../src src
@@ -44,7 +44,8 @@ DATADIRS	:= data
 INCDIRS	:= ../../include include
 LIBTONC	:= $(TONCCODE)/tonclib
 TONCINCDIRS	:= $(LIBTONC)/include
-TONCLIBDIRS	:= $(LIBTONC)/lib
+TONCLIBDIRS	:= $(LIBTONC)/lib $(LIBGBA)
+MUSIC       := maxmod_data
 
 # --- switches ---
 
@@ -67,12 +68,12 @@ IARCH   := -mthumb-interwork -marm -mlong-calls
 
 # --- Main flags ---
 
-CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -O2
-CFLAGS		+= -Wall
+CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi
+CFLAGS		+= -Wall -O2
 CFLAGS		+= $(INCLUDE)
 CFLAGS		+= -ffast-math -fno-strict-aliasing
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
+CXXFLAGS	:= $(CFLAGS)
 
 ASFLAGS		:= $(ARCH) $(INCLUDE)
 LDFLAGS 	:= $(ARCH) -Wl,-Map,$(PROJ).map
@@ -129,9 +130,14 @@ CPPFILES	:=	$(foreach dir, $(SRCDIRS) , $(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir, $(SRCDIRS) , $(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir, $(DATADIRS), $(notdir $(wildcard $(dir)/*.*)))
 
+ifneq ($(strip $(MUSIC)),)
+    export AUDIOFILES   :=  $(foreach dir,$(notdir $(wildcard $(MUSIC)/*.*)),$(CURDIR)/$(MUSIC)/$(dir))
+    BINFILES += soundbank.bin
+endif
+
 # --- Set linker depending on C++ file existence ---
 ifeq ($(strip $(CPPFILES)),)
-	export LD	:= $(CXX)
+	export LD	:= $(CC)
 else
 	export LD	:= $(CXX)
 endif
@@ -157,15 +163,22 @@ export LIBPATHS	:=	-L$(CURDIR) $(foreach dir,$(TONCLIBDIRS),-L$(dir))
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
+	@cp sound_binaries/soundbank.bin.o $@ 
 	@make --no-print-directory -f $(CURDIR)/gfxmake
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	arm-none-eabi-nm -Sn $(OUTPUT).elf > $(BUILD)/$(TARGET).map
 
 all	: $(BUILD)
 
+run:
+	vbam $(shell basename $(shell pwd)).gba
+
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).gba
+
+reset:
+	make clean && make
 
 
 else		# If we're here, we should be in the BUILD dir
@@ -177,6 +190,19 @@ DEPENDS	:=	$(OFILES:.o=.d)
 $(OUTPUT).gba	:	$(OUTPUT).elf
 
 $(OUTPUT).elf	:	$(OFILES)
+
+$(OFILES_SOURCES) : $(HFILES)
+
+soundbank.bin soundbank.h : $(AUDIOFILES)
+    $@: (mmutil) $^ -osoundbank.bin -hsoundbank.h
+
+#---------------------------------------------------------------------------------
+# This rule links in binary data with the .bin extension
+#---------------------------------------------------------------------------------
+%.bin.o %_bin.h :   %.bin
+#---------------------------------------------------------------------------------
+    $@: echo $(notdir $<)
+    $@: (bin2o)
 
 -include $(DEPENDS)
 
