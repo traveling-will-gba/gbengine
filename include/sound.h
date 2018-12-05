@@ -49,7 +49,7 @@ class Sound {
 
 
         void play_music();
-        void load_music();
+        void load_music(int level);
         void stop_music();
 
 

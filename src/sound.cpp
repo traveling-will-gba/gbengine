@@ -18,7 +18,6 @@ Sound::Sound() {
     irqEnable(IRQ_VBLANK);
 
     mmInitDefault( (mm_addr)soundbank_bin, 8);
-    mmStart(MOD_MUSIC43K, MM_PLAY_ONCE);
 }
 
 Sound *Sound::get_sound() {
@@ -33,8 +32,20 @@ void Sound::play_music() {
     mmFrame();
 }
 
-void Sound::load_music() {
-    mmStart(MOD_MUSIC43K, MM_PLAY_ONCE);
+void Sound::load_music(int level) {
+    switch (level) {
+        case 1:
+            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
+            break;
+        case 2:
+            mmStart(MOD_LEVEL2, MM_PLAY_ONCE);
+            break;
+        case 3:
+            mmStart(MOD_LEVEL3, MM_PLAY_ONCE);
+            break;
+        default:
+            print("Unknown level");
+    }
 }
 
 void Sound::stop_music() {
