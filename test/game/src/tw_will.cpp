@@ -93,7 +93,7 @@ void TWWill::check_running() {
 
 void TWWill::check_jumping() {
     // print("check_jumping\n");
-    if (pressed(BUTTON_UP) && m_jump_counter < 3) {
+    if ((pressed(BUTTON_UP) || pressed(BUTTON_A)) && m_jump_counter < 3) {
         // print("set_jumping\n");
         m_y_speed = -7;
         m_jump_counter++;

@@ -23,7 +23,7 @@ void TWGame::run() {
     while (true) {
         vsync();
 
-        if (new_level && is_playable) {
+        if (new_level) {
             Sound::get_sound()->load_music(current_level);
         }
 

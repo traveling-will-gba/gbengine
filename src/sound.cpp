@@ -34,17 +34,34 @@ void Sound::play_music() {
 
 void Sound::load_music(int level) {
     switch (level) {
-        case 1:
+        case LEVEL_1:
             mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
             break;
-        case 2:
+        case LEVEL_2:
             mmStart(MOD_LEVEL2, MM_PLAY_ONCE);
             break;
-        case 3:
+        case LEVEL_3:
             mmStart(MOD_LEVEL3, MM_PLAY_ONCE);
             break;
-        default:
-            print("Unknown level");
+        case LEVEL_4:
+            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
+            break;
+        case LEVEL_5:
+            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
+            break;
+        case LEVEL_6:
+            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
+            break;
+        case MENU_VICTORY:
+            mmStart(MOD_VICTORY, MM_PLAY_LOOP);
+            break;
+        case MENU_DEFEAT:
+            mmStart(MOD_LOSING, MM_PLAY_LOOP);
+            break;
+        default:;
+            /* Unknown Level */
+            stop_music();
+            //print("Unknown level");
     }
 }
 
