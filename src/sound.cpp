@@ -66,6 +66,7 @@ void Sound::load_music(int level) {
 }
 
 void Sound::stop_music() {
+    mmStop();
     mmPosition(1);
 }
 
