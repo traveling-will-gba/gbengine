@@ -6,6 +6,7 @@
 #include "texture.h"
 
 #include "tw_collectable.h"
+#include "tw_enemy.h"
 
 #include <stdio.h>
 
@@ -32,11 +33,14 @@ class TWPlatform : public GameObject, public Collidable {
         vector<Texture*> textures();
 
         void set_collectable(TWCollectable *col);
+        void set_enemy(TWEnemy *enemy);
         TWCollectable *collectable();
+        TWEnemy *enemy();
 
     private:
         vector<Texture*> m_textures;
         TWCollectable *m_collectable;
+        TWEnemy *m_enemy;
         int m_x, m_y;
         int platform_tiles;
         Rectangle m_bounding_box;

@@ -22,11 +22,7 @@ void GameObject::update(uint64_t dt) {
 }
 
 void GameObject::draw() {
-    draw_self();
 
-    for (auto child : m_children) {
-        child->draw();
-    }
 }
 
 void GameObject::add_child(GameObject *obj) {

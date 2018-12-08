@@ -24,8 +24,8 @@ bool Physics::check_collision(Collidable *a, Collidable *b) {
     if (not a) print("A nulo\n");
     if (not b) print("B nulo\n");
     if (not a || not b) return false;
-    auto bbA = a->bounding_box();
-    auto bbB = b->bounding_box();
+    auto &bbA = a->bounding_box();
+    auto &bbB = b->bounding_box();
 
     return bbA.intersection(bbB);
 }

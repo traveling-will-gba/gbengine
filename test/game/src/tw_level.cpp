@@ -2,6 +2,7 @@
 
 #include "tw_platform.h"
 #include "tw_collectable.h"
+#include "tw_enemy.h"
 
 #include "video.h"
 #include "physics.h"
@@ -46,6 +47,7 @@
 const int max_platforms_loaded = 16;
 const int platform_width = 16;
 const int collectable_width = 8;
+const int enemy_width = 16;
 const int screen_width = 240;
 
 TWLevel::TWLevel(int level, bool playable = true) {
@@ -129,7 +131,7 @@ void TWLevel::update_self(uint64_t dt) {
         else if (!m_is_level_ending) {
             for (int i = 0; i < max_platforms_loaded; i++) {
                 uint32_t frame_div = m_backgrounds[0]->frame_div();
-                platforms[i]->set_x(platforms[i]->x() - m_backgrounds[0]->frame_speed()[dt % frame_div]);
+                platforms[i]->set_x(platforms[i]->x() - m_backgrounds[0]->speed_x());
             }
         }
 
@@ -143,6 +145,9 @@ void TWLevel::update_self(uint64_t dt) {
 
                 plat->collectable()->set_y(collectable_height[platform_idx]);
                 plat->collectable()->set_visibility(collectable_present[platform_idx]);
+
+                plat->enemy()->set_y(enemy_height[platform_idx]);
+                plat->enemy()->set_visibility(enemy_present[platform_idx]);
 
                 q.push(plat);
             } else break;
@@ -317,22 +322,28 @@ void TWLevel::load_level_design(int level) {
             // do nothing
             break;
         case LEVEL_1:
-            load_level_objects(level, level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present);
+            load_level_objects(level, level1_len, level1_platform_heights, level1_collectable_heights, level1_collectable_present,
+                               level1_enemy_heights, level1_enemy_present);
             break;
         case LEVEL_2:
-            load_level_objects(level, level2_len, level2_platform_heights, level2_collectable_heights, level2_collectable_present);
+            load_level_objects(level, level2_len, level2_platform_heights, level2_collectable_heights, level2_collectable_present,
+                               level2_enemy_heights, level2_enemy_present);
             break;
         case LEVEL_3:
-            load_level_objects(level, level3_len, level3_platform_heights, level3_collectable_heights, level3_collectable_present);
+            load_level_objects(level, level3_len, level3_platform_heights, level3_collectable_heights, level3_collectable_present,
+                               level3_enemy_heights, level3_enemy_present);
             break;
         case LEVEL_4:
-            load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present);
+            load_level_objects(level, level4_len, level4_platform_heights, level4_collectable_heights, level4_collectable_present,
+                               level4_enemy_heights, level4_enemy_present);
             break;
         case LEVEL_5:
-            load_level_objects(level, level5_len, level5_platform_heights, level5_collectable_heights, level5_collectable_present);
+            load_level_objects(level, level5_len, level5_platform_heights, level5_collectable_heights, level5_collectable_present,
+                               level5_enemy_heights, level5_enemy_present);
             break;
         case LEVEL_6:
-            load_level_objects(level, level6_len, level6_platform_heights, level6_collectable_heights, level6_collectable_present);
+            load_level_objects(level, level6_len, level6_platform_heights, level6_collectable_heights, level6_collectable_present,
+                               level6_enemy_heights, level6_enemy_present);
             break;
         default:
             break;
@@ -376,7 +387,9 @@ vector <int> &TWLevel::get_level_music() {
     return level_songs; 
 }
 
-void TWLevel::load_level_objects(int level, const int level_len, const short *platform_heights, const short *collectable_heights, const bool *collectables_present)
+void TWLevel::load_level_objects(int level, const int level_len, const short *platform_heights,
+                                 const short *collectable_heights, const bool *collectables_present,
+                                 const short *enemy_heights, const bool *enemies_present)
 {
     platform_num = level_len;
     platform_idx = max_platforms_loaded;
@@ -385,8 +398,10 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
     for (int i = 0; i < platform_num; i++)
     {
         platform_height[i] = 160 - platform_heights[i] / 3;       // 480 -> 160
+        enemy_height[i] = 160 - enemy_heights[i] / 3;       // 480 -> 160
         collectable_height[i] = 160 - collectable_heights[i] / 3; // 480 -> 160
         collectable_present[i] = collectables_present[i];
+        enemy_present[i] = enemies_present[i];
         collectables_num += collectable_present[i];
     }
 
@@ -411,6 +426,8 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
             platforms[i] = new TWPlatform(level, i * platform_width, platform_height[i]);
             collectables[i] = new TWCollectable(level, i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i]);
+           enemies[i] = new TWEnemy(i * platform_width + platform_width / 2 - enemy_width / 2,
+                                     enemy_height[i]);
             // print("new plat %p\n", platforms[i]);
             // print("height %p\n", &platform_height[0]);
         }
@@ -419,11 +436,16 @@ void TWLevel::load_level_objects(int level, const int level_len, const short *pl
             platforms[i] = new TWPlatform(i * platform_width, platform_height[i], platforms[0]->textures());
             collectables[i] = new TWCollectable(i * platform_width + platform_width / 2 - collectable_width / 2,
                 collectable_height[i], collectables[0]->texture());
+            enemies[i] = new TWEnemy(i * platform_width + platform_width / 2 - enemy_width / 2,
+                enemy_height[i], enemies[0]->texture());
             // print("new plat %p\n", platforms[i]);
         }
 
         platforms[i]->set_collectable(collectables[i]);
         collectables[i]->set_visibility(collectable_present[i]);
+
+        platforms[i]->set_enemy(enemies[i]);
+        enemies[i]->set_visibility(enemy_present[i]);
 
         add_child(platforms[i]);
         q.push(platforms[i]);

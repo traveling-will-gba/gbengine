@@ -5,6 +5,7 @@
 #include "tw_platform.h"
 #include "background.h"
 #include "tw_will.h"
+#include "tw_enemy.h"
 
 #include <stdio.h>
 #include <vector>
@@ -24,7 +25,8 @@ class TWLevel : public Level {
         void load_backgrounds(int level);
         void load_level_design(int level);
         void load_level_objects(int level, const int level_len, const short *platform_heights,
-            const short *collectable_heights, const bool *collectables_present);
+                                const short *collectable_heights, const bool *collectables_present,
+                                const short *enemy_heights, const bool *enemies_present);
 
         const bool done() const { return m_done; }
         const int next() const { return m_next; }
@@ -38,6 +40,7 @@ class TWLevel : public Level {
         uint32_t n_platforms;
         TWPlatform *platforms[20];
         TWCollectable *collectables[20];
+        TWEnemy *enemies[20];
         TWPlatform *floor_plats[20];
         TWWill *will;
 
@@ -45,6 +48,8 @@ class TWLevel : public Level {
         short platform_height[2000];
         short collectable_height[2000];
         bool collectable_present[2000];
+        short enemy_height[2000];
+        bool enemy_present[2000];
 
         vector<Background *> m_backgrounds;
 

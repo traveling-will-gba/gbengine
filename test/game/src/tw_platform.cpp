@@ -37,6 +37,7 @@ const int platform_width = 16;
 const int platform_height = 32;
 
 const int collectable_width = 8;
+const int enemy_width = 8;
 
 TWPlatform::TWPlatform(int level, int x, int y, bool is_floor) {
     m_is_floor = is_floor;
@@ -101,6 +102,7 @@ void TWPlatform::update_self(uint64_t dt) {
     }
 
     m_collectable->set_x(m_x + platform_width / 2 - collectable_width / 2);
+    m_enemy->set_x(m_x + platform_width / 2 - collectable_width / 2);
 }
 
 void TWPlatform::draw_self() {
@@ -154,8 +156,17 @@ void TWPlatform::set_collectable(TWCollectable *col) {
     add_child(col);
 }
 
+void TWPlatform::set_enemy(TWEnemy *enemy) {
+    m_enemy = enemy;
+    add_child(enemy);
+}
+
 TWCollectable *TWPlatform::collectable() {
     return m_collectable;
+}
+
+TWEnemy *TWPlatform::enemy() {
+    return m_enemy;
 }
 
 void TWPlatform::load_platforms(int level) {

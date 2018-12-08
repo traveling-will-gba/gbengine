@@ -34,7 +34,6 @@ void TWGame::run() {
         Physics::get_physics()->do_collisions();
 
         m_level->update(dt);
-        m_level->draw();
 
         new_level = false;
 
