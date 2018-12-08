@@ -41,17 +41,20 @@ class Sound {
         const int *notes, *tempos;
 
         void play_note(int raw_note, int tempo);
+        uint64_t frame_count;
+        uint32_t sound_it = 0;
 
+        vector <int> mod_list;
+        uint32_t frames_per_sample;
 
     public:
         static Sound *get_sound();
         static Sound *instance;
 
-
-        void play_music();
-        void load_music(int level);
-        void stop_music();
-
+        void play_sample();
+        void stop_sample();
+        void load_music(const vector <int> &mod_list);
+        void start_sample(int mod_id);
 
         void init();
         void load_from_file(int notes_len, const int* notes, int tempos_len, const int* tempos);

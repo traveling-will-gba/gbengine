@@ -10,7 +10,7 @@
 
 void TWGame::run() {
     previous_playable_level = -1;
-    current_level = LEVEL_MENU;
+    current_level = LEVEL_5;
 
     bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
         && current_level != MENU_DEFEAT;
@@ -24,10 +24,10 @@ void TWGame::run() {
         vsync();
 
         if (new_level) {
-            Sound::get_sound()->load_music(current_level);
+            Sound::get_sound()->load_music(m_level->get_level_music());
         }
 
-        Sound::get_sound()->play_music();
+        Sound::get_sound()->play_sample();
 
         check_buttons_states();
 
@@ -39,7 +39,7 @@ void TWGame::run() {
         new_level = false;
 
         if (m_level->done()) {
-            Sound::get_sound()->stop_music();
+            Sound::get_sound()->stop_sample();
 
             if (m_level->next() == NEXT_LEVEL) {
                 current_level = (previous_playable_level + 1) % (LOADED_LEVELS + 1);

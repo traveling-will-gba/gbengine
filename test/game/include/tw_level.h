@@ -30,7 +30,11 @@ class TWLevel : public Level {
         const int next() const { return m_next; }
         void dispose();
 
+        vector <int> &get_level_music();
     private:
+        vector <int> level_songs;
+        void load_level_music(int level);
+
         uint32_t n_platforms;
         TWPlatform *platforms[20];
         TWCollectable *collectables[20];

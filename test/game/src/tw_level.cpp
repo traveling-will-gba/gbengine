@@ -11,6 +11,8 @@
 #include "victory.h"
 #include "defeat.h"
 
+#include "soundbank.h"
+
 #include "level1.h"
 #include "level1_b0.h"
 #include "level1_b1.h"
@@ -70,6 +72,7 @@ TWLevel::TWLevel(int level, bool playable = true) {
     }
 
     load_level_design(level);
+    load_level_music(level);
     load_backgrounds(level);
 
     if (m_playable) {
@@ -334,6 +337,43 @@ void TWLevel::load_level_design(int level) {
         default:
             break;
     }
+}
+
+void TWLevel::load_level_music(int level) {
+    switch (level) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            level_songs.push_back(MOD_LEVEL5_01);
+            level_songs.push_back(MOD_LEVEL5_02);
+            level_songs.push_back(MOD_LEVEL5_03);
+            level_songs.push_back(MOD_LEVEL5_04);
+            level_songs.push_back(MOD_LEVEL5_05);
+            level_songs.push_back(MOD_LEVEL5_06);
+            level_songs.push_back(MOD_LEVEL5_07);
+            level_songs.push_back(MOD_LEVEL5_08);
+            level_songs.push_back(MOD_LEVEL5_09);
+            level_songs.push_back(MOD_LEVEL5_10);
+            level_songs.push_back(MOD_LEVEL5_11);
+            level_songs.push_back(MOD_LEVEL5_12);
+            level_songs.push_back(MOD_LEVEL5_13);
+            level_songs.push_back(MOD_LEVEL5_14);
+            level_songs.push_back(MOD_LEVEL5_15);
+            break;
+        case 6:
+            break;
+        default:;
+    }
+}
+
+vector <int> &TWLevel::get_level_music() {
+    return level_songs; 
 }
 
 void TWLevel::load_level_objects(int level, const int level_len, const short *platform_heights, const short *collectable_heights, const bool *collectables_present)

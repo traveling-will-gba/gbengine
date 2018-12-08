@@ -18,6 +18,9 @@ Sound::Sound() {
     irqEnable(IRQ_VBLANK);
 
     mmInitDefault( (mm_addr)soundbank_bin, 8);
+
+    frame_count = 0;
+    frames_per_sample = 901;
 }
 
 Sound *Sound::get_sound() {
@@ -28,46 +31,33 @@ Sound *Sound::get_sound() {
     return instance;
 }
 
-void Sound::play_music() {
+void Sound::play_sample() {
     mmFrame();
-}
 
-void Sound::load_music(int level) {
-    switch (level) {
-        case LEVEL_1:
-            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
-            break;
-        case LEVEL_2:
-            mmStart(MOD_LEVEL2, MM_PLAY_ONCE);
-            break;
-        case LEVEL_3:
-            mmStart(MOD_LEVEL3, MM_PLAY_ONCE);
-            break;
-        case LEVEL_4:
-            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
-            break;
-        case LEVEL_5:
-            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
-            break;
-        case LEVEL_6:
-            mmStart(MOD_LEVEL1, MM_PLAY_ONCE);
-            break;
-        case MENU_VICTORY:
-            mmStart(MOD_VICTORY, MM_PLAY_LOOP);
-            break;
-        case MENU_DEFEAT:
-            mmStart(MOD_LOSING, MM_PLAY_LOOP);
-            break;
-        default:;
-            /* Unknown Level */
-            stop_music();
-            //print("Unknown level");
+    if (frame_count % frames_per_sample == 0) {
+        stop_sample();
+        start_sample(mod_list[sound_it]);
+
+        sound_it++;
+        sound_it %= mod_list.size();
     }
+    frame_count++;
 }
 
-void Sound::stop_music() {
+void Sound::load_music(const vector <int> &mod_list) {
+    this->mod_list = mod_list;
+    sound_it = 0;
+    frame_count = 0;
+}
+
+void Sound::start_sample(int mod_id) {
+    mmStart(mod_id, MM_PLAY_ONCE);
+}
+
+void Sound::stop_sample() {
     mmStop();
     mmPosition(1);
+    frame_count = 0;
 }
 
 void Sound::init() {
