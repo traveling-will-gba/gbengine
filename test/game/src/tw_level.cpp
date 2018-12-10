@@ -116,6 +116,11 @@ void TWLevel::update_self(uint64_t dt) {
             m_next = MENU_VICTORY;
         }
 
+        if (will->dead()) {
+            m_done = true;
+            m_next = MENU_DEFEAT;
+        }
+
         if (platform_idx == platform_num && !m_is_level_ending) {
             int level_speed_x = m_backgrounds[0]->speed_x();
 

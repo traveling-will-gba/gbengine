@@ -45,6 +45,8 @@ TWWill::TWWill(int x, int y) {
     m_jump_counter = 0;
     m_items_collected = 0;
 
+    m_dead = false;
+
     Physics::get_physics()->register_object(this);
 }
 
@@ -115,7 +117,7 @@ void TWWill::check_jumping() {
 }
 
 void TWWill::check_sliding() {
-    if(not pressing(BUTTON_DOWN)) return;
+    if(not pressing(BUTTON_DOWN) && not pressing(BUTTON_B)) return;
 
     if (m_state == FALLING) {
         for (size_t i = 0; i < colliding_plats.size(); i++) {
@@ -158,6 +160,8 @@ void TWWill::on_collision(const Collidable *who) {
 
         colliding_plats.push_back(platform);
         return;
+    } else if (auto Enemy = dynamic_cast <const TWEnemy *>(who)) {
+        m_dead = true;
     }
 }
 

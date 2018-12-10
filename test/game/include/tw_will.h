@@ -33,11 +33,13 @@ class TWWill : public GameObject, public Collidable {
         const int y() const { return m_y; }
         const int speed_x() const { return m_x_speed; }
         const int speed_y() const { return m_y_speed; }
+        const bool dead() const { return m_dead; }
 
     private:
         int m_x, m_y;
         int m_x_speed, m_y_speed;
         int m_jump_counter;
+        bool m_dead;
         Texture *m_texture[2];
         Rectangle m_bounding_box;
 
