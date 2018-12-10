@@ -353,23 +353,42 @@ void TWLevel::load_level_design(int level) {
 void TWLevel::load_level_music(int level) {
     switch (level) {
         case 1:
+            level_songs.push_back(MOD_LEVEL1_1);
+            level_songs.push_back(MOD_LEVEL1_2);
             break;
         case 2:
+            level_songs.push_back(MOD_LEVEL2_1);
+            level_songs.push_back(MOD_LEVEL2_2);
             break;
         case 3:
+            level_songs.push_back(MOD_LEVEL3_1);
+            level_songs.push_back(MOD_LEVEL3_2);
             break;
         case 4:
+            level_songs.push_back(MOD_LEVEL4_1);
+            level_songs.push_back(MOD_LEVEL4_2);
+            level_songs.push_back(MOD_LEVEL4_3);
+            level_songs.push_back(MOD_LEVEL4_4);
+            level_songs.push_back(MOD_LEVEL4_5);
+            level_songs.push_back(MOD_LEVEL4_6);
+            level_songs.push_back(MOD_LEVEL4_7);
+            level_songs.push_back(MOD_LEVEL4_8);
+            level_songs.push_back(MOD_LEVEL4_9);
+            level_songs.push_back(MOD_LEVEL4_10);
+            level_songs.push_back(MOD_LEVEL4_11);
+            level_songs.push_back(MOD_LEVEL4_12);
+            level_songs.push_back(MOD_LEVEL4_13);
             break;
         case 5:
-            level_songs.push_back(MOD_LEVEL5_01);
-            level_songs.push_back(MOD_LEVEL5_02);
-            level_songs.push_back(MOD_LEVEL5_03);
-            level_songs.push_back(MOD_LEVEL5_04);
-            level_songs.push_back(MOD_LEVEL5_05);
-            level_songs.push_back(MOD_LEVEL5_06);
-            level_songs.push_back(MOD_LEVEL5_07);
-            level_songs.push_back(MOD_LEVEL5_08);
-            level_songs.push_back(MOD_LEVEL5_09);
+            level_songs.push_back(MOD_LEVEL5_1);
+            level_songs.push_back(MOD_LEVEL5_2);
+            level_songs.push_back(MOD_LEVEL5_3);
+            level_songs.push_back(MOD_LEVEL5_4);
+            level_songs.push_back(MOD_LEVEL5_5);
+            level_songs.push_back(MOD_LEVEL5_6);
+            level_songs.push_back(MOD_LEVEL5_7);
+            level_songs.push_back(MOD_LEVEL5_8);
+            level_songs.push_back(MOD_LEVEL5_9);
             level_songs.push_back(MOD_LEVEL5_10);
             level_songs.push_back(MOD_LEVEL5_11);
             level_songs.push_back(MOD_LEVEL5_12);
@@ -378,6 +397,19 @@ void TWLevel::load_level_music(int level) {
             level_songs.push_back(MOD_LEVEL5_15);
             break;
         case 6:
+            level_songs.push_back(MOD_LEVEL6_1);
+            level_songs.push_back(MOD_LEVEL6_2);
+            level_songs.push_back(MOD_LEVEL6_3);
+            level_songs.push_back(MOD_LEVEL6_4);
+            level_songs.push_back(MOD_LEVEL6_5);
+            level_songs.push_back(MOD_LEVEL6_6);
+            level_songs.push_back(MOD_LEVEL6_7);
+            level_songs.push_back(MOD_LEVEL6_8);
+            level_songs.push_back(MOD_LEVEL6_9);
+            level_songs.push_back(MOD_LEVEL6_10);
+            level_songs.push_back(MOD_LEVEL6_11);
+            level_songs.push_back(MOD_LEVEL6_12);
+            level_songs.push_back(MOD_LEVEL6_13);
             break;
         default:;
     }

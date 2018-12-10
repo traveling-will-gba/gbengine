@@ -14,7 +14,7 @@
 
 class TWWill : public GameObject, public Collidable {
     public:
-        enum State { RUNNING, JUMPING, SLIDING, FALLING, GAME_OVER, PUNCHING, STOPPED, REVERSE_RUNNING };
+        enum State { RUNNING, SLIDING, JUMPING, FALLING, GAME_OVER, PUNCHING, STOPPED, REVERSE_RUNNING };
 
         TWWill(int x, int y);
         void update_self(uint64_t dt);
@@ -38,7 +38,7 @@ class TWWill : public GameObject, public Collidable {
         int m_x, m_y;
         int m_x_speed, m_y_speed;
         int m_jump_counter;
-        Texture *m_texture;
+        Texture *m_texture[2];
         Rectangle m_bounding_box;
 
         uint32_t m_items_collected;
@@ -54,6 +54,7 @@ class TWWill : public GameObject, public Collidable {
         void check_running();
         void check_jumping();
         void check_falling();
+        void check_sliding();
 
         void set_x(int x);
         void set_y(int y);
