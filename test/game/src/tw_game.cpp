@@ -10,7 +10,7 @@
 
 void TWGame::run() {
     previous_playable_level = -1;
-    current_level = LEVEL_1;
+    current_level = LEVEL_MENU;
 
     bool is_playable = current_level != LEVEL_MENU && current_level != MENU_VICTORY
         && current_level != MENU_DEFEAT;
